@@ -11,7 +11,7 @@ export function SocialLogin() {
       </Button>
       <Button variant="secondary" className="flex items-center justify-center">
         <DiGithubBadge className="mr-2 h-5 w-5" />
-        <span className="">Github</span>
+        <span>Github</span>
       </Button>
     </div>
   )
