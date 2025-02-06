@@ -2,13 +2,14 @@ import { NextAuthConfig } from "next-auth";
 
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import { PrismaAdapter } from "@auth/prisma-adapter"
 import CredentialsProvider from "next-auth/providers/credentials";
 
-import { prisma } from "./prisma";
-import bcrypt from 'bcrypt'
 import { loginUser } from "@/actions/auth";
+import { prisma } from "./prisma";
 
 export const authConfig: NextAuthConfig = {
+  adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",
   },
@@ -16,10 +17,12 @@ export const authConfig: NextAuthConfig = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      allowDangerousEmailAccountLinking: true
     }),
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+      allowDangerousEmailAccountLinking: true
     }),
     CredentialsProvider({
       credentials: {
@@ -36,19 +39,8 @@ export const authConfig: NextAuthConfig = {
       }
 
     })
-    // NodeMailer({
-    //     server: {
-    //         host: process.env.EMAIL_SERVER_HOST!,
-    //         port: Number(process.env.EMAIL_SERVER_PORT),
-    //         auth: {
-    //             user: process.env.EMAIL_SERVER_USER!,
-    //             pass: process.env.EMAIL_SERVER_PASSWORD!,
-    //         },
-    //     },
-    //     from: process.env.EMAIL_FROM!,
-    // }),
   ],
-  // secret: process.env.NEXTAUTH_SECRET!,
+  secret: process.env.AUTH_SECRET!,
   pages: {
     signIn: "/auth/login",
     // signOut: "/auth/logout",
