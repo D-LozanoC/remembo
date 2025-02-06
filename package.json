@@ -6,9 +6,19 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma": "pnpm dlx prisma generate"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.7.4",
+    "@hookform/resolvers": "^3.10.0",
+    "@prisma/client": "^6.3.1",
+    "@tanstack/react-query": "^5.66.0",
+    "@trpc/client": "11.0.0-rc.730",
+    "@trpc/react-query": "11.0.0-rc.730",
+    "@trpc/server": "11.0.0-rc.730",
+    "bcrypt": "^5.1.1",
+    "client-only": "^0.0.1",
     "next": "15.1.6",
     "next-auth": "5.0.0-beta.25",
     "nodemailer": "^6.10.0",
@@ -16,12 +26,15 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
     "react-icons": "^5.4.0",
+    "server-only": "^0.0.1",
+    "superjson": "^2.2.2",
     "zod": "^3.24.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.2.0",
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -29,8 +42,21 @@
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
     "postcss": "^8.5.1",
+    "prisma": "^6.3.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
     "vitest": "^3.0.4"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "esbuild",
+      "prisma",
+      "sharp"
+    ],
+    "onlyBuiltDependencies": [
+      "bcrypt"
+    ]
   }
 }
