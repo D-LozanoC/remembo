@@ -1,3 +1,4 @@
+// Components
 import AuthLayout from "@/components/AuthLayout";
 
 export default function Layout({ children }: { children: React.ReactNode }) {

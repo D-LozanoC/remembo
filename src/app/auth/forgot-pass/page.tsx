@@ -1,15 +1,21 @@
 'use client'
 
-import { AuthForm } from "@/components/AuthForm"
-import { Button } from "@/components/Button"
-import FormErrorMessage from "@/components/FormErrorMessage"
-import { InputField } from "@/components/InputField"
+// Components
 import Link from "next/link"
+import { Button } from "@/components/Button"
+import { AuthForm } from "@/components/AuthForm"
+import { InputField } from "@/components/InputField"
+import FormErrorMessage from "@/components/FormErrorMessage"
 
+// Hooks
 import { useForm } from "react-hook-form"
 
+// Schemas and Utils
+import { zodResolver } from "@hookform/resolvers/zod"
+import { ForgotFormData, forgotSchema } from "@/utils/schemas"
+
 export default function ForgotPassword() {
-    const { register, formState: { errors }, handleSubmit } = useForm()
+    const { register, formState: { errors }, handleSubmit } = useForm<ForgotFormData>({ resolver: zodResolver(forgotSchema) })
 
     const onSubmit = handleSubmit(data => {
         console.log(data)
@@ -22,7 +28,7 @@ export default function ForgotPassword() {
         >
             <form className="mt-8 space-y-6" onSubmit={onSubmit}>
                 <div>
-                    <InputField {...register('email', { required: { message: 'El correo electrónico es requerido', value: true } })} label="Correo electrónico" />
+                    <InputField {...register('email')} label="Correo electrónico" />
                     {errors.email && <FormErrorMessage>{errors.email.message as string}</FormErrorMessage>}
                 </div>
 

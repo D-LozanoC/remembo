@@ -1,33 +1,61 @@
 'use client'
 
-import { AuthForm } from "@/components/AuthForm"
-import { Button } from "@/components/Button"
-import FormErrorMessage from "@/components/FormErrorMessage"
-import { InputField } from "@/components/InputField"
-import { Separator } from "@/components/Separator"
-import { SocialLogin } from "@/components/SocialLogin"
+// Components
 import Link from "next/link"
+import { Button } from "@/components/Button"
+import { AuthForm } from "@/components/AuthForm"
+import { Separator } from "@/components/Separator"
+import { InputField } from "@/components/InputField"
+import { SocialLogin } from "@/components/SocialLogin"
+import FormErrorMessage from "@/components/FormErrorMessage"
+
+// Hooks
+import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { useRouter } from "next/navigation"
+
+// Actions
+import { doCredentialsLogin } from "@/actions"
+
+// Schemas and Utils
+import { zodResolver } from "@hookform/resolvers/zod"
+import { SignInFormData, signInSchema } from "@/utils/schemas"
 
 export default function Login() {
-    const { register, formState: { errors }, handleSubmit } = useForm()
+    const { register, formState: { errors }, handleSubmit } = useForm<SignInFormData>({ resolver: zodResolver(signInSchema) })
+    const [error, setError] = useState<string | null>(null)
+    const router = useRouter()
 
-    const onSubmit = handleSubmit(data => {
-        console.log(data)
+    const onSubmit = handleSubmit(async data => {
+        try {
+            const response = await doCredentialsLogin({ email: data.email, password: data.password })
+            if (response.error) {
+                setError(response.error)
+                return
+            }
+
+            router.push('/home')
+        } catch (error) {
+            setError('Hubo un error iniciando sesión')
+        }
     })
+
     return (
         <AuthForm title="¡Bienvenido de nuevo!" subtitle="Inicia sesión en tu cuenta">
             <form onSubmit={onSubmit}>
+                {error && <div className="text-red-500 text-xs">{error}</div>}
                 <div className="space-y-2">
                     <InputField
-                        {...register('email', { required: { message: 'El correo electrónico es requerido', value: true } })}
+                        {...register('email')}
+                        type="email"
                         label="Correo electrónico"
                     />
                     {errors.email && <FormErrorMessage>{errors.email.message as string}</FormErrorMessage>}
                 </div>
                 <div className="space-y-2">
                     <InputField
-                        {...register('password', { required: { message: 'La contraseña es requerida', value: true } })}
+                        {...register('password')}
+                        type="password"
                         label="Contraseña"
                     />
                     {errors.password && <FormErrorMessage>{errors.password.message as string}</FormErrorMessage>}
@@ -52,6 +80,8 @@ export default function Login() {
                 </div>
                 <Button
                     type="submit"
+                    name="action"
+                    value="credentials"
                     className="w-full bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 rounded-md py-3 mt-6 text-lg"
                 >
                     Iniciar sesión

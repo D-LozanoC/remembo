@@ -1,17 +1,47 @@
 'use client'
 
+// Components
 import Link from "next/link"
+import { Button } from "@/components/Button"
 import { AuthForm } from "@/components/AuthForm"
 import { InputField } from "@/components/InputField"
-import { Button } from "@/components/Button"
-import { useForm } from "react-hook-form"
+import SuccessAlert from "@/components/SuccessAlert"
 import FormErrorMessage from "@/components/FormErrorMessage"
 
-export default function Register() {
-  const { register, formState: { errors }, handleSubmit } = useForm()
+// Hooks
+import { useState } from "react"
+import { useForm } from "react-hook-form"
 
-  const onSubmit = handleSubmit(data => {
-    console.log(data)
+// Schemas and Utils
+import { zodResolver } from "@hookform/resolvers/zod"
+import { SignUpFormData, signUpSchema } from "@/utils/schemas"
+
+// Actions
+import { registerUser } from "@/actions/auth"
+
+export default function Register() {
+  const { register, formState: { errors }, handleSubmit } = useForm<SignUpFormData>({ resolver: zodResolver(signUpSchema) })
+  const [message, setMessage] = useState<string | null>(null)
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+
+  const onSubmit = handleSubmit(async (data) => {
+    const { fullname, email, password } = data
+    try {
+      const response = await registerUser({
+        fullname,
+        email,
+        password
+      })
+
+      if (!response?.success) {
+        setMessage(response?.message as string)
+        return
+      }
+
+      setShowSuccessAlert(true)
+    } catch (_error) {
+      setMessage('Hubo un error registrando al usuario')
+    }
   })
 
   return (
@@ -19,28 +49,32 @@ export default function Register() {
       <form className="mt-8 space-y-6" onSubmit={onSubmit}>
         <div className="space-y-2">
           <InputField
-            {...register('fullname', { required: { message: 'El nombre completo es requerido', value: true } })}
+            {...register('fullname')}
+            type="text"
             label="Nombre completo"
           />
           {errors.fullname && <FormErrorMessage>{errors.fullname.message as string}</FormErrorMessage>}
         </div>
         <div className="space-y-2">
           <InputField
-            {...register('email', { required: { message: 'El correo electrónico es requerido', value: true } })}
+            {...register('email')}
+            type="email"
             label="Correo electrónico"
           />
           {errors.email && <FormErrorMessage>{errors.email.message as string}</FormErrorMessage>}
         </div>
         <div className="space-y-2">
           <InputField
-            {...register('password', { required: { message: 'La contraseña es requerida', value: true } })}
+            {...register('password')}
+            type="password"
             label="Contraseña"
           />
           {errors.password && <FormErrorMessage>{errors.password.message as string}</FormErrorMessage>}
         </div>
         <div className="space-y-2">
           <InputField
-            {...register('confirmPassword', { required: { message: 'La confirmación de la contraseña es requerida', value: true } })}
+            {...register('confirmPassword')}
+            type="password"
             label="Confirmar contraseña"
           />
           {errors.confirmPassword && <FormErrorMessage>{errors.confirmPassword.message as string}</FormErrorMessage>}
@@ -60,6 +94,7 @@ export default function Register() {
             </Link>
           </label>
         </div>
+        {message && <FormErrorMessage>{message}</FormErrorMessage>}
         <Button type="submit">Registrarse</Button>
       </form>
       <p className="mt-4 text-center text-sm text-gray-600">
@@ -68,6 +103,13 @@ export default function Register() {
           Inicia sesión
         </Link>
       </p>
+      <SuccessAlert
+        show={showSuccessAlert}
+        title='¡Registro exitoso!'
+        description='Usuario registrado correctamente'
+        buttonText='Continuar al login'
+        url='/auth/login'
+      />
     </AuthForm>
   )
 }

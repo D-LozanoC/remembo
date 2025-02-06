@@ -1,14 +1,21 @@
 'use client'
 
+// Components
 import Link from "next/link"
+import { Button } from "@/components/Button"
 import { AuthForm } from "@/components/AuthForm"
 import { InputField } from "@/components/InputField"
-import { Button } from "@/components/Button"
-import { useForm } from "react-hook-form"
 import FormErrorMessage from "@/components/FormErrorMessage"
 
+// Hooks
+import { useForm } from "react-hook-form"
+
+// Schemas and Utils
+import { zodResolver } from "@hookform/resolvers/zod"
+import { ResetFormData, resetSchema } from "@/utils/schemas"
+
 export default function ResetPassword() {
-    const { register, formState: { errors }, handleSubmit } = useForm()
+    const { register, formState: { errors }, handleSubmit } = useForm<ResetFormData>({ resolver: zodResolver(resetSchema) })
 
     const onSubmit = handleSubmit(data => {
         console.log(data)
@@ -19,14 +26,16 @@ export default function ResetPassword() {
             <form className="mt-8 space-y-6" onSubmit={onSubmit}>
                 <div className="space-y-2">
                     <InputField
-                        {...register('password', { required: { message: 'La nueva contraseña es requerida', value: true } })}
+                        {...register('password')}
+                        type="password"
                         label="Nueva contraseña"
                     />
                     {errors.password && <FormErrorMessage>{errors.password.message as string}</FormErrorMessage>}
                 </div>
                 <div className="space-y-2">
                     <InputField
-                        {...register('confirmPassword', { required: { message: 'La confirmación de la nueva contraseña es requerida', value: true } })}
+                        {...register('confirmPassword')}
+                        type="password"
                         label="Confirmar nueva contraseña"
                     />
                     {errors.confirmPassword && <FormErrorMessage>{errors.confirmPassword.message as string}</FormErrorMessage>}
