@@ -4,10 +4,10 @@ import { Button } from "./Button";
 // Actions
 import { doLogout } from "@/actions";
 
-export function LogoutButton() {
+export function LogoutButton({ className }: { className: string }) {
     return (
         <form action={doLogout}>
-            <Button type="submit">
+            <Button className={className} type="submit">
                 Cerrar sesión
             </Button>
         </form>
