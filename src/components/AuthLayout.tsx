@@ -4,6 +4,7 @@ interface LayoutProps {
   children: React.ReactNode
   pattern?: boolean
 }
+
 export default function AuthLayout({ children, pattern = true }: LayoutProps) {
   return (
     <div className="flex min-h-screen">
