@@ -36,6 +36,7 @@ export default function Login() {
 
             router.push('/home')
         } catch (error) {
+            console.error("Error during login:", error)
             setError('Hubo un error iniciando sesión')
         }
     })

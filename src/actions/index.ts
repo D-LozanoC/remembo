@@ -25,6 +25,7 @@ export async function doCredentialsLogin(formData: { email: string, password: st
 
         return response;
     } catch (error) {
+        console.error("Error during credentials login:", error);
         return { error: "Credenciales incorrectas" };
     }
 }

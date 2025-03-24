@@ -19,6 +19,7 @@ export async function loginUser(user: { email: string, password: string }) {
 
         return user;
     } catch (error) {
+        console.error("Error during login:", error);
         return null;
     }
 }
@@ -42,6 +43,7 @@ export async function registerUser(user: { fullname: string, email: string, pass
         })
         return { success: true, message: 'Usuario registrado correctamente' }
     } catch (error) {
+        console.error("Error during registration:", error);
         return { success: false, message: 'Problema creando al user' }
     }
 }

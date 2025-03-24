@@ -40,6 +40,7 @@ export default function Register() {
 
       setShowSuccessAlert(true)
     } catch (_error) {
+      console.error("Error during registration:", _error)
       setMessage('Hubo un error registrando al usuario')
     }
   })
