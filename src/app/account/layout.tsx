@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
-import Link from 'next/link'
 import { Inter } from 'next/font/google'
+import { SideBar } from '@/components/SideBar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,58 +15,19 @@ export default function AccountLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className={`min-h-screen bg-gray-50 ${inter.className}`}>
+    <div className={`min-h-screen bg-blue_100 ${inter.className}`}>
       <div className="md:flex">
         {/* Sidebar Navigation */}
-        <aside className="w-full md:w-64 md:min-h-screen bg-white shadow-lg md:shadow-none">
-          <div className="p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Mi Cuenta</h2>
-            <nav>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="/account"
-                    className="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-600 hover:text-blue-600 transition-colors"
-                  >
-                    <span className="mr-2">🏠</span> Home
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/account/profile"
-                    className="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-600 hover:text-blue-600 transition-colors"
-                  >
-                    <span className="mr-2">👤</span> Perfil
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/account/settings"
-                    className="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-600 hover:text-blue-600 transition-colors"
-                  >
-                    <span className="mr-2">⚙️</span> Configuración
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/account/billing"
-                    className="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-600 hover:text-blue-600 transition-colors"
-                  >
-                    <span className="mr-2">💳</span> Facturación
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/account/security"
-                    className="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-600 hover:text-blue-600 transition-colors"
-                  >
-                    <span className="mr-2">🔒</span> Seguridad
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </aside>
+        <SideBar
+          tituloPrincipal="Dashboard"
+          sidebarFields={[
+            { text: 'Home', icon: '🏠', href: '/account' },
+            { text: 'Perfil', icon: '👤', href: '/account/profile' },
+            { text: 'Configuración', icon: '⚙️', href: '/account/settings' },
+            { text: 'Facturación', icon: '💳', href: '/account/billing' },
+            { text: 'Seguridad', icon: '🔒', href: '/account/security' },
+          ]}
+        />
 
         {/* Main Content */}
         <main className="flex-1 p-6 md:p-8 lg:p-12">
