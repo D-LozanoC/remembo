@@ -13,12 +13,33 @@ import { useForm } from "react-hook-form"
 // Schemas and Utils
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ResetFormData, resetSchema } from "@/utils/schemas"
+import { useState } from "react"
+import { redirect, useSearchParams } from "next/navigation"
+import { resetPassword } from "@/actions/auth"
+import SuccessAlert from "@/components/SuccessAlert"
 
 export default function ResetPassword() {
     const { register, formState: { errors }, handleSubmit } = useForm<ResetFormData>({ resolver: zodResolver(resetSchema) })
 
-    const onSubmit = handleSubmit(data => {
-        console.log(data)
+    const searchParams = useSearchParams()
+    const [message, setMessage] = useState('')
+    const [error, setError] = useState('')
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+
+    const token = searchParams.get('token')
+
+    if (!token) redirect('/auth/login')
+
+
+    const onSubmit = handleSubmit(async data => {
+        const { password } = data
+        const response = await resetPassword(token, password)
+        if (!response.success) {
+            setError(response.message)
+            return
+        }
+        setMessage(response.message)
+        setShowSuccessAlert(true)
     })
 
     return (
@@ -42,11 +63,22 @@ export default function ResetPassword() {
                 </div>
                 <Button type="submit">Restablecer contraseña</Button>
             </form>
+
+            {error && <FormErrorMessage>{error}</FormErrorMessage>}
+            {message && <p>{message}</p>}
+
             <p className="mt-4 text-center text-sm text-gray-600">
-                <Link href="/auth/login" className="font-medium text-indigo-600 hover:text-indigo-500 hover:underline">
+                <Link href="/auth/login" className="font-medium text-white underline hover:opacity-100 ease-in-out transition-all opacity-90">
                     Volver al inicio de sesión
                 </Link>
             </p>
+            <SuccessAlert
+                show={showSuccessAlert}
+                title='¡Cambio de contraseña exitoso!'
+                description={message ?? "Tu contraseña ha sido cambiada exitosamente"}
+                buttonText='Continuar al login'
+                url='/auth/login'
+            />
         </AuthForm>
     )
 }

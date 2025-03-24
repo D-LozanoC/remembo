@@ -1,19 +1,19 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import { LogoutButton } from './LogoutButton'
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
     const { data: session, status } = useSession()
     const pathname = usePathname()
-    const router = useRouter()
 
     const navigation = [
         { name: 'Inicio', href: '/home', protected: true },
-        { name: 'Mis Mazos', href: '/decks', protected: true },
-        { name: 'Estadísticas', href: '/stats', protected: true },
-        { name: 'Dashboard', href: '/dashboard', protected: true },
+        { name: 'Mis Mazos', href: '/home/decks', protected: true },
+        { name: 'Estadísticas', href: '/home/stats', protected: true },
+        { name: 'Dashboard', href: '/home/dashboard', protected: true },
     ]
 
     if (status === 'loading') return <div>Cargando...</div>
@@ -36,8 +36,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                                         key={item.name}
                                         href={item.href}
                                         className={`${pathname === item.href
-                                                ? 'text-indigo-600 border-b-2 border-indigo-600'
-                                                : 'text-gray-600 hover:text-indigo-600'
+                                            ? 'text-indigo-600 border-b-2 border-indigo-600'
+                                            : 'text-gray-600 hover:text-indigo-600'
                                             } px-3 py-2 text-sm font-medium transition-colors`}
                                     >
                                         {item.name}
@@ -51,17 +51,12 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                             {session?.user ? (
                                 <>
                                     <Link
-                                        href="/account"
+                                        href="/home/account"
                                         className="text-gray-600 hover:text-indigo-600 text-sm"
                                     >
                                         Mi Cuenta
                                     </Link>
-                                    <button
-                                        onClick={() => router.push('/api/auth/signout')}
-                                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 text-sm"
-                                    >
-                                        Cerrar sesión
-                                    </button>
+                                    <LogoutButton />
                                 </>
                             ) : (
                                 <>
@@ -85,7 +80,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
             </nav>
 
             {/* Contenido principal */}
-            <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <main>
                 {children}
             </main>
         </div>

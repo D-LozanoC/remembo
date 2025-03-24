@@ -31,7 +31,8 @@ export const signInSchema = z.object({
         .min(8, { message: "La contraseña debe tener al menos 8 caracteres." })
         .max(255, { message: "La contraseña no puede exceder los 255 caracteres." })
         .regex(/[a-zA-Z]/, { message: "La contraseña debe contener al menos una letra." })
-        .regex(/[0-9]/, { message: "La contraseña debe contener al menos un número." })
+        .regex(/[0-9]/, { message: "La contraseña debe contener al menos un número." }),
+    rememberMe: z.boolean().optional(),
 }).required()
 
 export type SignInFormData = z.infer<typeof signInSchema>
@@ -60,3 +61,11 @@ export const resetSchema = z.object({
 });
 
 export type ResetFormData = z.infer<typeof resetSchema>
+
+export const updateProfileSchema = z.object({
+    email: z.string().min(1, { message: "El email es obligatorio." })
+        .email({ message: "Debe ingresar un correo electrónico válido." }),
+    fullname: z.string().min(1, { message: "El nombre completo es obligatorio." }),
+})
+
+export type UpdateProfileFormData = z.infer<typeof updateProfileSchema>
