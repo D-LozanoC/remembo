@@ -7,6 +7,7 @@ import { AuthForm } from "@/components/AuthForm"
 import { InputField } from "@/components/InputField"
 import SuccessAlert from "@/components/SuccessAlert"
 import FormErrorMessage from "@/components/FormErrorMessage"
+import { Text } from "@/components/Text"
 
 // Hooks
 import { useState } from "react"
@@ -49,8 +50,8 @@ export default function Register() {
 
   return (
     <AuthForm title="Crea tu cuenta" subtitle="Regístrate para comenzar">
-      <form className="mt-8 space-y-6" onSubmit={onSubmit}>
-        <div className="space-y-2">
+      <form className="mt-8 space-y-6 bg-blue_100" onSubmit={onSubmit}>
+        <div className="space-y-2 bg-blue_100">
           <InputField
             {...register('fullname')}
             type="text"
@@ -88,24 +89,24 @@ export default function Register() {
             name="terms"
             type="checkbox"
             required
-            className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
+            className="h-4 w-4 mr-2 rounded border-gray-300 text-black focus:ring-black"
           />
-          <label htmlFor="terms" className="ml-2 block text-sm text-white">
+          <Text size="small">
             Acepto los{" "}
             <Link href="/terms" className="font-medium text-white underline hover:opacity-100 ease-in-out transition-all opacity-90">
               términos y condiciones
             </Link>
-          </label>
+          </Text>
         </div>
         {message && <FormErrorMessage>{message}</FormErrorMessage>}
         <Button type="submit">Registrarse</Button>
       </form>
-      <p className="mt-4 text-center text-sm text-white">
+      <Text size="small" className="mt-4 text-center">
         ¿Ya tienes una cuenta?{" "}
         <Link href="/auth/login" className="font-medium text-white underline hover:opacity-100 ease-in-out transition-all opacity-90">
           Inicia sesión
         </Link>
-      </p>
+      </Text>
       <SuccessAlert
         show={showSuccessAlert}
         title='¡Registro exitoso!'
