@@ -13,11 +13,13 @@ model User {
   password      String?
   email         String    @unique
   emailVerified DateTime?
-  image         String?
+  imageBlob     Bytes?    // Almacena la imagen original subida por el usuario
+  imageUrl      String?   // Almacena la URL de la imagen (ej: imagen de perfil de Google)
   accounts      Account[]
   sessions      Session[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+  role          String    @default("user")
 }
 
 model Account {

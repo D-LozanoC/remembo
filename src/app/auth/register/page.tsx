@@ -38,6 +38,8 @@ export default function Register() {
         return
       }
 
+      setMessage(response?.message as string)
+
       setShowSuccessAlert(true)
     } catch (_error) {
       console.error("Error during registration:", _error)
@@ -88,9 +90,9 @@ export default function Register() {
             required
             className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
           />
-          <label htmlFor="terms" className="ml-2 block text-sm text-gray-900">
+          <label htmlFor="terms" className="ml-2 block text-sm text-white">
             Acepto los{" "}
-            <Link href="/terms" className="font-medium text-indigo-600 hover:text-indigo-500 hover:underline">
+            <Link href="/terms" className="font-medium text-white underline hover:opacity-100 ease-in-out transition-all opacity-90">
               términos y condiciones
             </Link>
           </label>
@@ -98,16 +100,16 @@ export default function Register() {
         {message && <FormErrorMessage>{message}</FormErrorMessage>}
         <Button type="submit">Registrarse</Button>
       </form>
-      <p className="mt-4 text-center text-sm text-gray-600">
+      <p className="mt-4 text-center text-sm text-white">
         ¿Ya tienes una cuenta?{" "}
-        <Link href="/auth/login" className="font-medium text-indigo-600 hover:text-indigo-500 hover:underline">
+        <Link href="/auth/login" className="font-medium text-white underline hover:opacity-100 ease-in-out transition-all opacity-90">
           Inicia sesión
         </Link>
       </p>
       <SuccessAlert
         show={showSuccessAlert}
         title='¡Registro exitoso!'
-        description='Usuario registrado correctamente'
+        description={message ?? "Usuario registrado correctamente."}
         buttonText='Continuar al login'
         url='/auth/login'
       />
