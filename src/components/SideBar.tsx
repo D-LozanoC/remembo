@@ -22,7 +22,7 @@ export function SideBar({ tituloPrincipal, sidebarFields }: SidebarProps) {
               <li key={index}>
                 <Link
                   href={field.href}
-                  className="flex items-center p-3 rounded-lg hover:bg-blue_200 text-white transition-colors"
+                  className="flex items-center p-3 rounded-lg text-white hover:bg-yellow_300 hover:text-black transition-colors delay-75 ease-out"
                 >
                   <span className="mr-2">{field.icon}</span>
                   {field.text}
