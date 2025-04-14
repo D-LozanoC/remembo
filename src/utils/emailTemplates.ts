@@ -7,7 +7,7 @@ export const emailTemplates = {
                     <h1 style="color: #4338CA; margin: 0;">¡Bienvenido a Remembo!</h1>
                     <p style="color: #666; font-size: 18px;">¡Hola, ${name}! 👋</p>
                 </div>
-                
+
                 <div style="background-color: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
                     <p style="color: #444; font-size: 16px; line-height: 1.6;">
                         Estamos emocionados de tenerte con nosotros. Con Remembo, podrás:
@@ -21,15 +21,15 @@ export const emailTemplates = {
                 </div>
 
                 <div style="text-align: center; margin: 20px 0;">
-                    <a href="${process.env.NEXTAUTH_URL}/home" 
-                       style="background-color: #4338CA; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 16px; display: inline-block;">
-                       Comenzar Ahora
+                    <a href="${process.env.NEXTAUTH_URL}/home"
+                        style="background-color: #4338CA; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 16px; display: inline-block;">
+                        Comenzar Ahora
                     </a>
                 </div>
 
                 <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center;">
                     <p style="color: #666; font-size: 14px;">
-                        ¿Necesitas ayuda? Contáctanos en 
+                        ¿Necesitas ayuda? Contáctanos en
                         <a href="mailto:${process.env.SUPPORT_EMAIL}" style="color: #4338CA; text-decoration: none;">
                             ${process.env.SUPPORT_EMAIL}
                         </a>
@@ -55,11 +55,11 @@ export const emailTemplates = {
                     <p style="color: #444; font-size: 16px; line-height: 1.6;">
                         Gracias por registrarte en <strong>Remembo</strong>. Para completar tu registro y comenzar a usar todas nuestras funcionalidades, necesitamos verificar tu dirección de correo.
                     </p>
-                    
+
                     <div style="text-align: center; margin: 30px 0;">
-                        <a href="${verifyLink}" 
-                           style="background-color: #4338CA; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 16px; display: inline-block;">
-                           Verificar Email
+                        <a href="${verifyLink}"
+                            style="background-color: #4338CA; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 16px; display: inline-block;">
+                            Verificar Email
                         </a>
                     </div>
 
@@ -76,7 +76,7 @@ export const emailTemplates = {
 
                 <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center;">
                     <p style="color: #666; font-size: 14px;">
-                        ¿Necesitas ayuda? Contáctanos en 
+                        ¿Necesitas ayuda? Contáctanos en
                         <a href="mailto:${process.env.SUPPORT_EMAIL}" style="color: #4338CA; text-decoration: none;">
                             ${process.env.SUPPORT_EMAIL}
                         </a>
@@ -103,11 +103,11 @@ export const emailTemplates = {
                         Hemos recibido una solicitud para restablecer tu contraseña en <strong>Remembo</strong>.
                         Si fuiste tú, haz clic en el siguiente botón para crear una nueva contraseña:
                     </p>
-                    
+
                     <div style="text-align: center; margin: 30px 0;">
                         <a href="${resetLink}" 
-                           style="background-color: #4338CA; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 16px; display: inline-block;">
-                           Restablecer Contraseña
+                            style="background-color: #4338CA; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 16px; display: inline-block;">
+                            Restablecer Contraseña
                         </a>
                     </div>
 

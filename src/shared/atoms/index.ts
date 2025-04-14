@@ -8,6 +8,9 @@ import { CardTitle } from "./cards/CardTitle";
 import { CardContent } from "./cards/CardContent";
 import { CardFooter } from "./cards/CardFooter";
 
+import { DeckDistributionChart } from "./studyCharts/DeckDistributionChart";
+import { StudyProgressChart } from "./studyCharts/StudyProgressChart";
+
 import { ProgressLine } from "./ProgressLine";
 import { Separator } from "./Separator";
 import { Text } from "./Text";
@@ -22,6 +25,8 @@ export {
   CardTitle,
   CardContent,
   CardFooter,
+  DeckDistributionChart,
+  StudyProgressChart,
   ProgressLine,
   Separator,
   Text,

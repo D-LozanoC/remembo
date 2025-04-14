@@ -2,12 +2,9 @@
 
 // Components
 import Link from "next/link"
-import { Button } from "@/shared/components/Button"
-import { AuthForm } from "@/shared/sections/auth/AuthForm"
-import { Separator } from "@/shared/atoms/Separator"
-import { InputField } from "@/shared/components/InputField"
-import { SocialLogin } from "@/shared/sections/auth/SocialLogin"
-import FormErrorMessage from "@/shared/components/FormErrorMessage"
+import { Separator, Captcha } from "@/shared/atoms"
+import { Button, FormErrorMessage, InputField, MagicLinkLogin } from "@/shared/components"
+import { AuthForm, SocialLogin } from "@/shared/sections"
 
 // Hooks
 import { useState } from "react"
@@ -20,8 +17,6 @@ import { doCredentialsLogin } from "@/actions"
 // Schemas and Utils
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SignInFormData, signInSchema } from "@/utils/schemas"
-import MagicLinkLogin from "@/shared/components/MagicLinkLogin"
-import { Captcha } from "@/shared/atoms/Captcha"
 
 export default function Login() {
     const { register, formState: { errors }, handleSubmit } = useForm<SignInFormData>({ resolver: zodResolver(signInSchema) })

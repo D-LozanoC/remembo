@@ -1,7 +1,8 @@
-import { Button } from '@/shared/components/Button'
-import { getUser } from '@/utils/getUser'
 import Link from 'next/link'
 import Image from 'next/image'
+
+import { Button } from '@/shared/components'
+import { getUser } from '@/utils/getUser'
 
 export default async function ProfilePage() {
     const user = await getUser()

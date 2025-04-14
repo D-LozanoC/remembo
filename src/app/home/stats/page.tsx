@@ -13,12 +13,12 @@ import { IoPieChartSharp as PieChart } from "react-icons/io5";
 import { useSession } from 'next-auth/react'
 
 const StudyProgressChart = dynamic(
-  () => import('@/shared/sections/home/StudyCharts').then(mod => mod.StudyProgressChart),
+  () => import('@/shared/atoms').then(mod => mod.StudyProgressChart),
   { ssr: false }
 )
 
 const DeckDistributionChart = dynamic(
-  () => import('@/shared/sections/home/StudyCharts').then(mod => mod.DeckDistributionChart),
+  () => import('@/shared/atoms').then(mod => mod.DeckDistributionChart),
   { ssr: false }
 )
 

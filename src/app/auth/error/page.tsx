@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { Button } from '@/shared/components/Button'
+import { Button } from '@/shared/components'
 
 export default function ErrorPage() {
     const searchParams = useSearchParams()

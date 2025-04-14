@@ -1,9 +1,10 @@
+import Link from 'next/link'
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
-import Link from 'next/link'
-import { Button } from '@/shared/components/Button'
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/shared/atoms/Card'
+
+import { Button } from '@/shared/components'
 import { getGreetingByTime } from '@/utils/time'
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/shared/atoms'
 
 const mockDecks = [
     {

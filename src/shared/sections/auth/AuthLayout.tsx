@@ -8,7 +8,7 @@ interface LayoutProps {
   pattern?: boolean
 }
 
-export default function AuthLayout({ children, pattern = true }: LayoutProps) {
+export function AuthLayout({ children, pattern = true }: LayoutProps) {
   return (
     <div className={`min-h-screen bg-blue_100`}>
       <div className="flex min-h-screen bg-blue_100 flex-col lg:flex-row">

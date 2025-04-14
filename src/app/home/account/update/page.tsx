@@ -1,16 +1,15 @@
 'use client'
 
-import FormErrorMessage from '@/shared/components/FormErrorMessage'
-import { InputField } from '@/shared/components/InputField'
-import { Button } from '@/shared/components/Button'
-import { UpdateProfileFormData, updateProfileSchema } from '@/utils/schemas'
-import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import Link from 'next/link'
 import { useSession } from 'next-auth/react'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+
+import { Button, InputField, FormErrorMessage } from '@/shared/components'
+import { UpdateProfileFormData, updateProfileSchema } from '@/utils/schemas'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export default function UpdateProfilePage() {
     const { register, formState: { errors }, handleSubmit } = useForm<UpdateProfileFormData>({

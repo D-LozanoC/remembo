@@ -1,9 +1,8 @@
 // app/dashboard/page.tsx
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
-import { Card, CardHeader, CardTitle, CardContent } from '@/shared/atoms/Card'
+import { Card, CardHeader, CardTitle, CardContent, ProgressLine } from '@/shared/atoms'
 import { Button } from '@/shared/components/Button'
-import { Progress } from '@/shared/atoms/ProgressLine'
 import { getGreetingByTime } from '@/utils/time'
 import Link from 'next/link'
 import { PiBookOpenFill as BookOpen } from "react-icons/pi";
@@ -82,7 +81,7 @@ export default async function DashboardPage() {
                                 </div>
                             </CardHeader>
                             <CardContent>
-                                <Progress value={mockData.stats.accuracy} className="h-2" />
+                                <ProgressLine value={mockData.stats.accuracy} className="h-2" />
                                 <p className="text-sm text-gray-500 mt-2">Promedio de respuestas correctas</p>
                             </CardContent>
                         </Card>
@@ -102,7 +101,7 @@ export default async function DashboardPage() {
                                     <div className="text-4xl font-bold text-indigo-600 mb-4">
                                         {mockData.dailyQuiz.progress}%
                                     </div>
-                                    <Progress value={mockData.dailyQuiz.progress} className="h-2 mb-4" />
+                                    <ProgressLine value={mockData.dailyQuiz.progress} className="h-2 mb-4" />
                                     <Button className="w-full">
                                         <Link href="/quiz/daily">
                                             {mockData.dailyQuiz.completed ? 'Ver resultados' : 'Comenzar quiz'}
@@ -137,7 +136,7 @@ export default async function DashboardPage() {
                                                 {deck.progress}%
                                             </span>
                                         </div>
-                                        <Progress value={deck.progress} className="h-2 mt-2" />
+                                        <ProgressLine value={deck.progress} className="h-2 mt-2" />
                                     </div>
                                 ))}
                                 <Button variant="ghost" className="w-full mt-4">

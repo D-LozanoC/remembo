@@ -1,10 +1,10 @@
 'use client'
 
+import { Button, CircleLoader } from '@/shared/components'
+
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { CircleLoader } from '@/shared/components'
 import Link from 'next/link'
-import { Button } from '@/shared/components/Button'
 
 export default function VerifyPage() {
     const searchParams = useSearchParams()
