@@ -6,7 +6,7 @@ interface CaptchaProps {
   onVerify: (token: string | null) => void;
 }
 
-export default function Captcha({ onVerify }: CaptchaProps) {
+export function Captcha({ onVerify }: CaptchaProps) {
   return (
     <div className="flex justify-center py-2">
       <ReCAPTCHA

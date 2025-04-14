@@ -2,10 +2,10 @@
 
 // Components
 import Link from "next/link"
-import { Button } from "@/components/Button"
-import { AuthForm } from "@/components/AuthForm"
-import { InputField } from "@/components/InputField"
-import FormErrorMessage from "@/components/FormErrorMessage"
+import { Button } from "@/shared/components/Button"
+import { AuthForm } from "@/shared/sections/auth/AuthForm"
+import { InputField } from "@/shared/components/InputField"
+import FormErrorMessage from "@/shared/components/FormErrorMessage"
 
 // Hooks
 import { useForm } from "react-hook-form"
@@ -16,7 +16,7 @@ import { ResetFormData, resetSchema } from "@/utils/schemas"
 import { useState } from "react"
 import { redirect, useSearchParams } from "next/navigation"
 import { resetPassword } from "@/actions/auth"
-import SuccessAlert from "@/components/SuccessAlert"
+import SuccessAlert from "@/shared/components/SuccessAlert"
 
 export default function ResetPassword() {
     const { register, formState: { errors }, handleSubmit } = useForm<ResetFormData>({ resolver: zodResolver(resetSchema) })

@@ -2,10 +2,8 @@
 
 // Components
 import Link from "next/link"
-import { Button } from "@/components/Button"
-import { AuthForm } from "@/components/AuthForm"
-import { InputField } from "@/components/InputField"
-import FormErrorMessage from "@/components/FormErrorMessage"
+import { Button, InputField, FormErrorMessage } from "@/shared/components"
+import { AuthForm } from "@/shared/sections/auth/AuthForm"
 
 // Hooks
 import { useForm } from "react-hook-form"

@@ -1,5 +1,5 @@
 // Components
-import { Button } from "./Button"
+import { Button } from "../../components/Button"
 import { FcGoogle } from "react-icons/fc";
 import { DiGithubBadge } from "react-icons/di"
 

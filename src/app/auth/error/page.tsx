@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { Button } from '@/components/Button'
+import { Button } from '@/shared/components/Button'
 
 export default function ErrorPage() {
     const searchParams = useSearchParams()
@@ -18,7 +18,7 @@ export default function ErrorPage() {
             action = (
                 <div className="mt-4 space-y-4">
                     <p className="text-sm text-gray-600">
-                        Te hemos enviado un nuevo correo de verificación. 
+                        Te hemos enviado un nuevo correo de verificación.
                         Por favor, revisa tu bandeja de entrada y sigue las instrucciones para verificar tu cuenta.
                     </p>
                     <p className="text-sm text-gray-600">

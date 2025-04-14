@@ -6,7 +6,7 @@ interface FormErrorMessageProps {
     className?: string;
 }
 
-export default function FormErrorMessage({ children, className = '' }: FormErrorMessageProps) {
+export function FormErrorMessage({ children, className = '' }: FormErrorMessageProps) {
     if (!children) return null;
 
     return (

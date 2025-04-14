@@ -1,5 +1,5 @@
 import { auth } from '@/auth';
-import { MainLayout } from '@/components/MainLayout'
+import { MainLayout } from '@/shared/sections/home/MainLayout'
 import { SessionProvider } from 'next-auth/react';
 import React from 'react'
 

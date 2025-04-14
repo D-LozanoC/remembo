@@ -12,7 +12,7 @@ interface SuccessAlertProps {
     url: string;
 }
 
-export default function SuccessAlert({ show, title, description, buttonText, url, }: SuccessAlertProps) {
+export function SuccessAlert({ show, title, description, buttonText, url, }: SuccessAlertProps) {
     const router = useRouter();
 
     if (!show) return null;

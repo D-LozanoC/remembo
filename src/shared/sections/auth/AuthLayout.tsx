@@ -1,7 +1,7 @@
 import type React from "react"
 import Link from 'next/link'
 import Image from "next/image"
-import { Text } from "@/components/Text"
+import { Text } from "@/shared/atoms/Text"
 
 interface LayoutProps {
   children: React.ReactNode

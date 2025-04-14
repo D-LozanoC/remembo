@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { SideBar } from '@/components/SideBar'
+import { SideBar } from '@/shared/sections/account/SideBar'
 
 const inter = Inter({ subsets: ['latin'] })
 

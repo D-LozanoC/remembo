@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
-import { Button } from './Button'
+import { Button, InputField, FormErrorMessage } from '@/shared/components'
 import { doMagicLinkLogin } from '@/actions'
 import { ForgotFormData, forgotSchema } from '@/utils/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { InputField } from './InputField'
-import FormErrorMessage from './FormErrorMessage'
 import { FaWandMagicSparkles as Magic } from "react-icons/fa6";
 
-const MagicLinkLogin = ({className}: {className?: string}) => {
+export const MagicLinkLogin = ({ className }: { className?: string }) => {
     const { register, formState: { errors }, handleSubmit } = useForm<ForgotFormData>({ resolver: zodResolver(forgotSchema) })
     const [error, setError] = useState<string | null>(null)
 
@@ -21,6 +19,7 @@ const MagicLinkLogin = ({className}: {className?: string}) => {
             }
             setError(response.message)
         } catch (error) {
+            console.error('Error en MagicLinkLogin:', error)
             setError('Hubo un error iniciando sesión')
         }
     })
@@ -45,5 +44,3 @@ const MagicLinkLogin = ({className}: {className?: string}) => {
         </form>
     )
 }
-
-export default MagicLinkLogin

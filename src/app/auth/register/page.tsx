@@ -2,12 +2,12 @@
 
 // Components
 import Link from "next/link"
-import { Button } from "@/components/Button"
-import { AuthForm } from "@/components/AuthForm"
-import { InputField } from "@/components/InputField"
-import SuccessAlert from "@/components/SuccessAlert"
-import FormErrorMessage from "@/components/FormErrorMessage"
-import { Text } from "@/components/Text"
+import { Button } from "@/shared/components/Button"
+import { AuthForm } from "@/shared/sections/auth/AuthForm"
+import { InputField } from "@/shared/components/InputField"
+import SuccessAlert from "@/shared/components/SuccessAlert"
+import FormErrorMessage from "@/shared/components/FormErrorMessage"
+import { Text } from "@/shared/atoms/Text"
 
 // Hooks
 import { useState } from "react"

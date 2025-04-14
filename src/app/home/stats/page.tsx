@@ -2,8 +2,8 @@
 
 // app/stats/page.tsx
 import { redirect } from 'next/navigation'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card'
-import { Progress } from '@/components/Progress'
+import { Card, CardHeader, CardTitle, CardContent } from '@/shared/atoms'
+import { ProgressLine } from '@/shared/atoms/ProgressLine'
 import { getGreetingByTime } from '@/utils/time'
 import dynamic from 'next/dynamic'
 import { BsBarChartFill as BarChart } from "react-icons/bs";
@@ -13,12 +13,12 @@ import { IoPieChartSharp as PieChart } from "react-icons/io5";
 import { useSession } from 'next-auth/react'
 
 const StudyProgressChart = dynamic(
-  () => import('@/components/StudyCharts').then(mod => mod.StudyProgressChart),
+  () => import('@/shared/sections/home/StudyCharts').then(mod => mod.StudyProgressChart),
   { ssr: false }
 )
 
 const DeckDistributionChart = dynamic(
-  () => import('@/components/StudyCharts').then(mod => mod.DeckDistributionChart),
+  () => import('@/shared/sections/home/StudyCharts').then(mod => mod.DeckDistributionChart),
   { ssr: false }
 )
 
@@ -102,7 +102,7 @@ export default function StatsPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{mockStats.totalStudy.daysStreak} días</div>
-              <Progress value={100} className="h-2 mt-2 bg-green-100" />
+              <ProgressLine value={100} className="h-2 mt-2 bg-green-100" />
             </CardContent>
           </Card>
         </div>

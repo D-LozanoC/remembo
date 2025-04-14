@@ -1,8 +1,8 @@
 'use client'
 
-import FormErrorMessage from '@/components/FormErrorMessage'
-import { InputField } from '@/components/InputField'
-import { Button } from '@/components/Button'
+import FormErrorMessage from '@/shared/components/FormErrorMessage'
+import { InputField } from '@/shared/components/InputField'
+import { Button } from '@/shared/components/Button'
 import { UpdateProfileFormData, updateProfileSchema } from '@/utils/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'

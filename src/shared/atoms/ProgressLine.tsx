@@ -4,7 +4,7 @@
 import * as React from 'react'
 import { cn } from '@/utils/cn'
 
-const Progress = React.forwardRef<
+const ProgressLine = React.forwardRef<
     HTMLDivElement,
     React.HTMLAttributes<HTMLDivElement> & { value: number }
 >(({ className, value, ...props }, ref) => (
@@ -23,6 +23,6 @@ const Progress = React.forwardRef<
     </div>
 ))
 
-Progress.displayName = 'Progress'
+ProgressLine.displayName = 'ProgressLine'
 
-export { Progress }
+export { ProgressLine }

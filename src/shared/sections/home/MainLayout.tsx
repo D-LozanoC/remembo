@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { LogoutButton } from './LogoutButton'
+import { LogoutButton } from '../../components/LogoutButton'
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
     const { data: session, status } = useSession()

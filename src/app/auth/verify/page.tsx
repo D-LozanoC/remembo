@@ -2,9 +2,9 @@
 
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { Loader } from '@/components/Loader'
+import { CircleLoader } from '@/shared/components'
 import Link from 'next/link'
-import { Button } from '@/components/Button'
+import { Button } from '@/shared/components/Button'
 
 export default function VerifyPage() {
     const searchParams = useSearchParams()
@@ -32,12 +32,13 @@ export default function VerifyPage() {
                 }
 
                 setStatus('success')
-                
+
                 // Redirigir al login después de 5 segundos
                 setTimeout(() => {
                     router.push('/auth/login?message=Email verificado correctamente. Por favor, inicia sesión.')
                 }, 5000)
             } catch (err) {
+                console.error('Error al verificar el email:', err)
                 setError('Error al verificar el email')
                 setStatus('error')
             }
@@ -108,7 +109,7 @@ export default function VerifyPage() {
                         Verificando tu email
                     </h2>
                     <div className="mt-4 flex justify-center">
-                        <Loader />
+                        <CircleLoader />
                     </div>
                     <p className="mt-2 text-center text-sm text-gray-600">
                         Por favor, espera mientras verificamos tu dirección de correo electrónico...

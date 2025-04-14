@@ -1,9 +1,9 @@
 // app/dashboard/page.tsx
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card'
-import { Button } from '@/components/Button'
-import { Progress } from '@/components/Progress'
+import { Card, CardHeader, CardTitle, CardContent } from '@/shared/atoms/Card'
+import { Button } from '@/shared/components/Button'
+import { Progress } from '@/shared/atoms/ProgressLine'
 import { getGreetingByTime } from '@/utils/time'
 import Link from 'next/link'
 import { PiBookOpenFill as BookOpen } from "react-icons/pi";
