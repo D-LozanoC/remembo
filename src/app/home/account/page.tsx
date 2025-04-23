@@ -28,7 +28,7 @@ export default async function ProfilePage() {
                     {/* Imagen de perfil */}
                     <div className="relative w-16 h-16">
                         <Image
-                            src={user?.image || "/default-avatar.png"}
+                            src={`/api/user/image?ts=${Date.now()}`}
                             alt="Foto de perfil"
                             className="rounded-full border"
                             fill
@@ -51,7 +51,7 @@ export default async function ProfilePage() {
 
             <div className="bg-gray-50 p-4 rounded-lg">
                 <h3 className="font-medium text-gray-700">Rol de Usuario</h3>
-                <p className="text-gray-600">{user?.name || "Usuario estándar"}</p>
+                <p className="text-gray-600">{user?.role === 'user' ? "Usuario estándar" : "Administrador"}</p>
             </div>
             <div className="py-4">
                 <Link href="/home/account/update">

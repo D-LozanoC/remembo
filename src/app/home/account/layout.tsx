@@ -48,7 +48,7 @@ export default async function AccountLayout({
               <Avatar className="h-24 w-24">
                 {user?.image ? (
                   <AvatarImage
-                    src={user.image}
+                    src={`/api/user/image?ts=${Date.now()}`}
                     alt={`Avatar de ${user.name}`}
                     className="border-2 border-primary"
                   />
