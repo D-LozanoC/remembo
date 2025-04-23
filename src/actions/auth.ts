@@ -21,7 +21,7 @@ export async function loginUser(user: { email: string, password: string }) {
                 password: true,
                 emailVerified: true,
                 role: true,
-                imageUrl: true
+                image: true
             }
         })
 

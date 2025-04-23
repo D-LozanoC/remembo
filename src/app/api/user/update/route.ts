@@ -1,7 +1,6 @@
 import { auth } from '@/auth'
 import { NextResponse } from 'next/server'
 import { prisma } from '@/config/prisma'
-import { updateProfileSchema } from '@/utils/schemas'
 
 export async function PUT(req: Request) {
     try {
@@ -16,15 +15,9 @@ export async function PUT(req: Request) {
         const formData = await req.formData()
         const image = formData.get('image') as File | null
         const fullname = formData.get('fullname') as string
-        const email = formData.get('email') as string
 
-        // Validate the form data
-        const validatedData = updateProfileSchema.parse({ fullname, email })
-
-        // Prepare the update data
         const updateData: any = {
-            name: validatedData.fullname,
-            email: validatedData.email,
+            name: fullname,
         }
 
         // Handle image upload
@@ -43,7 +36,7 @@ export async function PUT(req: Request) {
             user: {
                 name: updatedUser.name,
                 email: updatedUser.email,
-                image: updatedUser.imageUrl // Prefer URL if exists
+                image: updatedUser.image || updatedUser.imageBlob// Prefer URL if exists
             }
         })
     } catch (error) {
