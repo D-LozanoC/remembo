@@ -1,4 +1,4 @@
-import { NextAuthConfig, Session as NextAuthSession, User as NextAuthUser } from "next-auth";
+import { Account, NextAuthConfig, Session as NextAuthSession, User as NextAuthUser } from "next-auth";
 
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
@@ -10,8 +10,9 @@ import { prisma } from "./prisma";
 import Nodemailer from "next-auth/providers/nodemailer";
 import { JWT } from "next-auth/jwt";
 
-interface Session extends NextAuthSession {
-  rememberMe?: boolean;
+export interface Session extends NextAuthSession {
+  rememberMe?: boolean,
+  accounts?: string[]
 }
 
 interface User extends NextAuthUser {
@@ -26,10 +27,22 @@ export const authConfig: NextAuthConfig = {
   },
   callbacks: {
     async jwt({ token, user, account, trigger, session }) {
+
+      // 1) Al hacer sign‑in (user existe), guardamos los valores iniciales
       if (user) {
-        token.id = user.id;
-        token.rememberMe = (user as User).rememberMe || false;
+        token.id = (user as User).id
+        token.name = user.name
+        token.image = user.image
+        token.rememberMe = (user as User).rememberMe || false
       }
+
+      // 2) Al llamar a useSession().update({...}), NextAuth pasa 
+      //    trigger === 'update' *y* session.user contiene los nuevos datos.
+      if (trigger === 'update' && session?.user) {
+        token.name = session.user.name
+        token.image = session.user.image
+      }
+
       token.exp = token.rememberMe
         ? Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60 // 30 days
         : Math.floor(Date.now() / 1000) + 24 * 60 * 60; // 1 day
@@ -38,11 +51,20 @@ export const authConfig: NextAuthConfig = {
     },
     async session({ session, token }: { session: Session; token: JWT }): Promise<Session> {
       if (session.user) {
-        session.user.id = token.id as string;
-        session.rememberMe = token.rememberMe as boolean;
-        session.expires = new Date((token.exp as number) * 1000).toISOString();
-      }
+        const objAccounts = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: { accounts: { select: { provider: true } } }
+        })
 
+        if (objAccounts) {
+          session.accounts = objAccounts.accounts.map((account) => account.provider)
+        }
+        session.user.id = token.id as string
+        session.user.name = token.name as string
+        session.user.image = token.image as string
+        session.rememberMe = token.rememberMe as boolean
+        session.expires = new Date((token.exp as number) * 1000).toISOString()
+      }
       return session;
     }
   },
@@ -85,20 +107,20 @@ export const authConfig: NextAuthConfig = {
           if (!credentials.email || !credentials.password) {
             throw new Error('INVALID_CREDENTIALS')
           }
-          
+
           const user = { email: credentials.email as string, password: credentials.password as string };
           const existingUser = await loginUser(user);
-          
+
           if (!existingUser) {
             throw new Error('INVALID_CREDENTIALS')
           }
 
-          return {...existingUser, rememberMe: credentials.rememberMe === "true"}
+          return { ...existingUser, rememberMe: credentials.rememberMe === "true" }
         } catch (error) {
           if (error instanceof Error) {
             // Propagar errores específicos
-            if (error.message === 'EMAIL_NOT_VERIFIED' || 
-                error.message === 'INVALID_CREDENTIALS') {
+            if (error.message === 'EMAIL_NOT_VERIFIED' ||
+              error.message === 'INVALID_CREDENTIALS') {
               throw error
             }
           }

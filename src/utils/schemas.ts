@@ -63,9 +63,30 @@ export const resetSchema = z.object({
 export type ResetFormData = z.infer<typeof resetSchema>
 
 export const updateProfileSchema = z.object({
-    email: z.string().min(1, { message: "El email es obligatorio." })
-        .email({ message: "Debe ingresar un correo electrónico válido." }),
     fullname: z.string().min(1, { message: "El nombre completo es obligatorio." }),
+    image: z.instanceof(File).optional(),
 })
 
 export type UpdateProfileFormData = z.infer<typeof updateProfileSchema>
+
+export const changePasswordSchema = z.object({
+    currentPassword: z.string().min(6, 'La contraseña actual es requerida').optional(),
+    newPassword: z
+        .string()
+        .min(8, 'La nueva contraseña debe tener al menos 8 caracteres')
+        .regex(/[A-Z]/, 'Debe contener al menos una letra mayúscula')
+        .regex(/[a-z]/, 'Debe contener al menos una letra minúscula')
+        .regex(/\d/, 'Debe contener al menos un número'),
+    confirmPassword: z.string(),
+}).refine((data) => data.newPassword === data.confirmPassword, {
+    path: ['confirmPassword'],
+    message: 'Las contraseñas no coinciden',
+})
+
+export type ChangePasswordForm = z.infer<typeof changePasswordSchema>
+
+export const deleteAccountSchema = z.object({
+    password: z.string().min(6, 'La contraseña es requerida'),
+})
+
+export type DeleteAccountForm = z.infer<typeof deleteAccountSchema>
