@@ -19,7 +19,7 @@ import { doCredentialsLogin } from "@/actions"
 
 // Schemas and Utils
 import { zodResolver } from "@hookform/resolvers/zod"
-import { SignInFormData, signInSchema } from "@/utils/schemas"
+import { SignInFormData, signInSchema } from "@/schemas/auth"
 import MagicLinkLogin from "@/components/MagicLinkLogin"
 import Captcha from "@/components/Captcha"
 

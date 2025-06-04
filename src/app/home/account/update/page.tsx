@@ -3,7 +3,7 @@
 import FormErrorMessage from '@/components/FormErrorMessage'
 import { InputField } from '@/components/InputField'
 import { Button } from '@/components/Button'
-import { UpdateProfileFormData, updateProfileSchema } from '@/utils/schemas'
+import { UpdateProfileFormData, updateProfileSchema } from '@/schemas/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'

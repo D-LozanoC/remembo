@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button } from './Button'
 import { doMagicLinkLogin } from '@/actions'
-import { ForgotFormData, forgotSchema } from '@/utils/schemas'
+import { ForgotFormData, forgotSchema } from '@/schemas/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { InputField } from './InputField'

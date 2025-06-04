@@ -10,7 +10,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname()
 
     const navigation = [
-        { name: 'Inicio', href: '/home', protected: true },
+        { name: 'Repositorio', href: '/home/repository', protected: true },
         { name: 'Mis Mazos', href: '/home/decks', protected: true },
         { name: 'Estadísticas', href: '/home/stats', protected: true },
         { name: 'Dashboard', href: '/home/dashboard', protected: true },

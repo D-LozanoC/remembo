@@ -8,18 +8,21 @@ generator client {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String      @id @default(cuid())
   name          String?
   password      String?
-  email         String    @unique
+  email         String      @unique
   emailVerified DateTime?
-  imageBlob     Bytes?    // Almacena la imagen original subida por el usuario
-  image      String?   // Almacena la URL de la imagen (ej: imagen de perfil de Google)
+  imageBlob     Bytes? // Almacena la imagen original subida por el usuario
+  image         String? // Almacena la URL de la imagen (ej: imagen de perfil de Google)
   accounts      Account[]
   sessions      Session[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  role          String    @default("user")
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  role          String      @default("user")
+  Notes         Note[]
+  Decks         Deck[]
+  Flashcard     Flashcard[]
 }
 
 model Account {
@@ -59,4 +62,92 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+model Note {
+  id      String   @id @default(uuid())
+  title   String
+  topic   String
+  content String
+  subject Subjects
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  flashcards Flashcard[]
+
+  @@index([userId])
+}
+
+model Deck {
+  id      String   @id @default(cuid())
+  title   String
+  topic   String
+  subject Subjects
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  flashcards Flashcard[]
+
+  @@index([userId])
+}
+
+model Flashcard {
+  id             String   @id @default(cuid())
+  question       String
+  isDerived      Boolean
+  answers        String[]
+  correctAnswers String[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Note   Note?   @relation(fields: [noteId], references: [id])
+  noteId String?
+
+  decks Deck[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // SM-2
+  easiness    Float    @default(2.5) // Nivel de facilidad (E-Factor)
+  interval    Int      @default(0) // Intervalo actual en días
+  repetitions Int      @default(0) // Veces consecutivas recordada
+  nextReview  DateTime @default(now()) // Próxima fecha sugerida de repaso
+  lastScore   Int      @default(0) // Último score de 0 a 5
+
+  FlashcardReview FlashcardReview[]
+
+  @@index([userId])
+}
+
+model FlashcardReview {
+  id               String @id @default(cuid())
+  score            Int
+  previousInterval Int
+  nextInterval     Int
+
+  reviewedAt DateTime @default(now())
+
+  flashcardId String
+  flashcard   Flashcard @relation(fields: [flashcardId], references: [id], onDelete: Cascade)
+}
+
+enum Subjects {
+  Inteligencia_Artificial
+  Ingenieria_de_Software
+  Fundamentos_de_Telematica
+  Programación_por_Componentes
+  Arquitectura_de_Computadores
+  Protocolo_de_Comunicación
+  Regulación_para_Telecomunicaciones
+  Electiva_Socio_Humanistica
 }

@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form"
 
 // Schemas and Utils
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ResetFormData, resetSchema } from "@/utils/schemas"
+import { ResetFormData, resetSchema } from "@/schemas/auth"
 import { useState } from "react"
 import { redirect, useSearchParams } from "next/navigation"
 import { resetPassword } from "@/actions/auth"

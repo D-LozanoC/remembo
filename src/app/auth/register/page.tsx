@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form"
 
 // Schemas and Utils
 import { zodResolver } from "@hookform/resolvers/zod"
-import { SignUpFormData, signUpSchema } from "@/utils/schemas"
+import { SignUpFormData, signUpSchema } from "@/schemas/auth"
 
 // Actions
 import { registerUser } from "@/actions/auth"

@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form"
 
 // Schemas and Utils
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ForgotFormData, forgotSchema } from "@/utils/schemas"
+import { ForgotFormData, forgotSchema } from "@/schemas/auth"
 import { useState } from "react"
 import { forgotPassword } from "@/actions/auth"
 import { redirect } from "next/navigation"

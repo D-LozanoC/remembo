@@ -24,7 +24,7 @@ export async function PUT(req: Request) {
         if (image) {
             const bytes = await image.arrayBuffer()
             updateData.imageBlob = Buffer.from(bytes)
-            updateData.imageUrl = null // Clear any existing URL when uploading a blob
+            updateData.image = null // Clear any existing URL when uploading a blob
         }
 
         const updatedUser = await prisma.user.update({
