@@ -14,3 +14,11 @@ Deploys:
 
 - Vercel
 - Neon
+
+Iniciar el proyecto:
+
+- npx prisma generate
+- npx vercel dev
+
+- pnpm dlx prisma generate
+- pnpm dlx vercel dev
