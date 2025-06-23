@@ -1,12 +1,12 @@
 'use client'
 
 // Components
-import Link from "next/link"
 import { Button } from "@/components/Button"
 import { AuthForm } from "@/components/AuthForm"
 import { InputField } from "@/components/InputField"
 import SuccessAlert from "@/components/SuccessAlert"
 import FormErrorMessage from "@/components/FormErrorMessage"
+import { DecoratedLink } from "@/shared/atoms/DecoratedLink"
 
 // Hooks
 import { useState } from "react"
@@ -41,46 +41,39 @@ export default function Register() {
       setMessage(response?.message as string)
 
       setShowSuccessAlert(true)
-    } catch (_error) {
+    } catch (error) {
       setMessage('Hubo un error registrando al usuario')
+      console.error('Error registering user:', error)
     }
   })
 
   return (
     <AuthForm title="Crea tu cuenta" subtitle="Regístrate para comenzar">
       <form className="mt-8 space-y-6" onSubmit={onSubmit}>
-        <div className="space-y-2">
-          <InputField
-            {...register('fullname')}
-            type="text"
-            label="Nombre completo"
-          />
-          {errors.fullname && <FormErrorMessage>{errors.fullname.message as string}</FormErrorMessage>}
-        </div>
-        <div className="space-y-2">
-          <InputField
-            {...register('email')}
-            type="email"
-            label="Correo electrónico"
-          />
-          {errors.email && <FormErrorMessage>{errors.email.message as string}</FormErrorMessage>}
-        </div>
-        <div className="space-y-2">
-          <InputField
-            {...register('password')}
-            type="password"
-            label="Contraseña"
-          />
-          {errors.password && <FormErrorMessage>{errors.password.message as string}</FormErrorMessage>}
-        </div>
-        <div className="space-y-2">
-          <InputField
-            {...register('confirmPassword')}
-            type="password"
-            label="Confirmar contraseña"
-          />
-          {errors.confirmPassword && <FormErrorMessage>{errors.confirmPassword.message as string}</FormErrorMessage>}
-        </div>
+        <InputField
+          {...register('fullname')}
+          type="text"
+          label="Nombre completo"
+          error={errors.fullname}
+        />
+        <InputField
+          {...register('email')}
+          type="email"
+          label="Correo electrónico"
+          error={errors.email}
+        />
+        <InputField
+          {...register('password')}
+          type="password"
+          label="Contraseña"
+          error={errors.password}
+        />
+        <InputField
+          {...register('confirmPassword')}
+          type="password"
+          label="Confirmar contraseña"
+          error={errors.confirmPassword}
+        />
         <div className="flex items-center">
           <input
             id="terms"
@@ -89,21 +82,21 @@ export default function Register() {
             required
             className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
           />
-          <label htmlFor="terms" className="ml-2 block text-sm text-white">
+          <label htmlFor="terms" className="ml-2 block text-sm text-black">
             Acepto los{" "}
-            <Link href="/terms" className="font-medium text-white underline hover:opacity-100 ease-in-out transition-all opacity-90">
+            <DecoratedLink href="/terms">
               términos y condiciones
-            </Link>
+            </DecoratedLink>
           </label>
         </div>
         {message && <FormErrorMessage>{message}</FormErrorMessage>}
         <Button type="submit">Registrarse</Button>
       </form>
-      <p className="mt-4 text-center text-sm text-white">
+      <p className="mt-4 text-center text-sm text-black">
         ¿Ya tienes una cuenta?{" "}
-        <Link href="/auth/login" className="font-medium text-white underline hover:opacity-100 ease-in-out transition-all opacity-90">
+        <DecoratedLink href="/auth/login">
           Inicia sesión
-        </Link>
+        </DecoratedLink>
       </p>
       <SuccessAlert
         show={showSuccessAlert}

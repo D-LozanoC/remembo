@@ -1,11 +1,11 @@
 'use client'
 
 // Components
-import Link from "next/link"
 import { Button } from "@/components/Button"
 import { AuthForm } from "@/components/AuthForm"
 import { InputField } from "@/components/InputField"
 import FormErrorMessage from "@/components/FormErrorMessage"
+import { DecoratedLink } from "@/shared/atoms/DecoratedLink"
 
 // Hooks
 import { useForm } from "react-hook-form"
@@ -30,7 +30,6 @@ export default function ResetPassword() {
 
     if (!token) redirect('/auth/login')
 
-
     const onSubmit = handleSubmit(async data => {
         const { password } = data
         const response = await resetPassword(token, password)
@@ -45,22 +44,19 @@ export default function ResetPassword() {
     return (
         <AuthForm title="Restablecer contraseña" subtitle="Ingresa tu nueva contraseña">
             <form className="mt-8 space-y-6" onSubmit={onSubmit}>
-                <div className="space-y-2">
-                    <InputField
-                        {...register('password')}
-                        type="password"
-                        label="Nueva contraseña"
-                    />
-                    {errors.password && <FormErrorMessage>{errors.password.message as string}</FormErrorMessage>}
-                </div>
-                <div className="space-y-2">
-                    <InputField
-                        {...register('confirmPassword')}
-                        type="password"
-                        label="Confirmar nueva contraseña"
-                    />
-                    {errors.confirmPassword && <FormErrorMessage>{errors.confirmPassword.message as string}</FormErrorMessage>}
-                </div>
+                <InputField
+                    {...register('password')}
+                    type="password"
+                    label="Nueva contraseña"
+                    error={errors.password}
+                />
+                <InputField
+                    {...register('confirmPassword')}
+                    type="password"
+                    label="Confirmar nueva contraseña"
+                    error={errors.confirmPassword}
+                />
+                {errors.confirmPassword && <FormErrorMessage>{errors.confirmPassword.message as string}</FormErrorMessage>}
                 <Button type="submit">Restablecer contraseña</Button>
             </form>
 
@@ -68,9 +64,9 @@ export default function ResetPassword() {
             {message && <p>{message}</p>}
 
             <p className="mt-4 text-center text-sm text-gray-600">
-                <Link href="/auth/login" className="font-medium text-white underline hover:opacity-100 ease-in-out transition-all opacity-90">
+                <DecoratedLink href="/auth/login">
                     Volver al inicio de sesión
-                </Link>
+                </DecoratedLink>
             </p>
             <SuccessAlert
                 show={showSuccessAlert}

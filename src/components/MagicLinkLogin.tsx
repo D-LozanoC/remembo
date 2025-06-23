@@ -8,7 +8,7 @@ import { InputField } from './InputField'
 import FormErrorMessage from './FormErrorMessage'
 import { FaWandMagicSparkles as Magic } from "react-icons/fa6";
 
-const MagicLinkLogin = ({className}: {className?: string}) => {
+const MagicLinkLogin = ({ className }: { className?: string }) => {
     const { register, formState: { errors }, handleSubmit } = useForm<ForgotFormData>({ resolver: zodResolver(forgotSchema) })
     const [error, setError] = useState<string | null>(null)
 
@@ -22,6 +22,7 @@ const MagicLinkLogin = ({className}: {className?: string}) => {
             setError(response.message)
         } catch (error) {
             setError('Hubo un error iniciando sesión')
+            console.error('Magic link login error:', error)
         }
     })
 

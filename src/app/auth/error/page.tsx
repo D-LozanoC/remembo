@@ -3,6 +3,7 @@
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/Button'
+import { DecoratedLink } from '@/shared/atoms/DecoratedLink'
 
 export default function ErrorPage() {
     const searchParams = useSearchParams()
@@ -18,7 +19,7 @@ export default function ErrorPage() {
             action = (
                 <div className="mt-4 space-y-4">
                     <p className="text-sm text-gray-600">
-                        Te hemos enviado un nuevo correo de verificación. 
+                        Te hemos enviado un nuevo correo de verificación.
                         Por favor, revisa tu bandeja de entrada y sigue las instrucciones para verificar tu cuenta.
                     </p>
                     <p className="text-sm text-gray-600">
@@ -38,9 +39,9 @@ export default function ErrorPage() {
             action = (
                 <p className="mt-2 text-sm text-gray-600">
                     ¿Olvidaste tu contraseña?{' '}
-                    <Link href="/auth/forgot-password" className="text-indigo-600 hover:text-indigo-500">
+                    <DecoratedLink href="/auth/forgot-password">
                         Recuperar contraseña
-                    </Link>
+                    </DecoratedLink>
                 </p>
             )
             break
