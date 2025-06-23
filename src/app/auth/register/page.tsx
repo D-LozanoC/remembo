@@ -1,7 +1,6 @@
 'use client'
 
 // Components
-import Link from "next/link"
 import { Button } from "@/components/Button"
 import { AuthForm } from "@/components/AuthForm"
 import { InputField } from "@/components/InputField"
@@ -95,9 +94,9 @@ export default function Register() {
       </form>
       <p className="mt-4 text-center text-sm text-black">
         ¿Ya tienes una cuenta?{" "}
-        <Link href="/auth/login" className="font-medium text-blue-600 underline">
+        <DecoratedLink href="/auth/login">
           Inicia sesión
-        </Link>
+        </DecoratedLink>
       </p>
       <SuccessAlert
         show={showSuccessAlert}
