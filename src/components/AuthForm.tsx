@@ -8,14 +8,14 @@ interface AuthFormProps {
 
 export function AuthForm({ children, title, subtitle }: AuthFormProps) {
   return (
-    <div className="space-y-6 z-20">
-      <div className="text-center">
-        <Image src="/logo.svg" alt="Logo" width={100} height={100} className="mx-auto" />
-        <h2 className="mt-6 text-3xl font-bold tracking-tight text-white">{title}</h2>
-        {subtitle && <p className="mt-2 text-sm text-stone-50">{subtitle}</p>}
+    <section className="bg-white">
+      <div className="text-center flex flex-col items-center justify-center space-y-4">
+        <Image src="/black-logo.png" alt="Logo" width={100} height={100} className="mx-auto text-black" />
+        <h2 className="mt-6 text-3xl font-bold tracking-tight text-black">{title}</h2>
+        {subtitle && <p className="mt-2 text-sm text-black">{subtitle}</p>}
       </div>
       {children}
-    </div>
+    </section>
   )
 }
 

@@ -1,13 +1,11 @@
 'use client'
 
 // Components
-import Link from "next/link"
 import { Button } from "@/components/Button"
 import { AuthForm } from "@/components/AuthForm"
-import { Separator } from "@/components/Separator"
 import { InputField } from "@/components/InputField"
 import { SocialLogin } from "@/components/SocialLogin"
-import FormErrorMessage from "@/components/FormErrorMessage"
+import { DecoratedLink } from "@/shared/atoms/DecoratedLink"
 
 // Hooks
 import { useState } from "react"
@@ -53,6 +51,7 @@ export default function Login() {
             router.push('/home')
         } catch (error) {
             setError('Hubo un error iniciando sesión')
+            console.error('Login error:', error)
         }
     })
 
@@ -63,7 +62,7 @@ export default function Login() {
                     {message}
                 </div>
             )}
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} className="pt-4 space-y-3">
                 {error && (
                     <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
                         {error === 'INVALID_CREDENTIALS' && 'El email o la contraseña son incorrectos'}
@@ -82,22 +81,18 @@ export default function Login() {
                         {error !== 'INVALID_CREDENTIALS' && error !== 'EMAIL_NOT_VERIFIED' && error}
                     </div>
                 )}
-                <div className="space-y-2">
-                    <InputField
-                        {...register('email')}
-                        type="email"
-                        label="Correo electrónico"
-                    />
-                    {errors.email && <FormErrorMessage>{errors.email.message as string}</FormErrorMessage>}
-                </div>
-                <div className="space-y-2">
-                    <InputField
-                        {...register('password')}
-                        type="password"
-                        label="Contraseña"
-                    />
-                    {errors.password && <FormErrorMessage>{errors.password.message as string}</FormErrorMessage>}
-                </div>
+                <InputField
+                    {...register('email')}
+                    type="email"
+                    label="Correo electrónico"
+                    error={errors.email}
+                />
+                <InputField
+                    {...register('password')}
+                    type="password"
+                    label="Contraseña"
+                    error={errors.password}
+                />
                 <Captcha onVerify={(token) => setCaptchaToken(token)} />
                 <div className="flex items-center justify-between mt-4">
                     <div className="flex items-center">
@@ -106,33 +101,31 @@ export default function Login() {
                             type="checkbox"
                             className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                         />
-                        <label htmlFor="rememberMe" className="ml-2 text-sm text-white">
+                        <label htmlFor="rememberMe" className="ml-2 text-sm text-black">
                             Recordarme
                         </label>
                     </div>
                     <div className="text-sm">
-                        <Link href="/auth/forgot-pass" className="font-medium text-white underline hover:opacity-100 ease-in-out transition-all opacity-90">
+                        <DecoratedLink href="/auth/forgot-pass">
                             ¿Olvidaste tu contraseña?
-                        </Link>
+                        </DecoratedLink>
                     </div>
                 </div>
                 <Button
                     type="submit"
                     name="action"
                     value="credentials"
-                    className="w-full bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 rounded-md py-3 mt-6 text-lg"
                 >
                     Iniciar sesión
                 </Button>
             </form>
-            <Separator text="o" />
-            <SocialLogin />
             <MagicLinkLogin />
-            <p className="mt-4 text-center text-sm text-white">
+            <SocialLogin />
+            <p className="mt-4 text-center text-sm text-gray-600">
                 ¿No tienes una cuenta?{" "}
-                <Link href="/auth/register" className="font-medium text-white underline hover:opacity-100 ease-in-out transition-all opacity-90">
-                    Regístrate
-                </Link>
+                <DecoratedLink href="/auth/register">
+                    Regístrate aquí
+                </DecoratedLink>
             </p>
         </AuthForm>
     );
