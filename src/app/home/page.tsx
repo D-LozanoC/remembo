@@ -81,7 +81,7 @@ export default async function HomePage() {
                 </div>
             </section>
 
-            {/* Stats Section */}
+            {/* Stats Section
             <section className="py-16 px-4 bg-white">
                 <div className="max-w-6xl mx-auto">
                     <div className="grid md:grid-cols-3 gap-8 text-center">
@@ -99,7 +99,7 @@ export default async function HomePage() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             {/* CTA Section */}
             <section className="bg-gray-800 text-white py-16 px-4">
@@ -114,7 +114,7 @@ export default async function HomePage() {
                         href="/account"
                         className="inline-block bg-indigo-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-indigo-600 transition-colors"
                     >
-                        Empieza ahora - Es gratis
+                        Empieza ahora!
                     </Link>
                 </div>
             </section>
