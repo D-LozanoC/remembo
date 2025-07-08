@@ -102,14 +102,14 @@ model Deck {
 model Flashcard {
   id             String   @id @default(cuid())
   question       String
-  isDerived      Boolean
+  isDerived      Boolean @default(false)
   answers        String[]
   correctAnswers String[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Note   Note?   @relation(fields: [noteId], references: [id])
+  Note   Note?   @relation(fields: [noteId], references: [id], onDelete: Cascade)
   noteId String?
 
   decks Deck[]
