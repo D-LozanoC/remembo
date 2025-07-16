@@ -2,7 +2,7 @@ import { auth } from '@/auth'
 import { prisma } from '@/config/prisma'
 import { NextResponse } from 'next/server'
 
-export async function GET(req: Request) {
+export async function GET() {
     const session = await auth()
 
     if (!session?.user?.email) {

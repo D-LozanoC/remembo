@@ -56,7 +56,7 @@ export async function loginUser(user: { email: string, password: string }) {
         }
 
         // No devolver el password en la respuesta
-        const { password: _, ...userWithoutPassword } = user
+        const { ...userWithoutPassword } = user
         return userWithoutPassword
     } catch (error) {
         console.error('Error logging in user:', error)

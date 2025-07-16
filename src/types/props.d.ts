@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react"
-import { FullDeck, FullFlashcard, FullNote, Item } from "./resources"
+import { FullDeck, FullFlashcard, FullNote } from "./resources"
 import { Tab } from "./enums"
 import { IconType } from "react-icons"
 import { Mode } from "./resources"
@@ -35,7 +35,8 @@ export type filtersProps = {
 
 export type dialogProps = {
     isOpen: boolean,
-    children: React.ReactNode
+    children: React.ReactNode,
+    style?: string
 }
 
 export interface resourceProps {
@@ -46,7 +47,7 @@ export interface resourceProps {
     setItem: Dispatch<SetStateAction<{ data: FullNote | FullDeck | FullFlashcard | null, dataType: Tab.Decks | Tab.Flashcards | Tab.Notes } | null>>
     setIsOpen: Dispatch<SetStateAction<boolean>>
     handleUpdate: (data: Partial<FullNote | FullDeck | FullFlashcard>) => void
-    handleDelete: (id: number) => void
+    handleDelete: (id: string) => void
     handleRelate: () => void
     handleCreate: (data: Partial<Note | Deck | Flashcard>) => void
     mode: Mode,
@@ -58,7 +59,7 @@ export type noteProps = {
     mode: Mode;
     actions: {
         handleUpdate: (data: Partial<FullNote>) => void;
-        handleDelete: (id: number) => void;
+        handleDelete: (id: string) => void;
         handleCreate: (data: Partial<Note>) => void;
         onClick?: (data: Flashcard) => void
     }
@@ -69,7 +70,7 @@ export type deckProps = {
     mode: Mode;
     actions: {
         handleUpdate: (data: Partial<FullDeck>) => void;
-        handleDelete: (id: number) => void;
+        handleDelete: (id: string) => void;
         handleCreate: (data: FullDeck) => void;
     }
 }
@@ -79,8 +80,8 @@ export type flashcardProps = {
     mode: Mode;
     actions: {
         handleUpdate: (data: Partial<FullFlashcard>) => void;
-        handleDelete: (id: number) => void;
-        handleCreate: (data: FullFlashcard) => void;
+        handleDelete: (id: string) => void;
+        handleCreate: (data: Partial<Flashcard>) => void;
     }
 }
 

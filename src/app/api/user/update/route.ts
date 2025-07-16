@@ -16,7 +16,7 @@ export async function PUT(req: Request) {
         const image = formData.get('image') as File | null
         const fullname = formData.get('fullname') as string
 
-        const updateData: any = {
+        const updateData: { name: string; imageBlob?: Buffer; image?: string | null } = {
             name: fullname,
         }
 

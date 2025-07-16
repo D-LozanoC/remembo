@@ -6,7 +6,12 @@ import { BarChart, XAxis, YAxis, Tooltip, Bar, PieChart, Pie, Cell, ResponsiveCo
 const COLORS = ['#4f46e5', '#818cf8', '#c7d2fe']
 
 // Exportamos los componentes individualmente
-export const StudyProgressChart = ({ data }: { data: any[] }) => (
+interface StudyProgressData {
+    date: string;
+    cards: number;
+}
+
+export const StudyProgressChart = ({ data }: { data: StudyProgressData[] }) => (
     <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data}>
             <XAxis dataKey="date" />
@@ -17,7 +22,16 @@ export const StudyProgressChart = ({ data }: { data: any[] }) => (
     </ResponsiveContainer>
 )
 
-export const DeckDistributionChart = ({ data }: { data: any[] }) => (
+interface DeckDistributionData {
+    subject: string;
+    value: number;
+}
+
+interface DeckDistributionChartProps {
+    data: DeckDistributionData[];
+}
+
+export const DeckDistributionChart = ({ data }: DeckDistributionChartProps) => (
     <ResponsiveContainer width="100%" height="100%">
         <PieChart>
             <Pie

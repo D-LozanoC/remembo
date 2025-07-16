@@ -1,4 +1,4 @@
-import { Account, NextAuthConfig, Session as NextAuthSession, User as NextAuthUser } from "next-auth";
+import { NextAuthConfig, Session as NextAuthSession, User as NextAuthUser } from "next-auth";
 
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
@@ -26,7 +26,7 @@ export const authConfig: NextAuthConfig = {
     maxAge: 24 * 60 * 60
   },
   callbacks: {
-    async jwt({ token, user, account, trigger, session }) {
+    async jwt({ token, user, trigger, session }) {
 
       // 1) Al hacer sign‑in (user existe), guardamos los valores iniciales
       if (user) {
