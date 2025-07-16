@@ -48,7 +48,7 @@ export async function doCredentialsLogin(formData: { email: string, password: st
         });
 
         return response;
-    } catch (error) {
+    } catch (_) {
         return { error: "Credenciales incorrectas" };
     }
 }

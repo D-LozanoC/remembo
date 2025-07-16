@@ -37,7 +37,7 @@ export default function VerifyPage() {
                 setTimeout(() => {
                     router.push('/auth/login?message=Email verificado correctamente. Por favor, inicia sesión.')
                 }, 5000)
-            } catch (err) {
+            } catch (_) {
                 setError('Error al verificar el email')
                 setStatus('error')
             }

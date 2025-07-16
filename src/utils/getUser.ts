@@ -9,7 +9,7 @@ export async function getUser() {
         if (!user) return null
         const userDB = await prisma.user.findUnique({ where: { email: user.email as string }, omit: { password: true, id: true } })
         return userDB
-    } catch (error) {
+    } catch (_) {
         return null
     }
 }
