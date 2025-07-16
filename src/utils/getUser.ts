@@ -9,7 +9,8 @@ export async function getUser() {
         if (!user) return null
         const userDB = await prisma.user.findUnique({ where: { email: user.email as string }, omit: { password: true, id: true } })
         return userDB
-    } catch (_error) {
+    } catch (error) {
+        console.error("Error fetching user:", error)
         return null
     }
 }
