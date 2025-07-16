@@ -1,7 +1,5 @@
 'use client'
 
-import { BsFillTrash2Fill as FillTrash, BsLink as LinkIcon } from "react-icons/bs"
-
 export default function LinksPage() {
   const links = [
     {
@@ -38,20 +36,9 @@ export default function LinksPage() {
               Ir al enlace
             </a>
           </div>
-          <FillTrash
-            className="text-red-500 hover:text-red-700 cursor-pointer ml-4 w-8 justify-end"
-            onClick={() => {
-              // Aquí puedes implementar la lógica para eliminar el enlace
-              console.log(`Enlace eliminado: ${link.title}`);
-            }}
-          />
         </div>
       )
       )}
-      <button className="mt-6 p-4 bg-transparent border border-white shadow rounded-lg max-w-2xl flex text-black hover:text-blue-700 cursor-pointer">
-        <LinkIcon className=" w-8 mt-1" />
-        <span>Agregar nuevo enlace</span>
-      </button>
     </section>
   )
 }
