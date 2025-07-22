@@ -14,7 +14,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         { name: 'Mis Mazos', href: '/home/decks', protected: true },
         { name: 'Estadísticas', href: '/home/stats', protected: true },
         { name: 'Dashboard', href: '/home/dashboard', protected: true },
-        { name: 'Enlaces', href: '/home/links', protected: true }
+        { name: 'Información del proyecto', href: '/home/project-info', protected: false },
     ]
 
     if (status === 'loading') return <div>Cargando...</div>
