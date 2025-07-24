@@ -1,7 +1,7 @@
 import { Button } from '@/components/Button';
 import { SummaryLabel } from '@/shared/sections/study-session/SummaryLabel';
 
-export function SummaryPage() {
+export function SummaryPage({ onClick }: { onClick?: () => void }) {
   const mockData = [
     { title: 'Cantidad de tarjetas', value: '10' },
     { title: 'Tiempo estimado', value: '15 minutos' },
@@ -21,7 +21,7 @@ export function SummaryPage() {
           ))}
         </div>
 
-        <Button className="mt-4 text-lg">
+        <Button onClick={onClick} className="mt-4 text-lg">
           Empezar examen
         </Button>
       </section>
