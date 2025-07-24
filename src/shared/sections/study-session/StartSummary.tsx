@@ -1,7 +1,7 @@
 import { Button } from '@/components/Button';
 import { SummaryLabel } from '@/shared/sections/study-session/SummaryLabel';
 
-export function SummaryPage({ onClick }: { onClick?: () => void }) {
+export function StartSummary({ onClick }: { onClick?: () => void }) {
   const mockData = [
     { title: 'Cantidad de tarjetas', value: '10' },
     { title: 'Tiempo estimado', value: '15 minutos' },
