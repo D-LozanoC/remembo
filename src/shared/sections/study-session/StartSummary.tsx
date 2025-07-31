@@ -11,7 +11,7 @@ export function StartSummary({ onClick }: { onClick?: () => void }) {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-indigo-600 to-purple-700 flex py-12 justify-center">
-      <section className="max-w-6xl mx-auto text-center text-white py-10 bg-white backdrop-blur-lg rounded-lg shadow-lg px-10">
+      <section className="max-w-6xl mx-auto text-center text-white py-10 bg-white backdrop-blur-lg rounded-lg shadow-lg p-10">
         <h1 className="text-3xl font-bold text-gray-800 pb-2">¡Hora de repasar!</h1>
         <h2 className="text-base text-gray-800">Estas preguntas fueron elegidas especialmente para ti según tu ritmo de estudio.</h2>
 
