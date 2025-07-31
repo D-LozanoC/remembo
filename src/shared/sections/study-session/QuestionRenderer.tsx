@@ -5,7 +5,12 @@ interface Question {
   options: string[];
 }
 
-export function QuestionRenderer({ question, onAnswer }: { question: Question; onAnswer: (questionId: number, answer: string) => void }) {
+interface QuestionRendererProps {
+  question: Question;
+  onAnswer: (questionId: number, answer: string) => void;
+}
+
+export function QuestionRenderer({ question, onAnswer }: QuestionRendererProps) {
   const handleAnswer = (answer: string) => {
     onAnswer(question.id, answer);
   };
@@ -27,7 +32,6 @@ export function QuestionRenderer({ question, onAnswer }: { question: Question; o
             ))}
           </div>
         }
-        {/* Add more question types as needed */}
       </section>
     </main>
   );

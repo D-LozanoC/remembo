@@ -4,6 +4,19 @@ import { useState } from 'react';
 import { StartSummary } from '@/shared/sections/study-session/StartSummary';
 import { QuestionRenderer } from '@/shared/sections/study-session/QuestionRenderer';
 
+type UserAnswer = {
+  questionId: number;
+  userAnswer: string;
+  timeSpent: number;
+};
+
+function calculateTotalTimeSpent(questionTimes: Record<number, number>): number {
+  const totalMilliseconds = Object.values(questionTimes).reduce((total, time) => total + time, 0);
+  const totalSeconds = Math.round(totalMilliseconds / 1000); // redondeado al segundo más cercano
+  return totalSeconds;
+}
+
+
 export default function StudySession() {
   const questions = [
     { id: 1, question: "What is calculus?", answer: "A branch of mathematics.", options: ["A branch of mathematics.", "A musical instrument."] },
@@ -11,26 +24,53 @@ export default function StudySession() {
   ]
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number | null>(null);
-  const [userAnswers, setUserAnswers] = useState<Record<number, string>>({});
+  const [userAnswers, setUserAnswers] = useState<Record<number, UserAnswer>>({});
+
+  const [questionStartTime, setQuestionStartTime] = useState<number | null>(null);
+  const [questionTimes, setQuestionTimes] = useState<Record<number, number>>({});
 
   const currentQuestion = currentQuestionIndex !== null ? questions[currentQuestionIndex] : null;
-  console.log('User answer guardará las respuestas del usuario', userAnswers);
+  console.log('User answer ', userAnswers);
 
   const handleAnswer = (questionId: number, answer: string) => {
-    setUserAnswers((prev) => ({ ...prev, [questionId]: answer }));
+
+    if (questionStartTime !== null) {
+      const timeSpentMs = Date.now() - questionStartTime;
+
+      const answerData: UserAnswer = {
+        questionId,
+        userAnswer: answer,
+        timeSpent: timeSpentMs,
+      };
+
+      setUserAnswers((prev) => ({
+        ...prev,
+        [questionId]: answerData,
+      }));
+
+      setQuestionTimes((prev) => ({
+        ...prev,
+        [questionId]: timeSpentMs,
+      }));
+    }
 
     if (currentQuestionIndex !== null && currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setQuestionStartTime(Date.now());
     } else {
       setCurrentQuestionIndex(null);
+      setQuestionStartTime(null);
+      const totalTimeSpent = calculateTotalTimeSpent(questionTimes);
+      console.log('Tiempo total gastado en preguntas:', totalTimeSpent, 'segundos');
     }
   };
 
   const handleStartExam = () => {
     setCurrentQuestionIndex(0);
     setUserAnswers({});
+    setQuestionTimes({});
+    setQuestionStartTime(Date.now());
   };
-
 
   if (currentQuestion) {
     return (
