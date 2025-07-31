@@ -3,7 +3,6 @@ interface Question {
   question: string;
   answer: string;
   options: string[];
-  type: string;
 }
 
 export function QuestionRenderer({ question, onAnswer }: { question: Question; onAnswer: (questionId: number, answer: string) => void }) {
@@ -15,8 +14,8 @@ export function QuestionRenderer({ question, onAnswer }: { question: Question; o
     <main className="min-h-screen bg-gradient-to-b from-indigo-600 to-purple-700 flex py-12 justify-center">
       <section className="max-w-6xl h-max flex flex-col mx-auto text-center text-white py-10 bg-white backdrop-blur-lg rounded-lg shadow-lg p-10">
         <h2 className="text-xl text-black font-semibold mb-4">{question.question}</h2>
-        {question.type === 'multiple-choice' && (
-          <div className="grid grid-cols-2 gap-4 h-full items-center pb-4">
+        {
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 h-full justify-items-center pb-4">
             {question.options.map((option: string, index: number) => (
               <button
                 key={index}
@@ -27,7 +26,7 @@ export function QuestionRenderer({ question, onAnswer }: { question: Question; o
               </button>
             ))}
           </div>
-        )}
+        }
         {/* Add more question types as needed */}
       </section>
     </main>
