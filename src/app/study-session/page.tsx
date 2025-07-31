@@ -1,21 +1,15 @@
 "use client";
 import { useState } from 'react';
 
-import { StartSummary } from '@/shared/sections/study-session/StartSummary';
-import { QuestionRenderer } from '@/shared/sections/study-session/QuestionRenderer';
+import { StartSummary } from '@/shared/sections/study-session/components/StartSummary';
+import { QuestionRenderer } from '@/shared/sections/study-session/components/QuestionRenderer';
+import { calculateTotalTimeSpent } from '@/shared/sections/study-session/utils';
 
 type UserAnswer = {
   questionId: number;
   userAnswer: string;
   timeSpent: number;
 };
-
-function calculateTotalTimeSpent(questionTimes: Record<number, number>): number {
-  const totalMilliseconds = Object.values(questionTimes).reduce((total, time) => total + time, 0);
-  const totalSeconds = Math.round(totalMilliseconds / 1000); // redondeado al segundo más cercano
-  return totalSeconds;
-}
-
 
 export default function StudySession() {
   const questions = [
@@ -61,7 +55,7 @@ export default function StudySession() {
       setCurrentQuestionIndex(null);
       setQuestionStartTime(null);
       const totalTimeSpent = calculateTotalTimeSpent(questionTimes);
-      console.log('Tiempo total gastado en preguntas:', totalTimeSpent, 'segundos');
+      console.log('Tiempo total gastado en preguntas:', totalTimeSpent.formatted, 'segundos');
     }
   };
 

@@ -1,5 +1,5 @@
 import { Button } from '@/components/Button';
-import { SummaryLabel } from '@/shared/sections/study-session/SummaryLabel';
+import { SummaryLabel } from '@/shared/sections/study-session/components/SummaryLabel';
 
 export function StartSummary({ onClick }: { onClick?: () => void }) {
   const mockData = [
