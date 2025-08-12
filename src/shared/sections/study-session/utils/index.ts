@@ -1,4 +1,4 @@
-import { Question, UserAnswer, UserAnswers } from '@/types/study-session';
+import { Question, UserAnswer, UserAnswers, AnswerReview } from '@/types/study-session';
 
 export function calculateTotalTimeSpent(questionTimes: Record<number, number>): {
   seconds: number;
@@ -36,7 +36,7 @@ export function calculateCorrectAnswers(
 export function getAnswersReview(
   questions: Question[],
   userAnswers: Record<number, UserAnswer>
-) {
+): AnswerReview[] {
   return questions.map((q) => {
     const userAnswer = userAnswers[q.id]?.userAnswer || null;
     const isCorrect = userAnswer === q.answer;

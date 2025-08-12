@@ -25,3 +25,12 @@ interface QuestionRendererProps {
   question: Question;
   onAnswer: (questionId: number, answer: string) => void;
 }
+
+type AnswerReview = {
+  questionId: number;
+  question: string;
+  correctAnswer: string;
+  userAnswer: string | null;
+  isCorrect: boolean;
+  timeSpent: number;
+}
