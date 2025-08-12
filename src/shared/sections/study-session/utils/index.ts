@@ -1,15 +1,4 @@
-type Question = {
-  id: number;
-  question: string;
-  answer: string; // respuesta correcta
-  options: string[];
-};
-
-type UserAnswers = Record<number, {
-  questionId: number;
-  userAnswer: string;
-  timeSpent: number;
-}>;
+import { Question, UserAnswer, UserAnswers } from '@/types/study-session';
 
 export function calculateTotalTimeSpent(questionTimes: Record<number, number>): {
   seconds: number;
@@ -42,4 +31,23 @@ export function calculateCorrectAnswers(
     const isCorrect = userAnswer.userAnswer.trim().toLowerCase() === question.answer.trim().toLowerCase();
     return isCorrect ? total + 1 : total;
   }, 0);
+}
+
+export function getAnswersReview(
+  questions: Question[],
+  userAnswers: Record<number, UserAnswer>
+) {
+  return questions.map((q) => {
+    const userAnswer = userAnswers[q.id]?.userAnswer || null;
+    const isCorrect = userAnswer === q.answer;
+
+    return {
+      questionId: q.id,
+      question: q.question,
+      correctAnswer: q.answer,
+      userAnswer,
+      isCorrect,
+      timeSpent: Math.round((userAnswers[q.id]?.timeSpent || 0) / 1000) // segundos
+    };
+  });
 }

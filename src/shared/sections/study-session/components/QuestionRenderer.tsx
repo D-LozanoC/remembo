@@ -1,14 +1,4 @@
-interface Question {
-  id: number;
-  question: string;
-  answer: string;
-  options: string[];
-}
-
-interface QuestionRendererProps {
-  question: Question;
-  onAnswer: (questionId: number, answer: string) => void;
-}
+import { QuestionRendererProps } from "@/types/study-session";
 
 export function QuestionRenderer({ question, onAnswer }: QuestionRendererProps) {
   const handleAnswer = (answer: string) => {

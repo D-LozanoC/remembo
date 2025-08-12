@@ -5,12 +5,7 @@ import { StartSummary } from "@/shared/sections/study-session/components/StartSu
 import { EndSummary } from "@/shared/sections/study-session/components/EndSummary";
 import { QuestionRenderer } from "@/shared/sections/study-session/components/QuestionRenderer";
 import { calculateTotalTimeSpent, calculateCorrectAnswers } from "@/shared/sections/study-session/utils";
-
-type UserAnswer = {
-  questionId: number;
-  userAnswer: string;
-  timeSpent: number;
-};
+import { UserAnswer } from "@/types/study-session";
 
 export default function StudySession() {
   const questions = [
@@ -74,6 +69,8 @@ export default function StudySession() {
         timeSpent={totalTimeSpent.formatted}
         correctAnswers={totalCorrect}
         totalQuestions={questions.length}
+        questions={questions}
+        userAnswers={userAnswers}
       />
     );
   }
