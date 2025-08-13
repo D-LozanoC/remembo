@@ -1,14 +1,4 @@
-interface Question {
-  id: number;
-  question: string;
-  answer: string;
-  options: string[];
-}
-
-interface QuestionRendererProps {
-  question: Question;
-  onAnswer: (questionId: number, answer: string) => void;
-}
+import { QuestionRendererProps } from "@/types/study-session";
 
 export function QuestionRenderer({ question, onAnswer }: QuestionRendererProps) {
   const handleAnswer = (answer: string) => {
@@ -16,7 +6,7 @@ export function QuestionRenderer({ question, onAnswer }: QuestionRendererProps) 
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-indigo-600 to-purple-700 flex py-12 justify-center">
+    <main className="min-h-screen bg-gradient-to-b xl:min-h-[50%] from-indigo-600 to-purple-700 flex py-12 justify-center">
       <section className="max-w-6xl h-max flex flex-col mx-auto text-center text-white py-10 bg-white backdrop-blur-lg rounded-lg shadow-lg p-10">
         <h2 className="text-xl text-black font-semibold mb-4">{question.question}</h2>
         {
