@@ -1,12 +1,15 @@
 import { Button } from '@/components/Button';
 import { SummaryLabel } from '@/shared/sections/study-session/components/SummaryLabel';
+import { StartSummaryProps } from '@/types/study-session';
 
-export function StartSummary({ onClick }: { onClick?: () => void }) {
+export function StartSummary({ questions, lastSessionData, malletName, onClick }: StartSummaryProps) {
+  const questionsCount = questions?.length || 0;
+  const questionsTime = questionsCount * 5; // Assuming each question takes 5 seconds
   const mockData = [
-    { title: 'Cantidad de tarjetas', value: '10' },
-    { title: 'Tiempo estimado', value: '15 minutos' },
-    { title: 'Mazo', value: 'Calculo diferencial' },
-    { title: 'Última sesión', value: '01/10/2023 - 80% acertado' }
+    { title: 'Cantidad de tarjetas', value: `${questionsCount} tarjetas` },
+    { title: 'Tiempo estimado', value: `${questionsTime} segundos` },
+    { title: 'Mazo', value: malletName },
+    { title: 'Última sesión', value: `${lastSessionData.date} - ${lastSessionData.accuracy} acertado` },
   ];
 
   return (

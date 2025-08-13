@@ -1,15 +1,24 @@
-export type Question = {
+interface Question {
   id: number;
   question: string;
   answer: string;
   options: string[];
 };
 
-export type UserAnswer = {
+interface UserAnswer {
   questionId: number;
   userAnswer: string;
   timeSpent: number;
 };
+
+interface AnswerReview {
+  questionId: number;
+  question: string;
+  correctAnswer: string;
+  userAnswer: string | null;
+  isCorrect: boolean;
+  timeSpent: number;
+}
 
 export type UserAnswers = Record<number, UserAnswer>;
 
@@ -26,11 +35,12 @@ interface QuestionRendererProps {
   onAnswer: (questionId: number, answer: string) => void;
 }
 
-type AnswerReview = {
-  questionId: number;
-  question: string;
-  correctAnswer: string;
-  userAnswer: string | null;
-  isCorrect: boolean;
-  timeSpent: number;
+interface StartSummaryProps {
+  questions: Array<Question>;
+  lastSessionData: {
+    date: string;
+    accuracy: string;
+  };
+  malletName: string;
+  onClick: () => void;
 }

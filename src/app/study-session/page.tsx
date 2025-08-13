@@ -12,6 +12,11 @@ export default function StudySession() {
     { id: 1, question: "What is calculus?", answer: "A branch of mathematics.", options: ["A branch of mathematics.", "A musical instrument."] },
     { id: 2, question: "What is the derivative?", answer: "A measure of how a function changes.", options: ["A measure of how a function changes.", "A type of integral.", "A mathematical constant."] },
   ];
+  const mallet = "Calculo diferencial"; // Example mallet name, replace with actual data if available
+  const lastSession = {
+    date: "01/10/2023",
+    accuracy: "80%",
+  }
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number | null>(null);
   const [userAnswers, setUserAnswers] = useState<Record<number, UserAnswer>>({});
@@ -79,5 +84,5 @@ export default function StudySession() {
     return <QuestionRenderer question={currentQuestion} onAnswer={handleAnswer} />;
   }
 
-  return <StartSummary onClick={handleStartExam} />;
+  return <StartSummary questions={questions} malletName={mallet} lastSessionData={lastSession} onClick={handleStartExam} />;
 }
