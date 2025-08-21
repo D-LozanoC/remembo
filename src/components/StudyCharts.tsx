@@ -8,7 +8,8 @@ const COLORS = ['#4f46e5', '#818cf8', '#c7d2fe']
 // Exportamos los componentes individualmente
 interface StudyProgressData {
     date: string;
-    cards: number;
+    cards?: number;
+    newUsers?: number;
 }
 
 export const StudyProgressChart = ({ data }: { data: StudyProgressData[] }) => (
@@ -17,7 +18,7 @@ export const StudyProgressChart = ({ data }: { data: StudyProgressData[] }) => (
             <XAxis dataKey="date" />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="cards" fill="#4f46e5" radius={[4, 4, 0, 0]} />
+            <Bar dataKey={data[0].cards ? 'cards' : 'newUsers'} fill="#4f46e5" radius={[4, 4, 0, 0]} />
         </BarChart>
     </ResponsiveContainer>
 )
