@@ -94,7 +94,8 @@ model Deck {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  flashcards Flashcard[]
+  flashcards   Flashcard[]
+  StudySession StudySession[]
 
   @@index([userId])
 }
@@ -102,7 +103,7 @@ model Deck {
 model Flashcard {
   id             String   @id @default(cuid())
   question       String
-  isDerived      Boolean @default(false)
+  isDerived      Boolean  @default(false)
   answers        String[]
   correctAnswers String[]
 
@@ -124,21 +125,20 @@ model Flashcard {
   nextReview  DateTime @default(now()) // Próxima fecha sugerida de repaso
   lastScore   Int      @default(0) // Último score de 0 a 5
 
-  FlashcardReview FlashcardReview[]
+  studySessions StudySession[]
 
   @@index([userId])
 }
 
-model FlashcardReview {
-  id               String @id @default(cuid())
-  score            Int
-  previousInterval Int
-  nextInterval     Int
-
-  reviewedAt DateTime @default(now())
-
-  flashcardId String
-  flashcard   Flashcard @relation(fields: [flashcardId], references: [id], onDelete: Cascade)
+model StudySession {
+  id         String      @id @default(cuid())
+  deckId     String?
+  deck       Deck?       @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  accuracy   Int         @default(0) // Precisión del repaso
+  duration   Int         @default(0) // Duración del repaso en segundos
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  flashcards Flashcard[]
 }
 
 enum Subjects {

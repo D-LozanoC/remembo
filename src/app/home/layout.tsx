@@ -1,6 +1,7 @@
 import { auth } from '@/auth';
 import { MainLayout } from '@/components/MainLayout'
 import { SessionProvider } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 import React from 'react'
 
 export default async function Layout({
@@ -9,6 +10,7 @@ export default async function Layout({
     children: React.ReactNode;
 }>) {
     const session = await auth()
+
 
     return (
         <SessionProvider session={session}>

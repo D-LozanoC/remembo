@@ -48,7 +48,7 @@ export interface resourceProps {
     setIsOpen: Dispatch<SetStateAction<boolean>>
     handleUpdate: (data: Partial<FullNote | FullDeck | FullFlashcard>) => void
     handleDelete: (id: string) => void
-    handleRelate: () => void
+    handleRelate: ({ deck, flashcards }: { deck: Partial<Deck>, flashcards: Partial<Flashcard>[] }) => void
     handleCreate: (data: Partial<Note | Deck | Flashcard>) => void
     mode: Mode,
     setMode: Dispatch<SetStateAction<Mode>>
@@ -71,7 +71,8 @@ export type deckProps = {
     actions: {
         handleUpdate: (data: Partial<FullDeck>) => void;
         handleDelete: (id: string) => void;
-        handleCreate: (data: FullDeck) => void;
+        handleCreate: (data: Partial<Deck>) => void;
+        handleRelate: ({ deck, flashcards }: { deck: Partial<Deck>, flashcards: Partial<Flashcard>[] }) => void;
     }
 }
 
