@@ -1,176 +1,137 @@
-// src/components/resources/ResourceViews/Deck/DeckRelate.tsx
-import { useState, useEffect } from "react";
-import { FullDeck } from "@/types/resources";
-import { Flashcard } from "@prisma/client";
 import FormErrorMessage from "@/components/FormErrorMessage";
-import { Button } from "@/components/Button";
+import { InputField } from "@/components/InputField";
+import { DeckFormData, deckSchema } from "@/schemas/resources";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Deck, Subjects } from "@prisma/client";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import FeedbackMessage from "../../common/FeedbackMessage";
+import { Button } from "@/components/Button";
+import { FullDeck } from "@/types/resources";
 
-export default function DeckRelate({
-    deck,
-    handleRelate,
+export default function ({
+    data,
+    handleUpdate
 }: {
-    deck: FullDeck;
-    handleRelate: (args: {
-        deckId: string;
-        flashcards: Partial<Flashcard>[];
-    }) => Promise<void>;
+    data: FullDeck
+    handleUpdate: (data: Partial<Deck>) => void;
 }) {
-    const [related, setRelated] = useState<Flashcard[]>(deck.flashcards || []);
-    const [allCards, setAllCards] = useState<Flashcard[]>([]);
     const [loading, setLoading] = useState(false);
-    const [fetchError, setFetchError] = useState("");
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
 
-    // 1. Carga todas las flashcards del usuario
-    useEffect(() => {
-        setLoading(true);
-        fetch("/api/flashcards")
-            .then((res) => {
-                if (!res.ok) throw new Error("Error al cargar flashcards");
-                return res.json();
-            })
-            .then((data: { items: Flashcard[]; totalCount: number }) => {
-                setAllCards(data.items);
-            })
-            .catch((err) => setFetchError(err.message))
-            .finally(() => setLoading(false));
-    }, []);
-
-    // 2. Filtrar las flashcards no relacionadas
-    const available = allCards.filter(
-        (fc) => !related.find((r) => r.id === fc.id)
-    );
-
-    const toggleSelect = (id: string) => {
-        setSelectedIds((prev) => {
-            const next = new Set(prev);
-            next.has(id) ? next.delete(id) : next.add(id);
-            return next;
-        });
-    };
-
-    // 3. Envío al backend y actualización local
-    const onSubmit = async () => {
-        if (selectedIds.size === 0) {
-            setMessage("Selecciona al menos una flashcard");
-            setIsSuccess(false);
-            return;
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<DeckFormData>({
+        resolver: zodResolver(deckSchema),
+        defaultValues: {
+            title: data.title,
+            topic: data.topic,
+            subject: data.subject 
         }
-        const toRelate = available.filter((fc) => selectedIds.has(fc.id));
+    });
+
+    const onSubmit = handleSubmit(async (formData) => {
         try {
-            await handleRelate({ deckId: deck.id, flashcards: toRelate });
-            setRelated((prev) => [...prev, ...toRelate]);
-            setModalOpen(false);
-            setSelectedIds(new Set());
-            setMessage("Flashcards vinculadas correctamente");
-            setIsSuccess(true);
-        } catch (err: any) {
-            setMessage(err.message || "Error al relacionar flashcards");
-            setIsSuccess(false);
+            setLoading(true)
+            setMessage('')
+            setIsSuccess(false)
+
+            const { title, topic, subject } = formData
+            const updateData = {
+                id: data.id,
+                title,
+                topic,
+                subject
+            }
+
+            const response = await fetch(`/api/resources/decks`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updateData)
+            });
+
+            if (!response.ok) {
+                const { error } = await response.json();
+                setMessage(error || 'Error al guardar la tarjeta');
+                return;
+            }
+
+            handleUpdate(updateData)
+
+            reset();
+            setMessage('¡Deck creado exitosamente!')
+            setIsSuccess(true)
+        } catch (error) {
+            console.error('Error al guardar el deck:', error)
+            setMessage('Error al guardar el deck')
+            setIsSuccess(false)
+        } finally {
+            setLoading(false)
         }
-    };
+    });
 
     return (
-        <div className="p-4">
-            {/* Flashcards actualmente relacionadas */}
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
-                Flashcards en “{deck.title}”
-            </h2>
-            {related.length === 0 ? (
-                <p className="text-gray-700">No hay flashcards relacionadas.</p>
-            ) : (
-                <div className="grid gap-4">
-                    {related.map((fc) => (
-                        <div
-                            key={fc.id}
-                            className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md border hover:border-indigo-100 transition"
-                        >
-                            <h3 className="text-base text-gray-800 sm:text-lg font-semibold mb-2 flex items-center">
-                                <span className="mr-2">❓</span>
-                                {fc.question}
-                            </h3>
-                            <ul className="list-disc list-inside text-sm sm:text-base space-y-1 ml-4 mb-4 text-gray-700">
-                                {fc.answers.map((ans, i) => (
-                                    <li key={i}>{ans}</li>
-                                ))}
-                            </ul>
-                            <div className="text-xs sm:text-sm text-gray-700 text-right">
-                                ⏳ Próxima revisión:{" "}
-                                {new Date(fc.nextReview).toLocaleDateString()}
-                            </div>
-                        </div>
-                    ))}
+        <form onSubmit={onSubmit} className="flex flex-col gap-8">
+            <div className="flex flex-row justify-between gap-4">
+                {/* Título */}
+                <div className="flex flex-col gap-2 grow">
+                    <label htmlFor="title" className="text-lg font-bold text-gray-900">Título</label>
+                    <InputField
+                        label="Escribe el título..."
+                        type="text"
+                        {...register('title')}
+                        className="w-full rounded-xl border border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400 p-3 text-base bg-white shadow-inner text-gray-900"
+                    />
+                    {errors.title && <FormErrorMessage>{errors.title.message as string}</FormErrorMessage>}
                 </div>
-            )}
 
-            {/* Botón para abrir modal */}
-            <div className="mt-6">
-                <Button onClick={() => setModalOpen(true)} className="w-full">
-                    Relacionar flashcards
-                </Button>
+                {/* Tema */}
+                <div className="flex flex-col gap-2 grow">
+                    <label htmlFor="topic" className="text-lg font-bold text-gray-900">Tema</label>
+                    <InputField
+                        label="Escribe el tema..."
+                        type="text"
+                        {...register('topic')}
+                        className="w-full rounded-xl border border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400 p-3 text-base bg-white shadow-inner text-gray-900"
+                    />
+                    {errors.topic && <FormErrorMessage>{errors.topic.message as string}</FormErrorMessage>}
+                </div>
             </div>
 
-            {/* Feedback general */}
-            {message && (
-                <div className="mt-4">
-                    <FeedbackMessage
-                        type={isSuccess ? "success" : "error"}
-                        message={message}
-                        onDismiss={() => setMessage("")}
-                    />
-                </div>
-            )}
+            {/* Materia */}
+            <div className="flex flex-col gap-2">
+                <label htmlFor="subject" className="text-lg font-bold text-gray-900">Materia</label>
+                <select
+                    id="subject"
+                    {...register('subject')}
+                    className="w-full rounded-xl border border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400 p-3 text-base bg-white shadow-inner text-gray-900"
+                >
+                    {Object.entries(Subjects).map(([key, value]) => (
+                        <option key={key} value={value}>
+                            {value}
+                        </option>
+                    ))}
+                </select>
+                {errors.subject && <FormErrorMessage>{errors.subject.message as string}</FormErrorMessage>}
+            </div>
 
-            {/* Modal de selección múltiple */}
-            {isModalOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg shadow-xl w-full max-w-lg p-6">
-                        <h3 className="text-lg font-semibold mb-4">
-                            Selecciona flashcards para “{deck.title}”
-                        </h3>
+            {/* Mensajes de feedback */}
+            <FeedbackMessage
+                type={isSuccess ? 'success' : 'error'}
+                message={message}
+                onDismiss={() => setMessage('')}
+            />
 
-                        {loading ? (
-                            <p>Cargando flashcards...</p>
-                        ) : fetchError ? (
-                            <FormErrorMessage>{fetchError}</FormErrorMessage>
-                        ) : available.length === 0 ? (
-                            <p className="text-gray-700">No quedan flashcards disponibles.</p>
-                        ) : (
-                            <ul className="max-h-80 overflow-y-auto space-y-2">
-                                {available.map((fc) => (
-                                    <li key={fc.id}>
-                                        <label className="flex items-center space-x-2">
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedIds.has(fc.id)}
-                                                onChange={() => toggleSelect(fc.id)}
-                                                className="form-checkbox h-5 w-5 text-purple-600"
-                                            />
-                                            <span>{fc.question}</span>
-                                        </label>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-
-                        <div className="mt-6 flex justify-end space-x-3">
-                            <Button
-                                variant="secondary"
-                                onClick={() => setModalOpen(false)}
-                            >
-                                Cancelar
-                            </Button>
-                            <Button onClick={onSubmit} disabled={loading}>
-                                Relacionar
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </div>
+            <Button
+                type="submit"
+                className="w-full min-h-[44px] px-6 py-3 text-lg font-semibold rounded-2xl bg-indigo-600 
+                    text-white hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 
+                    disabled:bg-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed transition-colors 
+                    duration-200"
+            >
+                Guardar cambios
+            </Button>
+        </form>
     );
 }

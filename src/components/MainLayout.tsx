@@ -11,9 +11,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
     const navigation = [
         { name: 'Repositorio', href: '/home/repository', protected: true },
-        { name: 'Mis Mazos', href: '/home/decks', protected: true },
-        { name: 'Estadísticas', href: '/home/stats', protected: true },
         { name: 'Dashboard', href: '/home/dashboard', protected: true },
+        { name: 'Sesiones de Estudio', href: '/study-session', protected: true },
         { name: 'Información del proyecto', href: '/home/project-info', protected: false },
     ]
 
