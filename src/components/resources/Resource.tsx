@@ -22,19 +22,18 @@ export default function Resource({
     const [resource, setResource] = useState<FullNote | FullDeck | FullFlashcard | null>(null)
     const [isLoading, setIsLoading] = useState(true)
 
-    const fetchResource = async () => {
-        try {
-            setIsLoading(true)
-            if (!item?.data) return
-            setResource(item.data)
-        } catch (e) {
-            console.error(e)
-        } finally {
-            setIsLoading(false)
-        }
-    }
-
     useEffect(() => {
+        const fetchResource = async () => {
+            try {
+                setIsLoading(true)
+                if (!item?.data) return
+                setResource(item.data)
+            } catch (e) {
+                console.error(e)
+            } finally {
+                setIsLoading(false)
+            }
+        }
         fetchResource()
     }, [item?.data])
 

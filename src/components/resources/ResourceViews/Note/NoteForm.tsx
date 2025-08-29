@@ -10,7 +10,7 @@ import MDEditor from '@uiw/react-md-editor';
 import { useState } from "react";
 import FeedbackMessage from "../../common/FeedbackMessage";
 
-export default function ({ data, handleUpdate }: { data: FullNote, handleUpdate: (data: Partial<FullNote>) => void }) {
+export default function NoteForm ({ data, handleUpdate }: { data: FullNote, handleUpdate: (data: Partial<FullNote>) => void }) {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);

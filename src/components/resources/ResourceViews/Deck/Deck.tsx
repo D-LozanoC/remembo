@@ -4,7 +4,7 @@ import DeckForm from "./DeckForm";
 import DeckView from "./DeckView";
 import { Delete } from "../Delete";
 import DeckRelate from "./DeckRelate";
-export default function ({
+export default function Deck ({
     data,
     mode,
     actions

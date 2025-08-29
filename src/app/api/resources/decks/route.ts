@@ -1,5 +1,6 @@
 import { auth } from '@/auth';
 import { prisma } from '@/config/prisma';
+import { Prisma, Subjects } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
 export async function GET(req: Request) {
@@ -24,12 +25,12 @@ export async function GET(req: Request) {
         return NextResponse.json({ items, totalCount: items.length });
     }
 
-    const whereClause: any = {
+    const whereClause: Prisma.DeckWhereInput | undefined = {
         userId: session.user.id,
         ...(search ? { title: { contains: search, mode: 'insensitive' } } : {})
     };
 
-    if (subjectFilter) whereClause.subject = subjectFilter;
+    if (subjectFilter) whereClause.subject = subjectFilter as Subjects;
 
 
     const [items, totalCount] = await Promise.all([
@@ -61,7 +62,7 @@ export async function POST(request: Request) {
     const deck = await prisma.deck.create({
         data: { title, topic, subject, userId: session.user.id }
     })
-    
+
     return NextResponse.json(deck, { status: 201 })
 }
 
@@ -71,14 +72,14 @@ export async function PATCH(req: Request) {
 
     const { id, subject, title, topic } = await req.json();
 
-    if (!id || !subject || !title || !topic) return NextResponse.json({error: 'Faltan campos por llenar'}, { status: 400 });
+    if (!id || !subject || !title || !topic) return NextResponse.json({ error: 'Faltan campos por llenar' }, { status: 400 });
 
     const updateData = {
         subject,
         title,
         topic
     };
-    
+
     const deck = await prisma.deck.update({
         where: { id },
         data: updateData

@@ -1,8 +1,6 @@
 'use client'
 
 import { Button } from "@/components/Button"
-import SuccessAlert from "@/components/SuccessAlert"
-import { useState } from "react"
 
 export const Delete = ({
     onConfirm,

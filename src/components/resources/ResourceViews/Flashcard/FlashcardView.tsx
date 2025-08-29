@@ -1,6 +1,6 @@
 import { FullFlashcard } from "@/types/resources";
 
-export default function ({
+export default function FlashcardView ({
     data
 }: {
     data: FullFlashcard

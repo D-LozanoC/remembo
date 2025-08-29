@@ -63,7 +63,7 @@ export default function FlashcardCreator({
         } else if (currentLength === 1) {
             appendAnswer("");
         }
-    }, []); // Solo ejecutar una vez al montar
+    }); // Solo ejecutar una vez al montar
 
     const answers = useWatch({ control, name: "answers" });
     const correctAnswers = useWatch({ control, name: "correctAnswers" });

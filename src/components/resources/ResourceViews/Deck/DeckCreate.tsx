@@ -7,8 +7,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import FeedbackMessage from "../../common/FeedbackMessage";
 import { Button } from "@/components/Button";
+import { Loader } from "@/components/Loader";
 
-export default function ({
+export default function DeckCreate ({
     handleCreate
 }: {
     handleCreate: (data: Partial<Deck>) => void;
@@ -99,6 +100,10 @@ export default function ({
                 message={message}
                 onDismiss={() => setMessage('')}
             />
+
+            {loading && (
+                <Loader/>
+            )}
 
             <Button
                 type="submit"

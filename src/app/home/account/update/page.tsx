@@ -1,16 +1,21 @@
 'use client'
 
+// Components
 import FormErrorMessage from '@/components/FormErrorMessage'
 import { InputField } from '@/components/InputField'
 import { Button } from '@/components/Button'
+// Next.js
+import Link from 'next/link'
+import Image from 'next/image'
+// Schemas
 import { UpdateProfileFormData, updateProfileSchema } from '@/schemas/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
+// Hooks
 import { useState, useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
-import Link from 'next/link'
-import { useSession } from 'next-auth/react'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
+
 
 function useImagePreview(initialUrl: string | null) {
     const [preview, setPreview] = useState<string | null>(initialUrl)

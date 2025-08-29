@@ -8,8 +8,9 @@ import { useForm } from "react-hook-form";
 import FeedbackMessage from "../../common/FeedbackMessage";
 import { Button } from "@/components/Button";
 import { FullDeck } from "@/types/resources";
+import { Loader } from "@/components/Loader";
 
-export default function ({
+export default function DeckForm({
     data,
     handleUpdate
 }: {
@@ -25,7 +26,7 @@ export default function ({
         defaultValues: {
             title: data.title,
             topic: data.topic,
-            subject: data.subject 
+            subject: data.subject
         }
     });
 
@@ -122,6 +123,10 @@ export default function ({
                 message={message}
                 onDismiss={() => setMessage('')}
             />
+
+            {loading && (
+                <Loader />
+            )}
 
             <Button
                 type="submit"

@@ -4,7 +4,7 @@ export default function LinksPage() {
   const links = [
     {
       title: 'Repositorio del proyecto',
-      url: 'https:',
+      url: 'https://github.com/D-LozanoC/remembo',
       category: 'Repositorio',
       description: 'Accede al código fuente y documentación del proyecto en GitHub.'
     },

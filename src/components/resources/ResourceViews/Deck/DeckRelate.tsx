@@ -20,7 +20,7 @@ export default function DeckRelate({
     handleRelate: (args: {
         deck: Partial<Deck>;
         flashcards: Partial<Flashcard>[];
-    }) => Promise<void>;
+    }) => void;
 }) {
     const [related, setRelated] = useState<Flashcard[]>(deck.flashcards || []);
     const [allCards, setAllCards] = useState<Flashcard[]>([]);
@@ -68,9 +68,11 @@ export default function DeckRelate({
             reset();
             setMessage("Flashcards vinculadas correctamente");
             setIsSuccess(true);
-        } catch (err: any) {
-            setMessage(err.message || "Error al relacionar flashcards");
-            setIsSuccess(false);
+        } catch (err: Error | unknown) {
+            if (err instanceof Error) {
+                setMessage(err.message || "Error al relacionar flashcards");
+                setIsSuccess(false);
+            }
         }
     });
 

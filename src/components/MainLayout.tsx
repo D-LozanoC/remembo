@@ -4,17 +4,38 @@ import { useSession } from 'next-auth/react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { LogoutButton } from './LogoutButton'
+import { useEffect, useState } from 'react'
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
     const { data: session, status } = useSession()
     const pathname = usePathname()
+    const [isAdmin, setIsAdmin] = useState(false);
+
 
     const navigation = [
-        { name: 'Repositorio', href: '/home/repository', protected: true },
-        { name: 'Dashboard', href: '/home/dashboard', protected: true },
-        { name: 'Sesiones de Estudio', href: '/study-session', protected: true },
-        { name: 'Información del proyecto', href: '/home/project-info', protected: false },
+        { name: 'Repositorio', href: '/home/repository', protected: true, admin: false },
+        { name: 'Sesiones de Estudio', href: '/study-session', protected: true, admin: false },
+        { name: 'Admin stats', href: '/home/general-stats', protected: true, admin: true },
+        { name: 'Información del proyecto', href: '/home/project-info', protected: false, admin: false },
     ]
+
+    useEffect(() => {
+        async function fetchUserRole() {
+            try {
+                const response = await fetch('/api/user/admin');
+                const data = await response.json();
+                setIsAdmin(data.role === 'admin');
+            } catch (error) {
+                console.error('Error fetching user role:', error);
+            }
+        }
+
+        if (session?.user) {
+            fetchUserRole();
+        } else {
+            setIsAdmin(false);
+        }
+    },[session?.user])
 
     if (status === 'loading') return <div>Cargando...</div>
 
@@ -31,7 +52,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                         {/* Menú central */}
                         <div className="hidden md:flex space-x-8">
                             {navigation.map((item) => (
-                                (session || !item.protected) && (
+                                (((session || !item.protected) && !item.admin) || (isAdmin && item.admin)) && (
                                     <Link
                                         key={item.name}
                                         href={item.href}
@@ -45,6 +66,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                                 )
                             ))}
                         </div>
+
+
 
                         {/* Acciones de usuario */}
                         <div className="flex items-center gap-4">

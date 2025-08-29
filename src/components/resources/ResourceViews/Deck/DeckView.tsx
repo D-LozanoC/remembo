@@ -1,6 +1,6 @@
 import { FullDeck } from "@/types/resources";
 
-export default function ({ data }: { data: FullDeck }) {
+export default function DeckView ({ data }: { data: FullDeck }) {
     return (
         <div className="w-full max-w-4xl mx-auto p-4 sm:p-6 space-y-8">
             {/* Header */}

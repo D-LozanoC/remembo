@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { Button } from '@/components/Button';
 
 
-export default function ({ mode, setMode, handleOnClose, itemType }: ActionToolbarProps) {
+export default function ActionToolBar ({ mode, setMode, handleOnClose, itemType }: ActionToolbarProps) {
     const [isOpen, setIsOpen] = useState(false);
     const handleBack = (params: { isOK?: boolean } = { isOK: false }) => {
         const { isOK = false } = params

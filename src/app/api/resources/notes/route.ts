@@ -1,5 +1,6 @@
 import { auth } from '@/auth';
 import { prisma } from '@/config/prisma';
+import { Prisma, Subjects } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
 export async function GET(req: Request) {
@@ -14,13 +15,13 @@ export async function GET(req: Request) {
     const take = Math.max(1, parseInt(url.searchParams.get('perPage') ?? '12', 10));
     const skip = (pageNum - 1) * take;
 
-    const whereClause: any = {
+    const whereClause: Prisma.NoteWhereInput = {
         userId: session.user.id,
         ...(search ? { title: { contains: search, mode: 'insensitive' } } : {})
 
     };
 
-    if (subjectFilter) whereClause.subject = subjectFilter;
+    if (subjectFilter) whereClause.subject = subjectFilter as Subjects;
 
     const [items, totalCount] = await Promise.all([
         prisma.note.findMany({

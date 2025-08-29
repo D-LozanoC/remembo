@@ -1,5 +1,6 @@
 import { auth } from '@/auth';
 import { prisma } from '@/config/prisma';
+import { Prisma } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
 export async function GET(req: Request) {
@@ -24,7 +25,7 @@ export async function GET(req: Request) {
         return NextResponse.json({ items });
     }
 
-    const whereClause: any = {
+    const whereClause: Prisma.FlashcardWhereInput = {
         userId,
         ...(search ? { question: { contains: search, mode: 'insensitive' } } : {})
     };

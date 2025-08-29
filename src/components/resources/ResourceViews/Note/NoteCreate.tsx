@@ -10,7 +10,7 @@ import FeedbackMessage from "../../common/FeedbackMessage";
 import { Note, Subjects } from "@prisma/client";
 
 
-export default function ({
+export default function NoteCreate ({
     handleCreate
 }: {
     handleCreate: (data: Partial<Note>) => void;

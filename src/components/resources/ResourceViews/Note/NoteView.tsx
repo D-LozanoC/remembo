@@ -1,7 +1,7 @@
 import { FullFlashcard, FullNote } from "@/types/resources";
 import MDEditor from '@uiw/react-md-editor';
 
-export default function ({
+export default function NoteView ({
     data,
     onClick
 }: {

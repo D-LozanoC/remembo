@@ -72,7 +72,7 @@ export type deckProps = {
         handleUpdate: (data: Partial<FullDeck>) => void;
         handleDelete: (id: string) => void;
         handleCreate: (data: Partial<Deck>) => void;
-        handleRelate: ({ deck, flashcards }: { deck: Partial<Deck>, flashcards: Partial<Flashcard>[] }) => Promise<void>;
+        handleRelate: ({ deck, flashcards }: { deck: Partial<Deck>, flashcards: Partial<Flashcard>[] }) => void;
     }
 }
 
