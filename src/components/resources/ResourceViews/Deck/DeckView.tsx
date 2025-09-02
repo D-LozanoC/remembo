@@ -47,9 +47,6 @@ export default function DeckView ({ data }: { data: FullDeck }) {
                                     <li key={i}>{ans}</li>
                                 ))}
                             </ul>
-                            <div className="text-xs sm:text-sm text-gray-700 text-right">
-                                ⏳ Próxima revisión: {new Date(fc.nextReview).toLocaleDateString()}
-                            </div>
                         </div>
                     ))}
                 </div>
