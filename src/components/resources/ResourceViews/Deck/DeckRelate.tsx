@@ -100,9 +100,6 @@ export default function DeckRelate({
                                     <li key={i}>{ans}</li>
                                 ))}
                             </ul>
-                            <div className="text-xs sm:text-sm text-gray-700 text-right">
-                                ⏳ Próxima revisión: {new Date(fc.nextReview).toLocaleDateString()}
-                            </div>
                         </div>
                     ))}
                 </div>
@@ -171,10 +168,6 @@ export default function DeckRelate({
                                         {fc.answers.length > 3 && <li>…</li>}
                                     </ul>
 
-                                    {/* Próxima revisión */}
-                                    <div className="text-[10px] text-gray-700 text-right">
-                                        ⏳ {new Date(fc.nextReview).toLocaleDateString()}
-                                    </div>
                                 </label>
                             ))}
 
