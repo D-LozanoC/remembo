@@ -29,7 +29,8 @@ export default function FlashcardEditor({
         defaultValues: {
             question: data.question,
             answers: data.answers.length ? data.answers : [""],
-            correctAnswers: data.correctAnswers.length ? data.correctAnswers : [""]
+            correctAnswers: data.correctAnswers.length ? data.correctAnswers : [""],
+            deckId: data.decks?.[0]?.id || ""
         }
     });
 

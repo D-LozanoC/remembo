@@ -36,11 +36,23 @@ export async function GET(req: Request) {
         if (all) {
             const items = await prisma.flashcard.findMany({
                 where: { userId },
-                orderBy: { [orderByField]: order }
+                orderBy: { [orderByField]: order },
+                include: {
+                    Note: true,
+                    DeckFlashcard: {
+                        select: { deck: true }
+                    },
+                    _count: true
+                }
             });
 
+            const flashcards = items.map(flashcard => ({
+                ...flashcard,
+                decks: flashcard.DeckFlashcard.map(df => df.deck)
+            }));
+
             return NextResponse.json({
-                items,
+                items: flashcards,
                 totalCount: items.length,
                 all: true
             });

@@ -21,7 +21,7 @@ export default function DeckForm({
     const [message, setMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<DeckFormData>({
+    const { register, handleSubmit, formState: { errors } } = useForm<DeckFormData>({
         resolver: zodResolver(deckSchema),
         defaultValues: {
             title: data.title,
@@ -60,8 +60,7 @@ export default function DeckForm({
 
             handleUpdate(updateData)
 
-            reset();
-            setMessage('¡Deck creado exitosamente!')
+            setMessage('¡Deck actualizado exitosamente!')
             setIsSuccess(true)
         } catch (error) {
             console.error('Error al guardar el deck:', error)
