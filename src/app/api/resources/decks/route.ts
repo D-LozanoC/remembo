@@ -20,9 +20,22 @@ export async function GET(req: Request) {
     if (allItems) {
         const items = await prisma.deck.findMany({
             where: { userId: session.user.id },
-            orderBy: { title: order }
+            orderBy: { title: order },
+            include: {
+                DeckFlashcard: {
+                    select: {
+                        flashcard: true
+                    }
+                }
+            }
         });
-        return NextResponse.json({ items, totalCount: items.length });
+
+        const decks = items.map(deck => ({
+            ...deck,
+            flashcards: deck.DeckFlashcard.map(df => df.flashcard)
+        }));
+
+        return NextResponse.json({ items: decks, totalCount: items.length });
     }
 
     const whereClause: Prisma.DeckWhereInput | undefined = {
@@ -40,13 +53,25 @@ export async function GET(req: Request) {
             skip,
             take,
             include: {
-                flashcards: true
+                DeckFlashcard: {
+                    select: { flashcard: true }
+                }
             }
         }),
         prisma.deck.count({ where: whereClause })
     ]);
 
-    return NextResponse.json({ items, totalCount });
+    const decks = items.map(deck => ({
+        ...deck,
+        flashcards: deck.DeckFlashcard.map(df => ({
+            ...df.flashcard,
+            length: deck.DeckFlashcard.length
+        })),
+        
+    }));
+
+
+    return NextResponse.json({ items: decks, totalCount });
 }
 
 export async function POST(request: Request) {

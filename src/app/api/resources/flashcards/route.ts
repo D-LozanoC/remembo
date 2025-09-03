@@ -61,15 +61,22 @@ export async function GET(req: Request) {
                 take,
                 include: {
                     Note: true,
-                    decks: true,
+                    DeckFlashcard: {
+                        select: { deck: true }
+                    },
                     _count: true
                 }
             }),
             prisma.flashcard.count({ where: whereClause })
         ]);
 
+        const flashcards = items.map(flashcard => ({
+            ...flashcard,
+            decks: flashcard.DeckFlashcard.map(df => df.deck)
+        }));
+
         return NextResponse.json({
-            items,
+            items: flashcards,
             totalCount,
             page: pageNum,
             perPage: take,
@@ -87,26 +94,30 @@ export async function GET(req: Request) {
 
 export async function POST(request: Request) {
     const session = await auth()
-    if (!session?.user?.id) return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 })
+    if (!session?.user?.id) {
+        return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 })
+    }
 
     const req = await request.json()
-    const payload = {
-        question: req.question,
-        answers: req.answers,
-        correctAnswers: req.correctAnswers
-    };
-    const flashcard = await prisma.flashcard.create({
-        data: { 
-            ...payload, userId: session.user.id, 
-            decks: { connect: {id: req.deckId} } 
-        },
 
+    const flashcard = await prisma.flashcard.create({
+        data: {
+            question: req.question,
+            answers: req.answers,
+            correctAnswers: req.correctAnswers,
+            userId: session.user.id,
+        },
     })
 
-    if (!flashcard) {
-        return NextResponse.json({ error: 'Error creating flashcard' }, { status: 500 });
-    }
+    // Vincular con el deck en la tabla pivote
+    await prisma.deckFlashcard.create({
+        data: {
+            deckId: req.deckId,
+            flashcardId: flashcard.id,
+        },
+    })
 
     return NextResponse.json(flashcard, { status: 201 })
 }
+
 

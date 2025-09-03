@@ -41,7 +41,6 @@ export async function GET(req: Request) {
                 flashcards: {
                     include: {
                         Note: true,
-                        decks: true
                     }
                 }
             }

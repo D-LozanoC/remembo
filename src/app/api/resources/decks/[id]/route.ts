@@ -11,42 +11,79 @@ export async function GET(_req: Request, context: { params: Promise<{ id: string
 
   const deck = await prisma.deck.findUnique({
     where: { id },
-    include: { flashcards: { include: { Note: true } } }
+    include: {
+      DeckFlashcard: {
+        select: {
+          flashcard: {
+            include: { Note: true }
+          }
+        }
+      }
+    }
   })
 
   if (!deck) return NextResponse.json({ error: 'Mazo con id ' + id + ' no encontrado' }, { status: 404 })
+  const fullDeck = {
+    ...deck,
+    flashcards: deck.DeckFlashcard.map(df => df.flashcard)
+  }
 
-  return NextResponse.json(deck)
+
+  return NextResponse.json(fullDeck)
 }
+
 
 export async function PATCH(request: Request, context: { params: Promise<{ id: string }> }) {
   const session = await auth()
-  if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
 
   const { id } = await context.params
   const body = await request.json()
-
-  // Desestructura y quita flashcards
-  const { flashcards, updateData } = body
+  const { flashcards } = body
 
   try {
-    const updatedDeck = await prisma.deck.update({
-      where: { id, userId: session.user.id },
-      data: {
-        ...updateData,
-        flashcards: {
-          connect: flashcards.map((fc: { id: string }) => ({ id: fc.id }))
-        }
+
+    // Si vienen flashcards, actualiza en la tabla pivote
+    if (flashcards && flashcards.length > 0) {
+
+      // Inserta nuevas relaciones
+      await prisma.deckFlashcard.createMany({
+        data: flashcards.map((fc: { id: string }) => ({
+          deckId: id,
+          flashcardId: fc.id,
+        })),
+        skipDuplicates: true,
+      })
+    }
+
+    // Recupera deck con flashcards
+    const result = await prisma.deck.findUnique({
+      where: { id },
+      include: {
+        DeckFlashcard: {
+          select: {
+            flashcard: {
+              include: { Note: true },
+            },
+          },
+        },
       },
-      include: { flashcards: { include: { Note: true } } }
     })
-    return NextResponse.json(updatedDeck)
+
+    const resultDeck = {
+      ...result,
+      flashcards: result?.DeckFlashcard.map(df => df.flashcard) || [],
+    }
+
+    return NextResponse.json(resultDeck)
   } catch (err) {
     console.error(err)
     return NextResponse.json({ error: 'Not found or no permission' }, { status: 404 })
   }
 }
+
 
 export async function DELETE(_req: Request, context: { params: Promise<{ id: string }> }) {
   const session = await auth()
