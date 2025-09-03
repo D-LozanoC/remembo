@@ -1,14 +1,9 @@
 // src/app/api/study-session/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/config/prisma";
+import { auth } from "@/auth";
+import { Flashcard, Prisma, StudySessionFlashcard, StudySessionStatus } from "@prisma/client";
 
-// auth opcional
-let tryAuth: (() => Promise<any>) | null = null;
-try {
-    tryAuth = require("@/auth")?.auth ?? null;
-} catch {
-    tryAuth = null;
-}
 
 export async function GET(req: NextRequest) {
     const url = new URL(req.url);
@@ -21,15 +16,9 @@ export async function GET(req: NextRequest) {
     const includeFlashcards = url.searchParams.get("includeFlashcards") === "true";
     const includeDecks = url.searchParams.get("includeDecks") === "true";
 
-    let authUserId: string | null = null;
-    try {
-        if (tryAuth) {
-            const s = await tryAuth();
-            if (s?.user?.id) authUserId = s.user.id;
-        }
-    } catch {
-        authUserId = null;
-    }
+    const session = await auth();
+
+    const authUserId = session?.user?.id;
 
     const effectiveUserId = userIdQuery ?? authUserId ?? null;
 
@@ -66,7 +55,7 @@ export async function GET(req: NextRequest) {
                 updatedAt: session.updatedAt,
                 accuracy: session.accuracy,
                 duration: session.duration,
-                scheduledAt: (session as any).scheduledAt ?? null,
+                scheduledAt: session.scheduledAt ?? null,
                 decks: session.StudySessionDeck ?? [],
                 flashcards: (session.StudySessionFlashcard ?? []).map((sfc) => ({
                     studySessionId: sfc.studySessionId,
@@ -90,8 +79,8 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ error: "Unauthenticated or missing userId" }, { status: 401 });
         }
 
-        const whereClause: any = { userId: effectiveUserId };
-        if (statusFilter) whereClause.status = statusFilter;
+        const whereClause: Prisma.StudySessionWhereInput = { userId: effectiveUserId };
+        if (statusFilter) whereClause.status = statusFilter as StudySessionStatus;
 
         const [items, totalCount] = await Promise.all([
             prisma.studySession.findMany({
@@ -109,18 +98,22 @@ export async function GET(req: NextRequest) {
             prisma.studySession.count({ where: whereClause }),
         ]);
 
+        type FlashcardWithDetails = Partial<StudySessionFlashcard> & {
+            flashcard?: Partial<Flashcard>;
+        };
+
         const normalized = items.map((s) => ({
             id: s.id,
             userId: s.userId,
             status: s.status,
             createdAt: s.createdAt,
             updatedAt: s.updatedAt,
-            accuracy: (s as any).accuracy ?? null,
-            duration: (s as any).duration ?? null,
-            scheduledAt: (s as any).scheduledAt ?? null,
+            accuracy: s.accuracy ?? null,
+            duration: s.duration ?? null,
+            scheduledAt: s.scheduledAt ?? null,
             decks: includeDecks ? s.StudySessionDeck : undefined,
             flashcards: includeFlashcards
-                ? (s as any).StudySessionFlashcard.map((sf: any) => ({
+                ? s.StudySessionFlashcard.map((sf: FlashcardWithDetails) => ({
                     flashcardId: sf.flashcardId,
                     deckId: sf.deckId,
                     isCorrect: sf.isCorrect,

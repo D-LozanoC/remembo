@@ -51,6 +51,7 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
 
         return NextResponse.json(updated)
     } catch (err) {
+        console.error('Error updating flashcard:', err)
         return NextResponse.json({ error: 'Not found or no permission' }, { status: 404 })
     }
 }

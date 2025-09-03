@@ -28,7 +28,8 @@ export async function POST(req: NextRequest) {
             position?: number | null;
         }> = [];
 
-        const ops: any[] = [];
+
+        const ops = [];
 
         for (const deckId of deckIds) {
             // obtener las relaciones DeckFlashcard ordenadas por priority (desc) e incluir datos de la flashcard

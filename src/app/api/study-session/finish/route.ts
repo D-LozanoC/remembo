@@ -24,7 +24,7 @@ const MAX_PRIORITY = 100;
 export async function POST(req: NextRequest) {
     try {
         const body = (await req.json()) as FinishSessionPayload;
-        const { sessionId, userId, flashcards, startedAt, endedAt } = body;
+        const { sessionId, userId, flashcards, endedAt } = body;
 
         if (!sessionId || !userId || !Array.isArray(flashcards) || flashcards.length === 0) {
             return NextResponse.json({ error: "Payload incompleto" }, { status: 400 });
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
             deckGroups[fc.deckId].push(fc);
         });
 
-        const nextSessions: any[] = [];
+        const nextSessions: { deckId: string; nextSessionId: string; scheduledAt: Date }[] = [];
 
         for (const deckId of Object.keys(deckGroups)) {
             const deckFlashcards = deckGroups[deckId];
