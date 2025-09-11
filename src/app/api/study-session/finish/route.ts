@@ -40,13 +40,11 @@ export async function POST(req: NextRequest) {
                     flashcardId: fc.flashcardId,
                     isCorrect: !!fc.isCorrect,
                     timeSpent: fc.timeSpent ?? 0,
-                    position: fc.position ?? undefined,
                 },
                 update: {
                     deckId: fc.deckId,
                     isCorrect: !!fc.isCorrect,
                     timeSpent: fc.timeSpent ?? 0,
-                    position: fc.position ?? undefined,
                 },
             })
         );
@@ -128,31 +126,12 @@ export async function POST(req: NextRequest) {
                 deckFlashcards.reduce((sum, fc) => sum + (fc.timeSpent ?? 0), 0) / 1000
             );
 
-            await prisma.studySessionDeck.upsert({
-                where: { studySessionId_deckId: { studySessionId: sessionId, deckId } },
-                create: {
-                    studySessionId: sessionId,
-                    deckId,
-                    accuracy,
-                    score: q,
-                    duration: durationSeconds,
-                    nextReview,
-                },
-                update: {
-                    accuracy,
-                    score: q,
-                    duration: durationSeconds,
-                    nextReview,
-                },
-            });
 
             // 6) Crear próxima sesión programada para el usuario (si aplica)
             const nextSession = await prisma.studySession.create({
                 data: {
                     userId,
                     status: "Programada",
-                    scheduledAt: nextReview,
-                    StudySessionDeck: { create: { deckId, accuracy: 0, score: 0, duration: 0 } },
                 },
             });
 
