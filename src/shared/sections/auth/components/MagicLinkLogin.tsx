@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { Button } from '../shared/atoms/Button'
 import { doMagicLinkLogin } from '@/actions'
 import { ForgotFormData, forgotSchema } from '@/schemas/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { InputField } from '../shared/atoms/InputField'
-import FormErrorMessage from '../shared/atoms/FormErrorMessage'
 import { FaWandMagicSparkles as Magic } from "react-icons/fa6";
+import FormErrorMessage from '@/shared/atoms/FormErrorMessage'
+import { InputField } from '@/shared/atoms/InputField'
+import { Button } from '@/shared/atoms/Button'
 
 const MagicLinkLogin = ({ className }: { className?: string }) => {
     const { register, formState: { errors }, handleSubmit } = useForm<ForgotFormData>({ resolver: zodResolver(forgotSchema) })
