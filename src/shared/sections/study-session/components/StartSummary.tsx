@@ -1,4 +1,4 @@
-import { Button } from '@/components/Button';
+import { Button } from '@/shared/atoms/Button';
 import { SummaryLabel } from '@/shared/sections/study-session/components/SummaryLabel';
 import { StartSummaryProps } from '@/types/study-session';
 
