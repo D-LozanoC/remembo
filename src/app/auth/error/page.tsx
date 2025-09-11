@@ -1,5 +1,5 @@
-import ErrorPage from "@/components/ErrorPage";
-import { Loader } from "@/components/Loader";
+import ErrorPage from "@/shared/sections/components/ErrorPage";
+import { Loader } from "@/shared/atoms/Loader";
 import { Suspense } from "react";
 
 export default function Error() {

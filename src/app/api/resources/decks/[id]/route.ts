@@ -43,6 +43,8 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
   const body = await request.json()
   const { flashcards } = body
 
+  
+
   try {
 
     // Si vienen flashcards, actualiza en la tabla pivote

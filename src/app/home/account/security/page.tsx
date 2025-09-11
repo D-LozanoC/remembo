@@ -1,8 +1,8 @@
 'use client'
 
-import { Button } from "@/components/Button"
-import FormErrorMessage from "@/components/FormErrorMessage"
-import { InputField } from "@/components/InputField"
+import { Button } from "@/shared/atoms/Button"
+import FormErrorMessage from "@/shared/atoms/FormErrorMessage"
+import { InputField } from "@/shared/atoms/InputField"
 import { Session } from "@/config/next-auth"
 import { ChangePasswordForm, changePasswordSchema } from "@/schemas/auth"
 import { zodResolver } from "@hookform/resolvers/zod"

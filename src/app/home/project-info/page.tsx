@@ -1,8 +1,8 @@
 // app/project-info/page.tsx (o el archivo donde tengas ProjectInfoPage)
 'use client'
 
-import { CreatorCard } from '@/components/CreatorCard'
-import { Button } from '@/components/Button'
+import { CreatorCard } from '@/shared/atoms/CreatorCard'
+import { Button } from '@/shared/atoms/Button'
 import Link from 'next/link'
 
 export default function ProjectInfoPage() {

@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@auth/prisma-adapter':
         specifier: ^2.7.4
-        version: 2.7.4(@prisma/client@6.5.0(prisma@6.3.1(typescript@5.7.3))(typescript@5.7.3))(nodemailer@6.10.0)
+        version: 2.7.4(@prisma/client@6.16.0(prisma@6.3.1(typescript@5.7.3))(typescript@5.7.3))(nodemailer@6.10.0)
       '@faker-js/faker':
         specifier: ^9.7.0
         version: 9.7.0
@@ -24,8 +24,8 @@ importers:
         specifier: ^4.7.1
         version: 4.7.1
       '@prisma/client':
-        specifier: ^6.5.0
-        version: 6.5.0(prisma@6.3.1(typescript@5.7.3))(typescript@5.7.3)
+        specifier: ^6.16.0
+        version: 6.16.0(prisma@6.3.1(typescript@5.7.3))(typescript@5.7.3)
       '@types/jsonwebtoken':
         specifier: ^9.0.9
         version: 9.0.9
@@ -847,8 +847,8 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@prisma/client@6.5.0':
-    resolution: {integrity: sha512-M6w1Ql/BeiGoZmhMdAZUXHu5sz5HubyVcKukbLs3l0ELcQb8hTUJxtGEChhv4SVJ0QJlwtLnwOLgIRQhpsm9dw==}
+  '@prisma/client@6.16.0':
+    resolution: {integrity: sha512-FYkFJtgwpwJRMxtmrB26y7gtpR372kyChw6lWng5TMmvn5V+uisy0OyllO5EJD1s8lX78V8X3XjhiXOoMLnu3w==}
     engines: {node: '>=18.18'}
     peerDependencies:
       prisma: '*'
@@ -4191,10 +4191,10 @@ snapshots:
     optionalDependencies:
       nodemailer: 6.10.0
 
-  '@auth/prisma-adapter@2.7.4(@prisma/client@6.5.0(prisma@6.3.1(typescript@5.7.3))(typescript@5.7.3))(nodemailer@6.10.0)':
+  '@auth/prisma-adapter@2.7.4(@prisma/client@6.16.0(prisma@6.3.1(typescript@5.7.3))(typescript@5.7.3))(nodemailer@6.10.0)':
     dependencies:
       '@auth/core': 0.37.4(nodemailer@6.10.0)
-      '@prisma/client': 6.5.0(prisma@6.3.1(typescript@5.7.3))(typescript@5.7.3)
+      '@prisma/client': 6.16.0(prisma@6.3.1(typescript@5.7.3))(typescript@5.7.3)
     transitivePeerDependencies:
       - '@simplewebauthn/browser'
       - '@simplewebauthn/server'
@@ -4680,7 +4680,7 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@prisma/client@6.5.0(prisma@6.3.1(typescript@5.7.3))(typescript@5.7.3)':
+  '@prisma/client@6.16.0(prisma@6.3.1(typescript@5.7.3))(typescript@5.7.3)':
     optionalDependencies:
       prisma: 6.3.1(typescript@5.7.3)
       typescript: 5.7.3

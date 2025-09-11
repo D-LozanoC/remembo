@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { getUser } from '@/utils/getUser'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/Avatar'
-import { AccountNav } from '@/components/AccountNav'
+import { Avatar, AvatarFallback, AvatarImage } from '@/shared/atoms/Avatar'
+import { AccountNav } from '@/shared/sections/components/AccountNav'
 
 const inter = Inter({ subsets: ['latin'] })
 

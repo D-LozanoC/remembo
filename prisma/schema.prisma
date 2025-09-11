@@ -73,7 +73,7 @@ model Note {
   subject Subjects
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -90,7 +90,7 @@ model Deck {
   subject Subjects
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -98,7 +98,6 @@ model Deck {
   StudySession          StudySession[]
   DeckAlgorithmState    DeckAlgorithmState[]
   DeckFlashcard         DeckFlashcard[]
-  StudySessionDeck      StudySessionDeck[]
   StudySessionFlashcard StudySessionFlashcard[]
 
   @@index([userId])
@@ -112,7 +111,7 @@ model Flashcard {
   correctAnswers String[]
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
 
   Note   Note?   @relation(fields: [noteId], references: [id], onDelete: Cascade)
   noteId String?
@@ -137,13 +136,11 @@ model StudySession {
   accuracy   Int                @default(0) // Precisión del repaso
   duration   Int                @default(0) // Duración del repaso en segundos
   status     StudySessionStatus @default(En_Curso)
-  nextReview DateTime? // Fecha y hora del próximo repaso (si aplica)
+  nextReview DateTime           @default(now())
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  scheduledAt DateTime? // Fecha y hora programada para el repaso (si aplica)
+  updatedAt DateTime @default(now()) @updatedAt
 
-  StudySessionDeck      StudySessionDeck[]
   StudySessionFlashcard StudySessionFlashcard[]
 }
 
@@ -206,24 +203,6 @@ model DeckFlashcard {
   @@index([deckId, lastSeenAt])
 }
 
-// Métricas por mazo dentro de una StudySession
-// Guarda accuracy, score q (0..5), duration invertido en ese mazo y próximo nextReview calculado.
-model StudySessionDeck {
-  studySessionId String
-  deckId         String
-
-  accuracy   Int       @default(0) // porcentaje o número entero (elige convención)
-  score      Int       @default(0) // q calculado 0..5
-  duration   Int       @default(0) // segundos gastados en este mazo durante la sesión
-  nextReview DateTime? // próxima fecha calculada para este mazo
-
-  studySession StudySession @relation(fields: [studySessionId], references: [id], onDelete: Cascade)
-  deck         Deck         @relation(fields: [deckId], references: [id], onDelete: Cascade)
-
-  @@id([studySessionId, deckId])
-  @@index([deckId])
-}
-
 // Detalle por flashcard dentro de una StudySession
 // Guarda isCorrect y timeSpent (ms) por flashcard — suficiente para calcular accuracy, pace, etc.
 model StudySessionFlashcard {
@@ -233,8 +212,6 @@ model StudySessionFlashcard {
 
   isCorrect Boolean @default(false)
   timeSpent Int     @default(0) // en milisegundos
-  position  Int? // orden dentro de la sesión
-  // selectedAnswerIndex Int? // opcional si quieres guardar el índice elegido por el usuario (0..n-1)
 
   studySession StudySession @relation(fields: [studySessionId], references: [id], onDelete: Cascade)
   flashcard    Flashcard    @relation(fields: [flashcardId], references: [id], onDelete: Cascade)

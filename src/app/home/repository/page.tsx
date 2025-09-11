@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from 'react'
 import { Deck, Flashcard, Note, Subjects } from '@prisma/client'
-import Pagination from '@/components/resources/common/Pagination';
 import { FullDeck, FullFlashcard, FullNote, Mode } from '@/types/resources';
-import Collection from '@/components/resources/common/Collection';
-import Filters from '@/components/resources/common/Filters';
 import { Tab } from '@/types/enums';
-import Dialog from '@/components/resources/common/Dialog';
-import Resource from '@/components/resources/Resource';
-import { Loader } from '@/components/Loader';
-import SuccessAlert from '@/components/SuccessAlert';
+import { Loader } from '@/shared/atoms/Loader';
+import SuccessAlert from '@/shared/sections/auth/components/SuccessAlert';
+import Dialog from '@/shared/sections/resources/components/common/Dialog';
+import Resource from '@/shared/sections/resources/components/Resource';
+import Filters from '@/shared/sections/resources/components/common/Filters';
+import Collection from '@/shared/sections/resources/components/common/Collection';
+import Pagination from '@/shared/sections/resources/components/common/Pagination';
 
 export default function RepositoryPage() {
     const [show, setShow] = useState(false)
@@ -119,7 +119,7 @@ export default function RepositoryPage() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ flashcards, updateData: deck }),
+            body: JSON.stringify({ flashcards}),
         }).then(res => {
             if (!res.ok) throw new Error('Error relating deck')
             return res.json()
@@ -134,12 +134,21 @@ export default function RepositoryPage() {
     const handleCreate = (data: Partial<Note | Deck | Flashcard>) => {
         if (!data) return;
 
-        fetch(`/api/resources/${tab}`, {
+        const res = fetch(`/api/resources/${tab}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
+        })
+
+        res.then(res => {
+            if (!res.ok) throw new Error('Error creating item')
+            return res.json()
+        }).then(newItem => {
+            setItems(prev => [newItem, ...prev] as typeof items)
+        }).catch(error => {
+            console.error('Error creating item:', error)
         })
     }
 

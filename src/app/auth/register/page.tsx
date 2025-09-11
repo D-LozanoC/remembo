@@ -1,11 +1,11 @@
 'use client'
 
 // Components
-import { Button } from "@/components/Button"
-import { AuthForm } from "@/components/AuthForm"
-import { InputField } from "@/components/InputField"
-import SuccessAlert from "@/components/SuccessAlert"
-import FormErrorMessage from "@/components/FormErrorMessage"
+import { Button } from "@/shared/atoms/Button"
+import { AuthForm } from "@/shared/sections/auth/components/AuthForm"
+import { InputField } from "@/shared/atoms/InputField"
+import SuccessAlert from "@/shared/sections/auth/components/SuccessAlert"
+import FormErrorMessage from "@/shared/atoms/FormErrorMessage"
 import { DecoratedLink } from "@/shared/atoms/DecoratedLink"
 
 // Hooks

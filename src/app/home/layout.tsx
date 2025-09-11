@@ -1,5 +1,5 @@
 import { auth } from '@/auth';
-import { MainLayout } from '@/components/MainLayout'
+import { MainLayout } from '@/shared/sections/layouts/MainLayout'
 import { SessionProvider } from 'next-auth/react';
 import React from 'react'
 
@@ -13,6 +13,7 @@ export default async function Layout({
 
     return (
         <SessionProvider session={session}>
+
             <MainLayout>
                 {children}
             </MainLayout>

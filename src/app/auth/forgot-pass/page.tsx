@@ -2,10 +2,10 @@
 
 // Components
 import Link from "next/link"
-import { Button } from "@/components/Button"
-import { AuthForm } from "@/components/AuthForm"
-import { InputField } from "@/components/InputField"
-import FormErrorMessage from "@/components/FormErrorMessage"
+import { Button } from "@/shared/atoms/Button"
+import { AuthForm } from "@/shared/sections/auth/components/AuthForm"
+import { InputField } from "@/shared/atoms/InputField"
+import FormErrorMessage from "@/shared/atoms/FormErrorMessage"
 
 // Hooks
 import { useForm } from "react-hook-form"

@@ -1,7 +1,7 @@
 'use client'
 
-import { Loader } from "@/components/Loader"
-import ResetPasswordForm from "@/components/ResetPasswordForm"
+import { Loader } from "@/shared/atoms/Loader"
+import ResetPasswordForm from "@/shared/sections/auth/components/ResetPasswordForm"
 import { Suspense } from "react"
 
 export default function ResetPassword() {

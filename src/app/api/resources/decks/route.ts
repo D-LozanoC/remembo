@@ -26,13 +26,15 @@ export async function GET(req: Request) {
                     select: {
                         flashcard: true
                     }
-                }
+                },
+                StudySession: true
             }
         });
 
         const decks = items.map(deck => ({
             ...deck,
-            flashcards: deck.DeckFlashcard.map(df => df.flashcard)
+            flashcards: deck.DeckFlashcard.map(df => df.flashcard),
+            DeckFlashcard: undefined,
         }));
 
         return NextResponse.json({ items: decks, totalCount: items.length });
@@ -67,7 +69,7 @@ export async function GET(req: Request) {
             ...df.flashcard,
             length: deck.DeckFlashcard.length
         })),
-        
+
     }));
 
 
@@ -85,7 +87,12 @@ export async function POST(request: Request) {
     }
 
     const deck = await prisma.deck.create({
-        data: { title, topic, subject, userId: session.user.id }
+        data: {
+            title, topic, subject, userId: session.user.id,
+            DeckAlgorithmState: {
+                create: {}
+            }
+        }
     })
 
     return NextResponse.json(deck, { status: 201 })
