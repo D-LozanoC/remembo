@@ -4,7 +4,6 @@
 import { Button } from "@/shared/atoms/Button"
 import { AuthForm } from "@/shared/sections/auth/components/AuthForm"
 import { InputField } from "@/shared/atoms/InputField"
-import { SocialLogin } from "@/components/SocialLogin"
 import { DecoratedLink } from "@/shared/atoms/DecoratedLink"
 
 // Hooks
@@ -18,8 +17,9 @@ import { doCredentialsLogin } from "@/actions"
 // Schemas and Utils
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SignInFormData, signInSchema } from "@/schemas/auth"
-import MagicLinkLogin from "@/components/MagicLinkLogin"
 import Captcha from "@/shared/sections/auth/components/Captcha"
+import MagicLinkLogin from "./MagicLinkLogin"
+import { SocialLogin } from "./SocialLogin"
 
 export default function LoginForm() {
     const { register, formState: { errors }, handleSubmit } = useForm<SignInFormData>({ resolver: zodResolver(signInSchema) })

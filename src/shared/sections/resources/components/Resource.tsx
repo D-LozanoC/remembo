@@ -2,11 +2,11 @@ import { Tab } from "@/types/enums"
 import { resourceProps } from "@/types/props"
 import { FullDeck, FullFlashcard, FullNote } from "@/types/resources";
 import { useEffect, useState } from "react";
-import { Loader } from "../../shared/atoms/Loader";
 import Note from "./ResourceViews/Note/Note";
 import Deck from "./ResourceViews/Deck/Deck";
 import Flashcard from "./ResourceViews/Flashcard/Flashcard";
 import ActionToolbar from "./common/ActionToolbar";
+import { Loader } from "@/shared/atoms/Loader";
 
 export default function Resource({
     item,

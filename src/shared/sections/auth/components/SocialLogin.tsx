@@ -1,5 +1,6 @@
 // Components
-import { Button } from "../shared/atoms/Button"
+
+import { Button } from "@/shared/atoms/Button";
 import { FcGoogle } from "react-icons/fc";
 import { DiGithubBadge } from "react-icons/di"
 
