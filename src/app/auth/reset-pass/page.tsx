@@ -1,6 +1,6 @@
 'use client'
 
-import { Loader } from "@/shared/atoms/Loader"
+import { Loader } from "@/components/Loader"
 import ResetPasswordForm from "@/shared/sections/auth/components/ResetPasswordForm"
 import { Suspense } from "react"
 

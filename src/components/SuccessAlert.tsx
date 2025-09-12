@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
-import { Button } from '../../../atoms/Button';
 import { useRouter } from 'next/navigation';
+import { Button } from './Button';
 
 interface SuccessAlertProps {
     show: boolean;

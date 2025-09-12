@@ -1,14 +1,14 @@
 'use client'
 
 // app/stats/page.tsx
-import { Card, CardHeader, CardTitle, CardContent } from '@/shared/atoms/Card'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card'
 import dynamic from 'next/dynamic'
 import { BsBarChartFill as BarChart } from "react-icons/bs";
 import { PiBookOpenFill as BookOpen } from "react-icons/pi";
 import { GoClockFill as Clock } from "react-icons/go";
 
 const StudyProgressChart = dynamic(
-  () => import('@/shared/sections/components/StudyCharts').then(mod => mod.StudyProgressChart),
+  () => import('@/components/StudyCharts').then(mod => mod.StudyProgressChart),
   { ssr: false }
 )
 

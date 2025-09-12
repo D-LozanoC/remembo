@@ -1,10 +1,6 @@
 'use client'
 
 // Components
-import { Button } from "@/shared/atoms/Button"
-import { AuthForm } from "@/shared/sections/auth/components/AuthForm"
-import { InputField } from "@/shared/atoms/InputField"
-import { DecoratedLink } from "@/shared/atoms/DecoratedLink"
 
 // Hooks
 import { useState } from "react"
@@ -17,7 +13,11 @@ import { doCredentialsLogin } from "@/actions"
 // Schemas and Utils
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SignInFormData, signInSchema } from "@/schemas/auth"
-import Captcha from "@/shared/sections/auth/components/Captcha"
+import { AuthForm } from "./AuthForm"
+import { InputField } from "@/components/InputField"
+import Captcha from "./Captcha"
+import { DecoratedLink } from "@/shared/atoms/DecoratedLink"
+import { Button } from "@/components/Button"
 import MagicLinkLogin from "./MagicLinkLogin"
 import { SocialLogin } from "./SocialLogin"
 

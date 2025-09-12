@@ -3,8 +3,8 @@
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Button } from '@/shared/atoms/Button'
-import { Loader } from '@/shared/atoms/Loader'
+import { Button } from '@/components/Button'
+import { Loader } from '@/components/Loader'
 
 export default function VerifyEmail() {
     const searchParams = useSearchParams()

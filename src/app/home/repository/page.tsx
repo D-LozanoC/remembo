@@ -4,13 +4,13 @@ import { useState, useEffect } from 'react'
 import { Deck, Flashcard, Note, Subjects } from '@prisma/client'
 import { FullDeck, FullFlashcard, FullNote, Mode } from '@/types/resources';
 import { Tab } from '@/types/enums';
-import { Loader } from '@/shared/atoms/Loader';
-import SuccessAlert from '@/shared/sections/auth/components/SuccessAlert';
-import Dialog from '@/shared/sections/resources/components/common/Dialog';
-import Resource from '@/shared/sections/resources/components/Resource';
-import Filters from '@/shared/sections/resources/components/common/Filters';
-import Collection from '@/shared/sections/resources/components/common/Collection';
-import Pagination from '@/shared/sections/resources/components/common/Pagination';
+import { Loader } from '@/components/Loader';
+import Dialog from '@/components/resources/common/Dialog';
+import Filters from '@/components/resources/common/Filters';
+import Collection from '@/components/resources/common/Collection';
+import Pagination from '@/components/resources/common/Pagination';
+import Resource from '@/components/resources/Resource';
+import SuccessAlert from '@/components/SuccessAlert';
 
 export default function RepositoryPage() {
     const [show, setShow] = useState(false)

@@ -1,4 +1,4 @@
-import { Button } from '@/shared/atoms/Button'
+import { Button } from '@/components/Button'
 import { getUser } from '@/utils/getUser'
 import Link from 'next/link'
 import Image from 'next/image'

@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from "@/shared/atoms/Button"
+import { Button } from "@/components/Button"
 
 export const Delete = ({
     onConfirm,

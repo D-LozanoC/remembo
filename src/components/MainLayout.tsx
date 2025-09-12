@@ -3,9 +3,9 @@
 import { useSession } from 'next-auth/react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { LogoutButton } from '../auth/components/LogoutButton'
 import { useEffect, useState } from 'react'
 import { HiMenu, HiX } from 'react-icons/hi'
+import { LogoutButton } from './LogoutButton'
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
     const { data: session, status } = useSession()

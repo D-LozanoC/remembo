@@ -81,26 +81,6 @@ export default async function HomePage() {
                 </div>
             </section>
 
-            {/* Stats Section
-            <section className="py-16 px-4 bg-white">
-                <div className="max-w-6xl mx-auto">
-                    <div className="grid md:grid-cols-3 gap-8 text-center">
-                        <div className="p-6">
-                            <div className="text-4xl font-bold text-indigo-600 mb-2">50k+</div>
-                            <div className="text-gray-600">Estudiantes activos</div>
-                        </div>
-                        <div className="p-6">
-                            <div className="text-4xl font-bold text-purple-600 mb-2">10M+</div>
-                            <div className="text-gray-600">Flashcards creadas</div>
-                        </div>
-                        <div className="p-6">
-                            <div className="text-4xl font-bold text-indigo-600 mb-2">95%</div>
-                            <div className="text-gray-600">Mejora en retención</div>
-                        </div>
-                    </div>
-                </div>
-            </section> */}
-
             {/* CTA Section */}
             <section className="bg-gray-800 text-white py-16 px-4">
                 <div className="max-w-4xl mx-auto text-center">

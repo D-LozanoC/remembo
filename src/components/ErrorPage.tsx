@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Button } from '@/shared/atoms/Button'
+import { Button } from '@/components/Button'
 import { DecoratedLink } from '@/shared/atoms/DecoratedLink'
 import { useSearchParams } from 'next/navigation'
 

@@ -1,9 +1,9 @@
 'use client'
 
 // Components
-import FormErrorMessage from '@/shared/atoms/FormErrorMessage'
-import { InputField } from '@/shared/atoms/InputField'
-import { Button } from '@/shared/atoms/Button'
+import FormErrorMessage from '@/components/FormErrorMessage'
+import { InputField } from '@/components/InputField'
+import { Button } from '@/components/Button'
 // Next.js
 import Link from 'next/link'
 import Image from 'next/image'

@@ -1,5 +1,5 @@
-import { Loader } from "@/shared/atoms/Loader";
-import VerifyEmail from "@/shared/sections/components/VerifyEmail";
+import { Loader } from "@/components/Loader";
+import VerifyEmail from "@/components/VerifyEmail";
 import { Suspense } from "react";
 
 export default function VerifyPage() {

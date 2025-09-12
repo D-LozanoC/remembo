@@ -2,10 +2,6 @@
 
 // Components
 import Link from "next/link"
-import { Button } from "@/shared/atoms/Button"
-import { AuthForm } from "@/shared/sections/auth/components/AuthForm"
-import { InputField } from "@/shared/atoms/InputField"
-import FormErrorMessage from "@/shared/atoms/FormErrorMessage"
 
 // Hooks
 import { useForm } from "react-hook-form"
@@ -16,6 +12,10 @@ import { ForgotFormData, forgotSchema } from "@/schemas/auth"
 import { useState } from "react"
 import { forgotPassword } from "@/actions/auth"
 import { redirect } from "next/navigation"
+import { InputField } from "@/components/InputField"
+import FormErrorMessage from "@/components/FormErrorMessage"
+import { Button } from "@/components/Button"
+import { AuthForm } from "@/components/AuthForm"
 
 export default function ForgotPassword() {
     const { register, formState: { errors }, handleSubmit } = useForm<ForgotFormData>({ resolver: zodResolver(forgotSchema) })

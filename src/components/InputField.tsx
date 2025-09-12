@@ -1,6 +1,6 @@
 import type React from "react"
 
-import FormErrorMessage from "@/shared/atoms/FormErrorMessage"
+import FormErrorMessage from "@/components/FormErrorMessage"
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string
   error?: {

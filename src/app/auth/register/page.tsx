@@ -1,11 +1,9 @@
 'use client'
 
 // Components
-import { Button } from "@/shared/atoms/Button"
-import { AuthForm } from "@/shared/sections/auth/components/AuthForm"
-import { InputField } from "@/shared/atoms/InputField"
-import SuccessAlert from "@/shared/sections/auth/components/SuccessAlert"
-import FormErrorMessage from "@/shared/atoms/FormErrorMessage"
+import { Button } from "@/components/Button"
+import { InputField } from "@/components/InputField"
+import FormErrorMessage from "@/components/FormErrorMessage"
 import { DecoratedLink } from "@/shared/atoms/DecoratedLink"
 
 // Hooks
@@ -18,6 +16,8 @@ import { SignUpFormData, signUpSchema } from "@/schemas/auth"
 
 // Actions
 import { registerUser } from "@/actions/auth"
+import { AuthForm } from "@/components/AuthForm"
+import SuccessAlert from "@/components/SuccessAlert"
 
 export default function Register() {
   const { register, formState: { errors }, handleSubmit } = useForm<SignUpFormData>({ resolver: zodResolver(signUpSchema) })

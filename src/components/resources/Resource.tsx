@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import Note from "./ResourceViews/Note/Note";
 import Deck from "./ResourceViews/Deck/Deck";
 import Flashcard from "./ResourceViews/Flashcard/Flashcard";
-import ActionToolbar from "./common/ActionToolbar";
-import { Loader } from "@/shared/atoms/Loader";
+import { Loader } from "@/components/Loader";
+import ActionToolBar from "./common/ActionToolbar";
 
 export default function Resource({
     item,
@@ -83,7 +83,7 @@ export default function Resource({
         "
         >
             <div className="sticky top-0 z-10 p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-                <ActionToolbar
+                <ActionToolBar
                     mode={mode}
                     setMode={setMode}
                     handleOnClose={handleOnClose}

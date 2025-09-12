@@ -1,36 +1,36 @@
-import { Button } from "@/shared/atoms/Button";
-import FormErrorMessage from "@/shared/atoms/FormErrorMessage";
-import { InputField } from "@/shared/atoms/InputField";
+import { Button } from "@/components/Button";
+import FormErrorMessage from "@/components/FormErrorMessage";
+import { InputField } from "@/components/InputField";
 import { FlashcardFormData, flashcardSchema } from "@/schemas/resources";
-import { FullFlashcard } from "@/types/resources";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch, useFieldArray } from "react-hook-form";
 import { useState, useMemo } from "react";
+import * as React from "react";
+import { Deck, Flashcard } from "@prisma/client";
 import FeedbackMessage from "../../common/FeedbackMessage";
 
-export default function FlashcardEditor({
-    data,
-    handleUpdate
+export default function FlashcardCreator({
+    handleCreate
 }: {
-    data: FullFlashcard;
-    handleUpdate: (data: Partial<FullFlashcard>) => void;
+    handleCreate: (data: Partial<Flashcard>) => void;
 }) {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
     const [isSuccess, setIsSuccess] = useState(false);
+    const [decks, setDecks] = useState<Deck[]>([]);
 
     const {
         register,
         control,
         handleSubmit,
+        reset,
         formState: { errors }
     } = useForm<FlashcardFormData>({
         resolver: zodResolver(flashcardSchema),
         defaultValues: {
-            question: data.question,
-            answers: data.answers.length ? data.answers : [""],
-            correctAnswers: data.correctAnswers.length ? data.correctAnswers : [""],
-            deckId: data.decks?.[0]?.id || ""
+            question: "",
+            answers: ["Respuesta 1", "Respuesta 2"], // Dos strings vacíos para garantizar 2 campos
+            correctAnswers: [""]
         }
     });
 
@@ -40,7 +40,8 @@ export default function FlashcardEditor({
         remove: removeAnswer
     } = useFieldArray<FlashcardFormData>({
         control,
-        name: "answers" as never
+        name: "answers" as never,
+        // Asegurar que siempre tenga al menos 2 campos
     });
 
     const {
@@ -52,6 +53,18 @@ export default function FlashcardEditor({
         name: "correctAnswers" as never
     });
 
+    // Forzar la inicialización de 2 campos si no existen
+    React.useEffect(() => {
+        // Si hay menos de 2 campos, agregar los faltantes
+        const currentLength = answerFields.length;
+        if (currentLength === 0) {
+            appendAnswer("");
+            appendAnswer("");
+        } else if (currentLength === 1) {
+            appendAnswer("");
+        }
+    }); // Solo ejecutar una vez al montar
+
     const answers = useWatch({ control, name: "answers" });
     const correctAnswers = useWatch({ control, name: "correctAnswers" });
 
@@ -62,6 +75,17 @@ export default function FlashcardEditor({
 
     const maxAnswersReached = answerFields.length >= 4;
     const maxCorrectAnswersReached = correctFields.length >= 4 || correctFields.length >= validOptions.length;
+
+    React.useEffect(() => {
+        fetch('/api/resources/decks?all=true')
+            .then((res) => res.json())
+            .then((data) => {
+                setDecks(data.items);
+            })
+            .catch((err) => {
+                console.error('Error fetching decks:', err);
+            });
+    }, [])
 
     const onSubmit = handleSubmit(async (formData) => {
         try {
@@ -77,33 +101,35 @@ export default function FlashcardEditor({
                 return;
             }
 
-            const updateData: Partial<FullFlashcard> = {
-                id: data.id,
+            const createData = {
                 question: formData.question.trim(),
                 answers,
-                correctAnswers: formData.correctAnswers.filter((a) => a.trim() !== "")
+                correctAnswers: formData.correctAnswers.filter((a) => a.trim() !== ""),
+                deckId: formData.deckId || null
             };
 
-            const response = await fetch(`/api/resources/flashcards/${data.id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(updateData)
-            });
-
-            if (!response.ok) {
-                const { error } = await response.json();
-                setMessage(error || 'Error al guardar la tarjeta');
+            if (createData.correctAnswers?.length === 0) {
+                setIsSuccess(false);
+                setMessage("Debes seleccionar al menos una respuesta correcta.");
                 return;
             }
 
-            handleUpdate(updateData);
-            setMessage('Tarjeta actualizada exitosamente');
+            handleCreate(createData);
+
+            setMessage('Tarjeta creada exitosamente');
             setIsSuccess(true);
+
+            // Resetear el formulario después de crear exitosamente
+            reset({
+                question: "",
+                answers: ["", ""],
+                correctAnswers: [""],
+                deckId: ""
+            });
+
         } catch (err) {
-            console.error('Error al guardar la tarjeta:', err);
-            setMessage('Error al guardar la tarjeta');
+            console.error('Error al crear la tarjeta:', err);
+            setMessage('Error al crear la tarjeta');
             setIsSuccess(false);
         } finally {
             setLoading(false);
@@ -113,7 +139,7 @@ export default function FlashcardEditor({
     return (
         <form
             onSubmit={onSubmit}
-            className="flex flex-col gap-6 "
+            className="flex flex-col gap-6"
             aria-describedby={message ? "form-error" : undefined}
         >
             {/* Pregunta */}
@@ -126,14 +152,42 @@ export default function FlashcardEditor({
                     label="Escribe la pregunta..."
                     type="text"
                     {...register("question")}
-                    aria-invalid={!!errors.question}
-                    aria-describedby={errors.question ? "error-question" : undefined}
                     className="border-2 border-gray-200 focus:ring-2 focus:ring-indigo-500 rounded-lg transition-all duration-200 w-full p-3 text-gray-700"
                 />
                 {errors.question && (
                     <FormErrorMessage className="text-red-700 font-medium">{errors.question.message}</FormErrorMessage>
                 )}
             </div>
+
+            {/* Selección de Mazos */}
+            <div className="flex flex-col gap-2">
+
+            </div>
+
+            <div className="flex flex-col gap-2">
+                <label
+                    htmlFor="deck-id"
+                    className="text-lg font-bold text-gray-900"
+                >
+                    Mazos
+                </label>
+                <select
+                    id="deck-id"
+                    {...register("deckId")}
+                    className={`border-2 border-gray-200 focus:ring-2 focus:ring-indigo-500 px-3 py-2 rounded-lg w-full transition-all duration-200 text-gray-700`}
+                >
+                    <option value="">Selecciona un mazo...</option>
+                    {decks.map((d) => (
+                        <option key={d.id} value={d.id}>
+                            {d.title}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            {errors.deckId && (
+                <FormErrorMessage className="text-red-700 font-medium">{errors.deckId.message}</FormErrorMessage>
+            )}
+
 
             {/* Respuestas dinámicas */}
             <div className="flex flex-col gap-2">
@@ -153,7 +207,7 @@ export default function FlashcardEditor({
                                 />
                                 {errors.answers && errors.answers[idx] && <FormErrorMessage className="text-red-700 font-medium">{errors.answers[idx].message}</FormErrorMessage>}
 
-                                {answerFields.length > 1 && (
+                                {answerFields.length > 2 && idx >= 2 && (
                                     <button
                                         type="button"
                                         onClick={() => removeAnswer(idx)}
@@ -253,10 +307,10 @@ export default function FlashcardEditor({
                 type="submit"
                 disabled={loading}
                 aria-disabled={loading}
-                aria-label={loading ? "Guardando..." : "Guardar cambios"}
+                aria-label={loading ? "Creando..." : "Crear tarjeta"}
                 className="w-full py-3 font-bold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-wait focus:ring-4 focus:ring-indigo-200 transition-colors"
             >
-                {loading ? "Guardando..." : "Guardar cambios"}
+                {loading ? "Creando..." : "Crear tarjeta"}
             </Button>
         </form>
     );

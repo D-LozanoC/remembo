@@ -4,7 +4,7 @@ import { Tab } from '@/types/enums';
 import { ActionToolbarProps } from '@/types/props';
 import Dialog from './Dialog';
 import { useState } from 'react';
-import { Button } from '@/shared/atoms/Button';
+import { Button } from '@/components/Button';
 
 
 export default function ActionToolBar ({ mode, setMode, handleOnClose, itemType }: ActionToolbarProps) {

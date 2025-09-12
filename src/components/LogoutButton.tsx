@@ -1,5 +1,6 @@
 // Components
-import { Button } from "../../../atoms/Button";
+import { Button } from "@/components/Button";
+
 
 // Actions
 import { doLogout } from "@/actions";

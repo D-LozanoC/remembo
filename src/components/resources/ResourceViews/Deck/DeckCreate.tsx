@@ -1,55 +1,53 @@
-import { Button } from "@/shared/atoms/Button";
-import FormErrorMessage from "@/shared/atoms/FormErrorMessage";
-import { InputField } from "@/shared/atoms/InputField";
-import { NoteFormData, noteSchema } from "@/schemas/resources";
+import FormErrorMessage from "@/components/FormErrorMessage";
+import { InputField } from "@/components/InputField";
+import { DeckFormData, deckSchema } from "@/schemas/resources";
 import { zodResolver } from "@hookform/resolvers/zod";
-import MDEditor from "@uiw/react-md-editor";
+import { Deck, Subjects } from "@prisma/client";
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/Button";
+import { Loader } from "@/components/Loader";
 import FeedbackMessage from "../../common/FeedbackMessage";
-import { Note, Subjects } from "@prisma/client";
 
-
-export default function NoteCreate ({
+export default function DeckCreate ({
     handleCreate
 }: {
-    handleCreate: (data: Partial<Note>) => void;
+    handleCreate: (data: Partial<Deck>) => void;
 }) {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
 
-    const { register, handleSubmit, formState: { errors }, control } = useForm<NoteFormData>({
-        resolver: zodResolver(noteSchema)
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<DeckFormData>({
+        resolver: zodResolver(deckSchema)
     });
 
-    const onSubmit = handleSubmit(async data => {
+    const onSubmit = handleSubmit(async (formData) => {
         try {
             setLoading(true)
             setMessage('')
             setIsSuccess(false)
-            
-            const response = await fetch('/api/resources/notes', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-            
-            const result = await response.json()
-            console.log(result)
-            handleCreate(data)
-            setMessage('¡Nota creada exitosamente!')
+
+            const { title, topic, subject } = formData
+            const creationData = {
+                title,
+                topic,
+                subject
+            }
+
+            handleCreate(creationData)
+
+            reset();
+            setMessage('¡Deck creado exitosamente!')
             setIsSuccess(true)
         } catch (error) {
-            console.error('Error al guardar la nota:', error)
-            setMessage('Error al guardar la nota')
+            console.error('Error al guardar el deck:', error)
+            setMessage('Error al guardar el deck')
             setIsSuccess(false)
         } finally {
             setLoading(false)
         }
-    })
+    });
 
     return (
         <form onSubmit={onSubmit} className="flex flex-col gap-8">
@@ -96,25 +94,6 @@ export default function NoteCreate ({
                 {errors.subject && <FormErrorMessage>{errors.subject.message as string}</FormErrorMessage>}
             </div>
 
-            {/* Contenido */}
-            <div className="flex flex-col gap-2">
-                <label htmlFor="content" className="text-lg font-bold text-gray-900">Contenido</label>
-                <Controller
-                    name="content"
-                    control={control}
-                    render={({ field }) => (
-                        <div data-color-mode="light" className="border border-indigo-300 rounded-2xl overflow-hidden shadow-inner">
-                            <MDEditor
-                                value={field.value}
-                                onChange={(val) => field.onChange(val)}
-                                onBlur={field.onBlur}
-                            />
-                        </div>
-                    )}
-                />
-                {errors.content && <FormErrorMessage>{errors.content.message as string}</FormErrorMessage>}
-            </div>
-
             {/* Mensajes de feedback */}
             <FeedbackMessage
                 type={isSuccess ? 'success' : 'error'}
@@ -122,16 +101,19 @@ export default function NoteCreate ({
                 onDismiss={() => setMessage('')}
             />
 
-            {/* Botón de guardar */}
+            {loading && (
+                <Loader/>
+            )}
+
             <Button
                 type="submit"
                 className="w-full min-h-[44px] px-6 py-3 text-lg font-semibold rounded-2xl bg-indigo-600 
-                text-white hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 
-                disabled:bg-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed transition-colors 
-                duration-200"
+                    text-white hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 
+                    disabled:bg-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed transition-colors 
+                    duration-200"
             >
-                {loading ? 'Guardando...' : 'Guardar cambios'}
+                Guardar cambios
             </Button>
         </form>
-    )
+    );
 }

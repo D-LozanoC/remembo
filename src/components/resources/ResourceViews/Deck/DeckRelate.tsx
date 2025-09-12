@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FullDeck } from "@/types/resources";
 import { Deck, Flashcard } from "@prisma/client";
-import FormErrorMessage from "@/shared/atoms/FormErrorMessage";
+import FormErrorMessage from "@/components/FormErrorMessage";
+import { Button } from "@/components/Button";
 import FeedbackMessage from "../../common/FeedbackMessage";
-import { Button } from "@/shared/atoms/Button";
 import Dialog from "../../common/Dialog";
 
 type FormValues = {
