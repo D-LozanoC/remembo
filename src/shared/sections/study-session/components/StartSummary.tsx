@@ -1,4 +1,4 @@
-import { Button } from '@/shared/atoms/Button';
+import { Button } from '@/components/Button';
 import { SummaryLabel } from '@/shared/sections/study-session/components/SummaryLabel';
 import { StartSummaryProps } from '@/types/study-session';
 
@@ -9,7 +9,12 @@ export function StartSummary({ questions, lastSessionData, malletName, onClick }
     { title: 'Cantidad de tarjetas', value: `${questionsCount} tarjetas` },
     { title: 'Tiempo estimado', value: `${questionsTime} segundos` },
     { title: 'Mazo', value: malletName },
-    { title: 'Última sesión', value: `${lastSessionData.date} - ${lastSessionData.accuracy} acertado` },
+    { 
+      title: 'Última sesión', 
+      value: lastSessionData 
+        ? `${lastSessionData.date} - ${lastSessionData.accuracy} acertado` 
+        : 'Sin datos' 
+    },
   ];
 
   return (
