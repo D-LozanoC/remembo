@@ -136,7 +136,15 @@ model StudySession {
   accuracy   Int                @default(0) // Precisión del repaso
   duration   Int                @default(0) // Duración del repaso en segundos
   status     StudySessionStatus @default(En_Curso)
-  nextReview DateTime           @default(now())
+  dateReview DateTime           @default(now())
+
+  nextSessionId String?
+  nextSession   StudySession?  @relation("NextSession", fields: [nextSessionId], references: [id], onDelete: Cascade)
+  NextSession   StudySession[] @relation("NextSession")
+
+  previousSessionId String? // Para enlazar con la sesión anterior
+  previousSession   StudySession?  @relation("PreviousSession", fields: [previousSessionId], references: [id], onDelete: Cascade)
+  PreviewSession    StudySession[] @relation("PreviousSession")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

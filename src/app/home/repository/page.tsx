@@ -38,47 +38,45 @@ export default function RepositoryPage() {
 
     const totalPages = Math.ceil(total / perPage)
 
-    const fetchData = async () => {
-        try {
-            setIsLoading(true)
-            setItems([])
-            const res = await fetch(
-                `/api/resources/${tab}?${new URLSearchParams({
-                    search,
-                    subject,
-                    order,
-                    page: page.toString(),
-                    perPage: perPage.toString()
-                })}`)
-
-            if (!res.ok) {
-                setItems([])
-                setTotal(0)
-                return
-            }
-
-            const { items, totalCount } = await res.json()
-
-
-            setItems(items)
-            setTotal(totalCount || 0)
-            setSubjects(Object.values(Subjects))
-
-        } catch (error) {
-            console.error('Error fetching data:', error)
-            setItems([])
-            setTotal(0)
-        } finally {
-            setIsLoading(false)
-        }
-    }
-
     const handleItemClick = (data: FullNote | FullDeck | FullFlashcard) => {
         setItem({ data, dataType: tab })
         setIsOpen(true)
     }
 
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setIsLoading(true)
+                setItems([])
+                const res = await fetch(
+                    `/api/resources/${tab}?${new URLSearchParams({
+                        search,
+                        subject,
+                        order,
+                        page: page.toString(),
+                        perPage: perPage.toString()
+                    })}`)
+
+                if (!res.ok) {
+                    setItems([])
+                    setTotal(0)
+                    return
+                }
+
+                const { items, totalCount } = await res.json()
+
+                setItems(items)
+                setTotal(totalCount || 0)
+                setSubjects(Object.values(Subjects))
+
+            } catch (error) {
+                console.error('Error fetching data:', error)
+                setItems([])
+                setTotal(0)
+            } finally {
+                setIsLoading(false)
+            }
+        }
         fetchData()
     }, [tab, search, subject, order, page, perPage])
 
@@ -119,7 +117,7 @@ export default function RepositoryPage() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ flashcards}),
+            body: JSON.stringify({ flashcards }),
         }).then(res => {
             if (!res.ok) throw new Error('Error relating deck')
             return res.json()

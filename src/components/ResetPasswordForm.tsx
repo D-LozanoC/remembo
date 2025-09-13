@@ -2,7 +2,6 @@
 
 // Components
 import { Button } from "@/components/Button"
-import { AuthForm } from "@/shared/sections/auth/components/AuthForm"
 import { InputField } from "@/components/InputField"
 import FormErrorMessage from "@/components/FormErrorMessage"
 import { DecoratedLink } from "@/shared/atoms/DecoratedLink"
@@ -16,7 +15,8 @@ import { ResetFormData, resetSchema } from "@/schemas/auth"
 import { useState } from "react"
 import { redirect, useSearchParams } from "next/navigation"
 import { resetPassword } from "@/actions/auth"
-import SuccessAlert from "@/shared/sections/auth/components/SuccessAlert"
+import SuccessAlert from "./SuccessAlert"
+import { AuthForm } from "./AuthForm"
 export default function ResetPasswordForm() {
 
     const { register, formState: { errors }, handleSubmit } = useForm<ResetFormData>({ resolver: zodResolver(resetSchema) })
