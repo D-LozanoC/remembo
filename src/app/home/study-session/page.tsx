@@ -252,9 +252,7 @@ export default function StudySession() {
     if (!postFetch.answers) {
       return (
         <div className="flex items-center justify-center h-screen w-screen">
-          <span className="text-red-600 font-medium">
-            Hubo un error al cargar las respuestas
-          </span>
+          <Loader />
         </div>
       );
     }
