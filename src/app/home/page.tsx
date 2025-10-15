@@ -48,7 +48,7 @@ export default async function HomePage() {
                     </p>
                     <div className="flex justify-center gap-4">
                         <Link
-                            href="/account"
+                            href="/auth/login"
                             className="bg-white text-indigo-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-opacity-90 transition-all flex items-center"
                         >
                             Comenzar ahora
@@ -91,7 +91,7 @@ export default async function HomePage() {
                         Regístrate gratis y comienza a aprender de manera más inteligente
                     </p>
                     <Link
-                        href="/account"
+                        href="/auth/login"
                         className="inline-block bg-indigo-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-indigo-600 transition-colors"
                     >
                         Empieza ahora!

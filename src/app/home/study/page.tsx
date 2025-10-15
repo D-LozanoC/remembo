@@ -10,6 +10,7 @@ import { useSession } from 'next-auth/react';
 import { Loader } from '@/components/Loader';
 import Dialog from '@/components/resources/common/Dialog';
 import EditSessionTimeDialog from '@/shared/sections/study/components/EditSessionTimeDialog';
+import { formatDuration } from '@/shared/sections/study/utils';
 
 interface DeckResponse {
     items: {
@@ -355,8 +356,7 @@ export default function StudySessionsPage() {
                                                 <span className="text-sm text-gray-600">{h.accuracy}%</span>
                                             </td>
                                             <td className="py-2 px-4  text-center">
-                                                {Math.floor((h.duration ?? 0) / 60)}:
-                                                {((h.duration ?? 0) % 60).toString().padStart(2, '0')} min
+                                                {formatDuration(h.duration)}
                                             </td>
                                             <td className={`py-1 text-center`}>
                                                 <span className={`${statusColor(h.status ?? '')} px-4 py-1 rounded-full`}>{h.status}</span>
