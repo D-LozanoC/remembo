@@ -66,11 +66,14 @@ model VerificationToken {
 }
 
 model Note {
-  id      String   @id @default(uuid())
-  title   String
-  topic   String
-  content String
-  subject Subjects
+  id        String   @id @default(uuid())
+  title     String
+  topic     String
+  content   String
+  subject   Subjects
+  validated Boolean  @default(false)
+  divisions Json[]   @default([])
+  reason    String   @default("")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -113,7 +116,7 @@ model Flashcard {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  Note   Note?   @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  Note   Note?   @relation(fields: [noteId], references: [id])
   noteId String?
 
   userId String
@@ -172,34 +175,24 @@ enum Subjects {
 //////////////////////
 // SM-Deck 
 //////////////////////
-
-// Estado del algoritmo por cada Deck (unidad: mazo)
-// Mantiene EF, interval, repetitions, nextReview, lastScore y otros parámetros.
 model DeckAlgorithmState {
   deckId String @id
 
-  easiness             Float    @default(2.5)
-  interval             Int      @default(0)
-  repetitions          Int      @default(0)
-  nextReview           DateTime @default(now())
-  lastScore            Int      @default(0)
-  targetSecondsPerItem Int      @default(20)
+  easiness    Float @default(2.5)
+  repetitions Int   @default(1)
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
 
   deck Deck @relation(fields: [deckId], references: [id], onDelete: Cascade)
 
-  @@index([nextReview])
+  @@index([deckId])
 }
 
-// Relación explícita entre Deck y Flashcard con metadata (priority, lastSeenAt)
-// No reemplaza ni elimina la relación implícita decks[] que ya existe en Flashcard.
 model DeckFlashcard {
   deckId      String
   flashcardId String
 
-  priority   Int       @default(0)
   addedAt    DateTime  @default(now())
   lastSeenAt DateTime?
 
@@ -207,19 +200,17 @@ model DeckFlashcard {
   flashcard Flashcard @relation(fields: [flashcardId], references: [id], onDelete: Cascade)
 
   @@id([deckId, flashcardId])
-  @@index([flashcardId, priority])
+  @@index([flashcardId])
   @@index([deckId, lastSeenAt])
 }
 
-// Detalle por flashcard dentro de una StudySession
-// Guarda isCorrect y timeSpent (ms) por flashcard — suficiente para calcular accuracy, pace, etc.
 model StudySessionFlashcard {
   studySessionId String
   flashcardId    String
-  deckId         String? // contexto del mazo donde se presentó (opcional)
+  deckId         String?
 
   isCorrect Boolean @default(false)
-  timeSpent Int     @default(0) // en milisegundos
+  timeSpent Int     @default(0)
 
   studySession StudySession @relation(fields: [studySessionId], references: [id], onDelete: Cascade)
   flashcard    Flashcard    @relation(fields: [flashcardId], references: [id], onDelete: Cascade)
