@@ -2,7 +2,7 @@ import { QuestionRendererProps } from "@/types/study-session";
 
 export function QuestionRenderer({ question, onAnswer }: QuestionRendererProps) {
   const handleAnswer = (answer: string) => {
-    onAnswer(question.id, answer);
+    onAnswer(question.idx, question.id, answer);
   };
 
   return (

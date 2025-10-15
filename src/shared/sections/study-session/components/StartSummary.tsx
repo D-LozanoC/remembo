@@ -10,10 +10,10 @@ export function StartSummary({ questions, lastSessionData, malletName, onClick }
     { title: 'Tiempo estimado', value: `${questionsTime} segundos` },
     { title: 'Mazo', value: malletName },
     { 
-      title: 'Última sesión', 
+      title: lastSessionData ? 'Última sesión' : "¡Primera sesión!", 
       value: lastSessionData 
         ? `${lastSessionData.date} - ${lastSessionData.accuracy} acertado` 
-        : 'Sin datos' 
+        : '' 
     },
   ];
 

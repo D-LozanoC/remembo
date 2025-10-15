@@ -30,8 +30,18 @@ export const renderStatusBadge = (status?: StudySessionStatus) => {
         case "Finalizada":
             return <span className={`${base} bg-green-100 text-green-800`}>Finalizada</span>;
         case "Programada":
-            return <span className={`${base} bg-yellow-100 text-yellow-950`}>Programada</span>;
+            return <span style={{ color: '#814E0C' }} className={`${base} bg-yellow-100`}>Programada</span>;
         default:
             return <span className={`${base} bg-gray-100 text-gray-800`}>Desconocido</span>;
     }
 };
+
+export function dateToLocalInputValue(date: Date) {
+    const pad = (n: number) => n.toString().padStart(2, "0")
+    const year = date.getFullYear()
+    const month = pad(date.getMonth() + 1)
+    const day = pad(date.getDate())
+    const hours = pad(date.getHours())
+    const minutes = pad(date.getMinutes())
+    return `${year}-${month}-${day}T${hours}:${minutes}`
+}

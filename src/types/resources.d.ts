@@ -11,7 +11,7 @@ export type FullDeck = Deck & {
 }
 export type FullFlashcard = Flashcard & {
     note?: Note,
-    decks: Deck[]
+    decks?: Deck[]
 }
 
-export type Mode = 'view' | 'edit' | 'create' | 'relate' | 'delete'
+export type Mode = 'view' | 'edit' | 'create' | 'relate' | 'delete' | 'validate' | 'derive'

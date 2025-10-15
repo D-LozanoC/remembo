@@ -35,12 +35,76 @@ export default function RepositoryPage() {
     const [subjects, setSubjects] = useState<string[]>([])
 
     const [isLoading, setIsLoading] = useState(false)
+    const [isDisabled, setIsDisabled] = useState(true)
 
     const totalPages = Math.ceil(total / perPage)
 
     const handleItemClick = (data: FullNote | FullDeck | FullFlashcard) => {
         setItem({ data, dataType: tab })
         setIsOpen(true)
+    }
+
+    useEffect(() => {
+        const data = item?.data as FullNote
+        if (item && item.dataType === Tab.Notes && data && data.validated) {
+            setIsDisabled(false)
+            return
+        } else {
+            setIsDisabled(true)
+        }
+    }, [item])
+
+
+    const handleDerivateFlashcards = async (note: FullNote) => {
+        console.log("Derivando flashcards para la nota:", note.id);
+        try {
+            const res = await fetch("/api/derivate-flashcards", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(note)
+            })
+            if (!res.ok) {
+                console.error("Error deriving flashcards:", res)
+                throw new Error("Error en la petición")
+            }
+            const output = await res.json() as FullNote
+            const updatedItems = items.map(item =>
+                item.id === output.id ? { ...item, ...output } : item
+            ) as typeof items;
+            setItems(updatedItems)
+            setItem({ data: output, dataType: Tab.Notes });
+            return output;
+        } catch (error) {
+            console.error("Error deriving flashcards:", error)
+            throw error   
+        }
+    }
+    const handleValidate = async (data: FullNote) => {
+        if (!isDisabled) return data;
+
+        try {
+            const res = await fetch("/api/validate-note", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+
+            if (!res.ok) {
+                console.error("Error validating note:", res)
+                throw new Error("Error en la petición")
+            }
+            const output = await res.json() as FullNote
+            setIsDisabled(!output.validated)
+            const updatedItems = items.map(item =>
+                item.id === output.id ? { ...item, ...output } : item
+            ) as typeof items;
+            setItems(updatedItems)
+            return output
+        } catch (error) {
+            console.error("Error validating note:", error)
+            setIsDisabled(true)
+            return data
+        }
     }
 
     useEffect(() => {
@@ -161,8 +225,11 @@ export default function RepositoryPage() {
                     handleDelete={handleDelete}
                     handleRelate={handleRelate}
                     handleCreate={handleCreate}
+                    handleValidate={handleValidate}
+                    handleDerivateFlashcards={handleDerivateFlashcards}
                     mode={mode}
                     setMode={setMode}
+                    isDisabled={isDisabled}
                 />
             </Dialog>
 

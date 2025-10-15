@@ -23,22 +23,11 @@ export default function NoteCreate ({
         resolver: zodResolver(noteSchema)
     });
 
-    const onSubmit = handleSubmit(async data => {
+    const onSubmit = handleSubmit(data => {
         try {
             setLoading(true)
             setMessage('')
             setIsSuccess(false)
-            
-            const response = await fetch('/api/resources/notes', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-            
-            const result = await response.json()
-            console.log(result)
             handleCreate(data)
             setMessage('¡Nota creada exitosamente!')
             setIsSuccess(true)

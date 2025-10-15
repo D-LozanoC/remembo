@@ -1,7 +1,7 @@
 import { FullFlashcard, FullNote } from "@/types/resources";
 import MDEditor from '@uiw/react-md-editor';
 
-export default function NoteView ({
+export default function NoteView({
     data,
     onClick
 }: {
@@ -12,7 +12,18 @@ export default function NoteView ({
         <div className="w-full max-w-3xl mx-auto p-4 sm:p-6 space-y-6">
             {/* Header */}
             <header className="space-y-2">
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">{data.title}</h1>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                    <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">{data.title}</h1>
+                    <p
+                        className={`inline-block px-3 py-1 rounded-full text-xs sm:text-sm font-medium   
+                            ${data.validated ?
+                                'bg-green-100 text-green-700 border border-green-200'
+                                : 'bg-red-100 text-red-700 border border-red-200'}`}
+                    >
+                        {data.validated ? 'Validada' : 'Sin validar'}
+                    </p>
+
+                </div>
                 <div className="flex flex-wrap gap-2 text-sm sm:text-base text-gray-500">
                     <span><strong>Subject:</strong> {data.subject}</span>
                     <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs sm:text-sm">

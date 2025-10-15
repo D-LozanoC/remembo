@@ -50,8 +50,11 @@ export interface resourceProps {
     handleDelete: (id: string) => void
     handleRelate: ({ deck, flashcards }: { deck: Partial<Deck>, flashcards: Partial<Flashcard>[] }) => void
     handleCreate: (data: Partial<Note | Deck | Flashcard>) => void
+    handleValidate: (data: FullNote) => Promise<FullNote>
+    handleDerivateFlashcards: (data: FullNote) => Promise<FullNote>
     mode: Mode,
-    setMode: Dispatch<SetStateAction<Mode>>
+    setMode: Dispatch<SetStateAction<Mode>>,
+    isDisabled?: boolean
 }
 
 export type noteProps = {
@@ -61,6 +64,9 @@ export type noteProps = {
         handleUpdate: (data: Partial<FullNote>) => void;
         handleDelete: (id: string) => void;
         handleCreate: (data: Partial<Note>) => void;
+        handleValidate: (data: FullNote) => Promise<FullNote>;
+        handleDerivateFlashcards: (data: FullNote) => Promise<FullNote>;
+        setItem: Dispatch<SetStateAction<{ data: FullNote | FullDeck | FullFlashcard | null; dataType: Tab.Decks | Tab.Flashcards | Tab.Notes; } | null>>
         onClick?: (data: Flashcard) => void
     }
 }
@@ -89,15 +95,17 @@ export type flashcardProps = {
 export interface ActionButtonProps {
     icon: IconType;
     label?: string;
-    variant: 'close' | 'edit' | 'delete' | 'back' | 'relate';
+    variant: 'close' | 'edit' | 'delete' | 'back' | 'relate' | 'validate' | 'derive';
     onClick: () => void;
+    isDisabled?: boolean
 }
 
 export interface ActionToolbarProps {
-    mode: 'view' | 'edit' | 'delete' | 'relate' | 'create';
-    setMode: Dispatch<SetStateAction<'view' | 'edit' | 'delete' | 'relate' | 'create'>>;
+    mode: Mode;
+    setMode: Dispatch<SetStateAction<Mode>>;
     handleOnClose: () => void;
     itemType?: Tab;
+    isDisabled?: boolean;
 }
 
 export interface FeedbackMessageProps {

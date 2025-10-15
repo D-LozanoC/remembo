@@ -1,8 +1,8 @@
-import { Button } from '@/components/Button';
 import { SummaryLabel } from '@/shared/sections/study-session/components/SummaryLabel';
 import { getAnswersReview } from '@/shared/sections/study-session/utils';
 import { ResponseLabel } from '@/shared/sections/study-session/components/ResponseLabel';
 import { EndSummaryProps } from '@/types/study-session';
+import Link from 'next/link';
 
 export function EndSummary({
   timeSpent,
@@ -31,10 +31,14 @@ export function EndSummary({
             ))}
           </div>
         </div>
+        <div className='flex mt-6 w-4/5'>
+        <Link className='bg-indigo-600 text-white hover:bg-indigo-700 focus-visible:outline-indigo-600 
+        w-full rounded-lg px-4 py-2 text-sm font-semibold shadow-sm transition duration-300 focus-visible:outline 
+        focus-visible:outline-2 focus-visible:outline-offset-2 flex-grow'
+          href={"/home/study"}>¡Entendido!</Link>
+        </div>
 
-        <Button className="mt-6 text-lg">
-          Entendido!
-        </Button>
+
       </section>
     </main>
   );

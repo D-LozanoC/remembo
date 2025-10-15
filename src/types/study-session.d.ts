@@ -1,18 +1,21 @@
 interface Question {
-  id: number;
+  id: string;
+  idx: number;
   question: string;
   answer: string;
   options: string[];
 };
 
 interface UserAnswer {
-  questionId: number;
+  questionId: string;
+  questionIdx: number;
   userAnswer: string;
   timeSpent: number;
 };
 
 interface AnswerReview {
-  questionId: number;
+  questionId: string;
+  questionIdx: number;
   question: string;
   correctAnswer: string;
   userAnswer: string | null;
@@ -32,7 +35,7 @@ interface EndSummaryProps {
 
 interface QuestionRendererProps {
   question: Question;
-  onAnswer: (questionId: number, answer: string) => void;
+  onAnswer: (questionIdx: number, questionId:string, answer: string) => void;
 }
 
 interface StartSummaryProps {
@@ -40,7 +43,7 @@ interface StartSummaryProps {
   lastSessionData: {
     date: string;
     accuracy: string;
-  };
+  } | null;
   malletName: string;
   onClick: () => void;
 }

@@ -37,6 +37,9 @@ export async function GET(req: Request) {
                 topic: true,
                 createdAt: true,
                 updatedAt: true,
+                divisions: true,
+                validated: true,
+                reason: true,
                 _count: true,
                 flashcards: {
                     include: {
@@ -67,12 +70,38 @@ export async function POST(req: Request) {
         userId: session.user.id
     }
 
-    // const note = await prisma.note.create({
-    //     data: creationData
-    // });
+    try {
+        const note = await prisma.note.create({
+            data: creationData,
+            select: {
+                id: true,
+                subject: true,
+                content: true,
+                title: true,
+                topic: true,
+                createdAt: true,
+                updatedAt: true,
+                divisions: true,
+                validated: true,
+                reason: true,
+                _count: true,
+                flashcards: {
+                    include: {
+                        Note: true,
+                    }
+                }
+            }
+        });
+        if (!note) return NextResponse.json({ error: 'Error creating note' }, { status: 500 });
+
+        return NextResponse.json(note, { status: 200 });
+    } catch (error: unknown) {
+        console.error('Error creating note:', error);
+        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+    }
 
 
 
-    return NextResponse.json(creationData, { status: 200 });
+
 }
 

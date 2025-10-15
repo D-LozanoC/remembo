@@ -3,6 +3,8 @@ import NoteCreate from "./NoteCreate";
 import NoteForm from "./NoteForm";
 import NoteView from "./NoteView";
 import { Delete } from "../Delete";
+import NoteValidate from "./NoteValidate";
+import NoteDerivate from "./NoteDerivate";
 
 export default function Note({ data, mode, actions }: noteProps) {
     return (
@@ -17,6 +19,8 @@ export default function Note({ data, mode, actions }: noteProps) {
                     />
                 </>
             )}
+            {mode === 'validate' && (<NoteValidate data={data} handleValidate={actions.handleValidate} setItem={actions.setItem} />)}
+            {mode === 'derive' && (<NoteDerivate data={data} handleDerivateFlashcards={actions.handleDerivateFlashcards}/>)}
         </div>
     )
 }

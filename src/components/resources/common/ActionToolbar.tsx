@@ -1,4 +1,6 @@
 import { FiX, FiArrowLeft, FiEdit, FiTrash2, FiPlus } from 'react-icons/fi';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
+import { GiBookshelf } from 'react-icons/gi';
 import { ActionButton } from './ActionButton';
 import { Tab } from '@/types/enums';
 import { ActionToolbarProps } from '@/types/props';
@@ -7,7 +9,7 @@ import { useState } from 'react';
 import { Button } from '@/components/Button';
 
 
-export default function ActionToolBar ({ mode, setMode, handleOnClose, itemType }: ActionToolbarProps) {
+export default function ActionToolBar({ mode, setMode, handleOnClose, itemType, isDisabled }: ActionToolbarProps) {
     const [isOpen, setIsOpen] = useState(false);
     const handleBack = (params: { isOK?: boolean } = { isOK: false }) => {
         const { isOK = false } = params
@@ -16,7 +18,7 @@ export default function ActionToolBar ({ mode, setMode, handleOnClose, itemType 
             return
         }
         setIsOpen(false)
-        if (mode === 'edit' || mode === 'delete' || mode === 'relate') {
+        if (mode === 'edit' || mode === 'delete' || mode === 'relate' || mode === 'validate' || mode === 'derive') {
             setMode('view')
             return
         }
@@ -29,7 +31,7 @@ export default function ActionToolBar ({ mode, setMode, handleOnClose, itemType 
                 {mode === 'view'
                     ? <ActionButton icon={FiX} variant="close" onClick={handleOnClose} />
                     : mode !== 'create' ? <ActionButton icon={FiArrowLeft} variant="back" onClick={handleBack} />
-                    : null
+                        : null
                 }
                 {
                     mode === 'create' && (
@@ -49,6 +51,14 @@ export default function ActionToolBar ({ mode, setMode, handleOnClose, itemType 
                 {itemType === Tab.Decks && mode === 'view' && (
                     <ActionButton icon={FiPlus} label="Relacionar" variant="relate" onClick={() => setMode('relate')} />
                 )}
+                {
+                    itemType === Tab.Notes && mode === 'view' && (
+                        <>
+                            <ActionButton label='Validar' icon={AiOutlineCheckCircle} variant='validate' onClick={() => setMode('validate')} />
+                            <ActionButton label='Derivar Flashcard' icon={GiBookshelf} variant='derive' onClick={() => setMode('derive')} isDisabled={isDisabled} />
+                        </>
+                    )
+                }
             </div>
 
             {/* Confirm dialog */}

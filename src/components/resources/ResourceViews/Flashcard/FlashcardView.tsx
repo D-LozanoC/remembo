@@ -38,7 +38,7 @@ export default function FlashcardView ({
             )}
 
             {/* Decks asociados */}
-            {data.decks?.length > 0 && (
+            {data.decks && data.decks?.length > 0 && (
                 <div className="space-y-2">
                     <h3 className="text-lg sm:text-xl font-semibold text-gray-700">Decks Asociados:</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

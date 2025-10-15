@@ -19,6 +19,7 @@ export async function GET(req: NextRequest) {
             select: {
                 StudySessionFlashcard: {
                     select: {
+                        flashcardId: true,
                         flashcard: {
                             select: {
                                 question: true,
@@ -28,7 +29,8 @@ export async function GET(req: NextRequest) {
                         },
                         deck: {
                             select: {
-                                title: true
+                                title: true,
+                                id: true
                             }
                         }
 
@@ -55,13 +57,15 @@ export async function GET(req: NextRequest) {
         const payload = {
             questions: sessionData?.StudySessionFlashcard.map(s => {
                 return {
-                    id: idx++,
+                    id: s.flashcardId,
+                    idx: idx++,
                     question: s.flashcard.question,
                     answer: s.flashcard.correctAnswers[0],
                     options: s.flashcard.answers
                 }
             }),
             mallet: sessionData?.StudySessionFlashcard[0]?.deck?.title,
+            deckId: sessionData?.StudySessionFlashcard[0]?.deck?.id,
             lastSession
         }
 
@@ -69,6 +73,4 @@ export async function GET(req: NextRequest) {
     } catch (error: unknown) {
         console.error("Error fetching study session:", error);
     }
-
-    return new Response("Not implemented", { status: 501 });
 }

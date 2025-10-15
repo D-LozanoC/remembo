@@ -12,7 +12,6 @@ export function AccountNav({ className = '' }: AccountNavProps) {
 
   const links = [
     { href: '/home/account', label: 'Perfil', emoji: '👤' },
-    { href: '/home/account/settings', label: 'Ajustes', emoji: '⚙️' },
     { href: '/home/account/security', label: 'Seguridad', emoji: '🔒' },
   ].map((link) => ({
     ...link,

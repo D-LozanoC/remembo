@@ -16,8 +16,11 @@ export default function Resource({
     handleDelete,
     handleRelate,
     handleCreate,
+    handleValidate,
+    handleDerivateFlashcards,
     mode,
-    setMode
+    setMode,
+    isDisabled
 }: resourceProps) {
     const [resource, setResource] = useState<FullNote | FullDeck | FullFlashcard | null>(null)
     const [isLoading, setIsLoading] = useState(true)
@@ -47,7 +50,7 @@ export default function Resource({
                 <Note
                     data={resource as FullNote}
                     mode={mode}
-                    actions={{ handleUpdate, handleDelete, handleCreate }}
+                    actions={{ handleUpdate, handleDelete, handleCreate, handleValidate, handleDerivateFlashcards, setItem }}
                 />
             )}
             {item?.dataType === Tab.Decks && (
@@ -88,6 +91,7 @@ export default function Resource({
                     setMode={setMode}
                     handleOnClose={handleOnClose}
                     itemType={item?.dataType}
+                    isDisabled={isDisabled}
                 />
             </div>
 

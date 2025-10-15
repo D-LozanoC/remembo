@@ -1,8 +1,13 @@
 // src/app/api/study-session/start/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/config/prisma";
+import { auth } from "@/auth";
 
 export async function POST(req: NextRequest) {
+    const session = await auth();
+    if (!session?.user?.id) {
+        return new Response("Unauthorized", { status: 401 });
+    }
     try {
         const body = await req.json();
 
