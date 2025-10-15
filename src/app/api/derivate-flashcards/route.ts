@@ -61,7 +61,6 @@ ${JSON.stringify(divisions, null, 2)}
 `
 
     try {
-        process.loadEnvFile()
         const API_KEY = process.env.AZURE_API_KEY
         const API_URL = process.env.AZURE_URL
         if (!API_KEY && !API_URL) {
