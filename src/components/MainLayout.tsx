@@ -18,6 +18,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         { name: 'Sesiones de Estudio', href: '/home/study', protected: true, admin: false },
         { name: 'Admin stats', href: '/home/general-stats', protected: true, admin: true },
         { name: 'Información del proyecto', href: '/home/project-info', protected: false, admin: false },
+        { name: 'Formulario de Validación', href: '/home/validation-form', protected: true, admin: false },
     ]
 
     useEffect(() => {
