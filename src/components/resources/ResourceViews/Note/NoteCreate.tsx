@@ -11,9 +11,11 @@ import FeedbackMessage from "../../common/FeedbackMessage";
 
 
 export default function NoteCreate ({
-    handleCreate
+    handleCreate,
+    onClose
 }: {
     handleCreate: (data: Partial<Note>) => void;
+    onClose: () => void;
 }) {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
@@ -31,6 +33,7 @@ export default function NoteCreate ({
             handleCreate(data)
             setMessage('¡Nota creada exitosamente!')
             setIsSuccess(true)
+            onClose()
         } catch (error) {
             console.error('Error al guardar la nota:', error)
             setMessage('Error al guardar la nota')
@@ -95,7 +98,7 @@ export default function NoteCreate ({
                         <div data-color-mode="light" className="border border-indigo-300 rounded-2xl overflow-hidden shadow-inner">
                             <MDEditor
                                 value={field.value}
-                                onChange={(val) => field.onChange(val)}
+                                onChange={(val: string | null) => field.onChange(val)}
                                 onBlur={field.onBlur}
                             />
                         </div>

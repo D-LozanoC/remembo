@@ -321,7 +321,10 @@ export default function StudySessionsPage() {
                 {/* Historial */}
                 <div className="mt-8">
                     <h2 className="text-xl font-semibold mb-4 text-gray-800">Historial de sesiones</h2>
-                    <div className="bg-white rounded-lg shadow overflow-x-auto text-gray-700">
+                    { historySessions.length === 0 && !loading && (
+                        <p className="text-gray-500">No hay sesiones en el historial</p>
+                    )}
+                    { !loading && historySessions.length != 0  && <div className="bg-white rounded-lg shadow overflow-x-auto text-gray-700">
                         <table className="w-full text-left text-sm sm:text-base">
                             <thead className="bg-gray-100">
                                 <tr className='text-center'>
@@ -375,7 +378,7 @@ export default function StudySessionsPage() {
                                     ))}
                             </tbody>
                         </table>
-                    </div>
+                    </div>}
                 </div>
 
                 <EditSessionTimeDialog

@@ -40,6 +40,13 @@ export default function Resource({
         fetchResource()
     }, [item?.data])
 
+    const handleOnClose = () => {
+        setIsOpen(false)
+        setResource(null)
+        setMode('view')
+        setItem(null)
+    }
+
     const View = isLoading ? (
         <div className="flex items-center justify-center py-8">
             <Loader />
@@ -50,6 +57,7 @@ export default function Resource({
                 <Note
                     data={resource as FullNote}
                     mode={mode}
+                    onClose={handleOnClose}
                     actions={{ handleUpdate, handleDelete, handleCreate, handleValidate, handleDerivateFlashcards, setItem }}
                 />
             )}
@@ -69,13 +77,6 @@ export default function Resource({
             )}
         </>
     )
-
-    const handleOnClose = () => {
-        setIsOpen(false)
-        setResource(null)
-        setMode('view')
-        setItem(null)
-    }
 
     return (
         <div
