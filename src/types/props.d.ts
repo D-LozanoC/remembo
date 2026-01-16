@@ -60,6 +60,7 @@ export interface resourceProps {
 export type noteProps = {
     data: FullNote;
     mode: Mode;
+    onClose: () => void;
     actions: {
         handleUpdate: (data: Partial<FullNote>) => void;
         handleDelete: (id: string) => void;

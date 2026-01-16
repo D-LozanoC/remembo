@@ -68,7 +68,7 @@ export default function ActionToolBar({ mode, setMode, handleOnClose, itemType, 
                     <p className="text-gray-600 text-center">Si sale de la página, los cambios no se guardarán.</p>
                     <div className="flex flex-col sm:flex-row justify-center gap-2">
                         <Button variant="secondary" onClick={() => setIsOpen(false)}>Cancelar</Button>
-                        <Button variant="danger" onClick={() => handleBack({ isOK: true })}>Continuar</Button>
+                        <Button variant="danger" onClick={() => handleBack({ isOK: true })}>Descartar</Button>
                     </div>
                 </div>
             </Dialog>

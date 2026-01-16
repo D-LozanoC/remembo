@@ -276,13 +276,20 @@ export default function RepositoryPage() {
 
             {isLoading && <div className="flex items-center justify-center"><Loader /></div>}
 
-            <Pagination
-                page={page}
-                setPage={setPage}
-                perPage={perPage}
-                setPerPage={setPerPage}
-                totalPages={totalPages}
-            />
+            { !isLoading && items.length === 0 &&
+                <p className="text-center text-gray-500 mt-8">No se encontraron resultados.</p>
+            }
+
+            {
+                !isLoading && items.length > 0 && 
+                    <Pagination
+                    page={page}
+                    setPage={setPage}
+                    perPage={perPage}
+                    setPerPage={setPerPage}
+                    totalPages={totalPages} 
+                />
+            }
 
             <SuccessAlert
                 show={show}
